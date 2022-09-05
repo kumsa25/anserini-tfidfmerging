@@ -20,8 +20,10 @@ import io.anserini.search.SearchArgs;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 public class RerankerContext<K> {
   private final IndexSearcher searcher;
@@ -32,6 +34,8 @@ public class RerankerContext<K> {
   private final List<String> queryTokens;
   private final Query filter;
   private final SearchArgs searchArgs;
+  private static Map<String,List<WeightedExpansionTerm>> expansionWords= new HashMap<>(); // Simple text
+
 
   public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
       List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
@@ -43,6 +47,36 @@ public class RerankerContext<K> {
     this.queryTokens = queryTokens;
     this.filter = filter;
     this.searchArgs = searchArgs;
+    String expWordsWithWeightsFile = searchArgs.expwords;
+    if (expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
+      Properties properties = new Properties();
+      properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
+      Set<Object> keys = properties.keySet();
+      Iterator<Object> iterator = keys.iterator();
+      while (iterator.hasNext()) {
+        String word = (String) iterator.next();
+        String propertyvalue = properties.getProperty(word);
+        //String[] split = propertyvalue.split(":");
+        String expansions = propertyvalue.trim();
+        int current = 0;
+        int lastIndex = expansions.lastIndexOf(")");
+        List<WeightedExpansionTerm> weightedExpansionTerms = new ArrayList<>();
+        while (current < lastIndex) {
+          current = expansions.indexOf("(",current);
+          ;
+          int closeIndex = expansions.indexOf(")", current);
+          String content = expansions.substring(current + 1, closeIndex);
+          String[] split1 = content.split(",");
+          String expansionWord = split1[0];
+          String weight = split1[1];
+          weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), expansionWord));
+          current = closeIndex + 1;
+        }
+        expansionWords.put(word, weightedExpansionTerms);
+
+
+      }
+    }
   }
 
   public IndexSearcher getIndexSearcher() {
@@ -75,5 +109,19 @@ public class RerankerContext<K> {
 
   public SearchArgs getSearchArgs() {
     return searchArgs;
+  }
+
+  public List<WeightedExpansionTerm> getExpansionTerms(String word){
+    return expansionWords.get(word);
+  }
+
+  public static boolean isSynonyms(String original, String expanded){
+    List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get(original);
+    for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
+      if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(expanded)){
+        return true;
+      }
+    }
+    return false;
   }
 }

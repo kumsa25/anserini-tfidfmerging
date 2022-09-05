@@ -25,12 +25,7 @@ import io.anserini.index.generator.WashingtonPostGenerator;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
-import io.anserini.rerank.lib.AxiomReranker;
-import io.anserini.rerank.lib.BM25PrfReranker;
-import io.anserini.rerank.lib.NewsBackgroundLinkingReranker;
-import io.anserini.rerank.lib.Rm3Reranker;
-import io.anserini.rerank.lib.RocchioReranker;
-import io.anserini.rerank.lib.ScoreTiesAdjusterReranker;
+import io.anserini.rerank.lib.*;
 import io.anserini.search.query.QueryGenerator;
 import io.anserini.search.query.SdmQueryGenerator;
 import io.anserini.search.similarity.AccurateBM25Similarity;
@@ -488,7 +483,7 @@ public final class SearchCollection implements Closeable {
       LOG.info("Number of threads for running each individual parameter configuration: " + args.parallelism);
     }
 
-    isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio;
+    isRerank = args.rm3 || args.axiom || args.bm25prf || args.rocchio || args.bm25syn;
 
     if (this.isRerank && args.rf_qrels != null){
       loadQrels(args.rf_qrels);      
@@ -637,7 +632,18 @@ public final class SearchCollection implements Closeable {
           }
         }
       }
-    } else if (args.rocchio) {
+    }else if (args.bm25syn) {
+      String tag = String.format("bm25synonyms");
+      RerankerCascade cascade = new RerankerCascade(tag);
+      cascade.add(new BM25SynonymReranker(analyzer, IndexArgs.CONTENTS,
+              args.bm25syn_outputQuery));
+      cascade.add(new ScoreTiesAdjusterReranker());
+      cascades.add(cascade);
+
+       // }
+      //}
+    }
+    else if (args.rocchio) {
       for (String topFbTerms : args.rocchio_topFbTerms) {
         for (String topFbDocs : args.rocchio_topFbDocs) {
           for (String bottomFbTerms : args.rocchio_bottomFbTerms) {
@@ -918,12 +924,14 @@ public final class SearchCollection implements Closeable {
   }
 
   public static void main(String[] args) throws Exception {
+    System.out.println("Sanjeev here");
     SearchArgs searchArgs = new SearchArgs();
     CmdLineParser parser = new CmdLineParser(searchArgs, ParserProperties.defaults().withUsageWidth(100));
 
     try {
       parser.parseArgument(args);
     } catch (CmdLineException e) {
+      e.printStackTrace();
       System.err.println(e.getMessage());
       parser.printUsage(System.err);
       System.err.println("Example: SearchCollection" + parser.printExample(OptionHandlerFilter.REQUIRED));

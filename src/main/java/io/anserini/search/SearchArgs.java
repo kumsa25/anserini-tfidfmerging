@@ -27,6 +27,8 @@ public class SearchArgs {
   @Option(name = "-index", metaVar = "[path]", required = true, usage = "Path to Lucene index")
   public String index;
 
+
+
   @Option(name = "-topics", metaVar = "[file]", handler = StringArrayOptionHandler.class, required = true, usage = "topics file")
   public String[] topics;
 
@@ -39,6 +41,9 @@ public class SearchArgs {
   // optional arguments
   @Option(name = "-querygenerator", usage = "QueryGenerator to use.")
   public String queryGenerator = "BagOfWordsQueryGenerator";
+
+  @Option(name = "-expwords", metaVar = "[path]", required = false, usage = "Path to Expansion terms")
+  public String expwords;
 
   @Option(name = "-fields", metaVar = "[file]", handler = StringArrayOptionHandler.class, usage = "Fields")
   public String[] fields = new String[]{};
@@ -355,6 +360,11 @@ public class SearchArgs {
   @Option(name = "-bm25prf", usage = "use bm25PRF query expansion model")
   public boolean bm25prf = false;
 
+  @Option(name = "-bm25syn", usage = "use bm25PRF Synonyms expansion model")
+  public boolean bm25syn = false;
+
+
+
   @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class,
       usage = "bm25PRF parameter: number of expansion terms")
   public String[] bm25prf_fbTerms = new String[]{"20"};
@@ -378,6 +388,11 @@ public class SearchArgs {
   @Option(name = "-bm25prf.outputQuery",
       usage = "bm25PRF parameter: print original and expanded queries")
   public boolean bm25prf_outputQuery = false;
+
+  @Option(name = "-bm25synonym.outputQuery",
+          usage = "bm25synonymss parameter: print original and expanded queries")
+  public boolean bm25syn_outputQuery = false;
+
 
   // --------------------------------------------------
   // query expansion model: axiomatic semantic matching

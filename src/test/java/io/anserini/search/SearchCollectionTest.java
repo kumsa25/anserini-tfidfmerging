@@ -152,6 +152,28 @@ public class SearchCollectionTest {
     new File("run.test").delete();
   }
 
+  @Test
+  public void testSearchLucene_sk() throws Exception {
+    SearchCollection.main(
+        new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
+            "-topics", "src/test/resources/sample_topics/Trec",
+            "-topicreader", "Trec", "-output", "run.test", "-bm25", "-bm25syn","-expwords","/Users/kumsa25/dictionary.txt"});
+    check("run.test", new String[]{
+        "1 Q0 DOC222 1 0.343200 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
+        "1 Q0 WSJ_1 3 0.068700 Anserini"});
+    new File("run.test").delete();
+
+    /*SearchCollection.main(
+            new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_json_collection_tokenized/",
+                    "-topics", "src/test/resources/sample_topics/json_topics1.tsv",
+                    "-topicreader", "TsvInt", "-output", "run.test", "-pretokenized", "-impact", "-bm25syn","-expwords","/Users/kumsa25/dictionary.txt"});
+    check("run.test", new String[]{
+            "1 Q0 2000001 1 4.000000 Anserini",});
+    new File("run.test").delete();*/
+  }
+
+
   protected void check(String output, String[] ref) throws IOException {
     BufferedReader br = new BufferedReader(new FileReader(output));
 
