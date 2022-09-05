@@ -62,7 +62,7 @@ public class BM25SynonymReranker implements Reranker {
     for (int id : ids) {
       try {
         Explanation explain = searcher.explain(query, id);
-        Map<Integer, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, id, query);
+        Map<Integer, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, id, query,context);
         System.out.println("All stats >>>"+allStats);
         System.out.println("explain >>>" + id + ":::" + explain);
         allDocsSStats.putAll(allStats);
@@ -129,7 +129,7 @@ public class BM25SynonymReranker implements Reranker {
         int docid=doc.doc;
         try {
           Explanation explain = searcher.explain(query, docid);
-          Map<Integer, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, docid, query);
+          Map<Integer, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, docid, query,context);
           System.out.println("All stats >>>"+allStats);
           System.out.println("explain >>>" + docid + ":::" + explain);
           synonymsScoredDocsStats.putAll(allStats);
@@ -142,7 +142,7 @@ public class BM25SynonymReranker implements Reranker {
         System.out.println("After expansion >>>"+computedScores);
 
       }
-      return rerankDocs(originalScoredDocsStats,synonymsScoredDocsStats);
+      return rerankDocs(originalScoredDocsStats,synonymsScoredDocsStats,context);
     }catch (Exception e){
       e.printStackTrace();
     }
@@ -185,7 +185,7 @@ public class BM25SynonymReranker implements Reranker {
 
     return feedbackQueryBuilder.build();
   }
-  private Map<Integer,Float> rerankDocs(Map<Integer, List<TermScoreDetails>> originalScoredDocsStats, Map<Integer, List<TermScoreDetails>> synonymsScoredDocsStats) {
+  private Map<Integer,Float> rerankDocs(Map<Integer, List<TermScoreDetails>> originalScoredDocsStats, Map<Integer, List<TermScoreDetails>> synonymsScoredDocsStats,RerankerContext context_) {
     Set<Integer> originalDocs = originalScoredDocsStats.keySet();
     Set<Integer> expandedDocs = synonymsScoredDocsStats.keySet();
     Set<Integer> rankedDocs= new HashSet<>(originalDocs);
@@ -193,7 +193,7 @@ public class BM25SynonymReranker implements Reranker {
     Map<Integer,Float> finalComputedScores=new HashMap<>();
     for(int docid: rankedDocs){
       List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get(docid);
-      float weight=createWeight(1,docid,originalScoredDocsStats,synonymsTermScoredDetails);
+      float weight=createWeight(1,docid,originalScoredDocsStats,synonymsTermScoredDetails,context_);
       finalComputedScores.put(docid,weight);
 
     }
@@ -217,7 +217,7 @@ public class BM25SynonymReranker implements Reranker {
     return totalScore;
   }
 
-  public float createWeight(float boost, int docId,Map<Integer, List<TermScoreDetails>> originalScoredDocsStats,List<TermScoreDetails> expandedScoredDocsStats){
+  public float createWeight(float boost, int docId,Map<Integer, List<TermScoreDetails>> originalScoredDocsStats,List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_){
     List<TermScoreDetails> termScoreDetailsList = originalScoredDocsStats.get(docId);
     Iterator<TermScoreDetails> iterator = termScoreDetailsList.iterator();
     float totalScore=0;
@@ -226,13 +226,13 @@ public class BM25SynonymReranker implements Reranker {
       TFStats tfSStats = termScoreDetails.getTfSStats();
 
       IDFStats idfStats = termScoreDetails.getIdfStats();
-      float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats);
+      float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_);
       totalScore+=termWeight;
     }
     return totalScore;
   }
 
-  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> expandedScoredDocsStats) {
+  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_) {
     if(expandedScoredDocsStats==null){
       expandedScoredDocsStats= new ArrayList<>();
     }
@@ -242,8 +242,17 @@ public class BM25SynonymReranker implements Reranker {
     while (iterator.hasNext()){
       TermScoreDetails next = iterator.next();
       if(isSynonym(tfSStats.getTerm(),next.getTerm())) {
-        expandedTFSStatsList.add(next.getTfSStats());
-        expandedIDFStatsList.add(next.getIdfStats());
+        TFStats expandedTFStat = next.getTfSStats();
+        IDFStats expandedIDFStat = next.getIdfStats();
+        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( tfSStats.getTerm() );
+        Optional<WeightedExpansionTerm> first = expansionTerms.stream()
+            .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( next.getTerm() ) ).findFirst();
+        if(first.isPresent()){
+          expandedTFStat.setAssignedweight( first.get().getWeight() );
+          expandedIDFStat.setAssignedweight( first.get().getWeight() );
+        }
+        expandedTFSStatsList.add( expandedTFStat );
+        expandedIDFStatsList.add( expandedIDFStat );
       }
     }
     TFIDFCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
@@ -286,10 +295,16 @@ public class BM25SynonymReranker implements Reranker {
 
   }
 
-  private Map<Integer, List<TermScoreDetails>> extractStatsFromExplanation(Explanation explanation, int docId, Query query) {
+  private Map<Integer, List<TermScoreDetails>> extractStatsFromExplanation(Explanation explanation, int docId, Query query,RerankerContext context_) {
     Number docTotalWeight = explanation.getValue();
     Map<Integer, List<TermScoreDetails>> docIdvsAlltermsScoreDetails= new HashMap<>();
-    Explanation[] details = explanation.getDetails();
+    Explanation[] details=null;
+    if(explanation.getDescription().trim().startsWith( "weight(" )){
+      details= new Explanation[]{explanation};
+    }else
+    {
+      details = explanation.getDetails();
+    }
     List<TermScoreDetails> termScoreDetailsList= new ArrayList<>();
 
     for(Explanation eachTermExpInThatDoc: details){

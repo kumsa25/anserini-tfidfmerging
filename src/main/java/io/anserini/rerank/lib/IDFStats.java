@@ -7,6 +7,12 @@ import java.util.Set;
 
 public class IDFStats {
     private static Map<String, Set<Integer>> termVsDocIds= new HashMap<>();
+
+    public String getTerm()
+    {
+        return term;
+    }
+
     private final String term;
 
     public static Set<Integer> getDocId(IDFStats original) {
@@ -37,6 +43,18 @@ public class IDFStats {
 
     private final float idfValue;
 
+    private float assignedweight;
+
+    public float getAssignedweight()
+    {
+        return assignedweight;
+    }
+
+    public void setAssignedweight( float assignedweight_ )
+    {
+        assignedweight = assignedweight_;
+    }
+
 
     public IDFStats(String term, float idfValue, float numOfDocsContainingTerm, float total_number_of_documents_with_field) {
         this.term = term;
@@ -53,5 +71,6 @@ public class IDFStats {
         docIds.add(docId);
         termVsDocIds.put(term,docIds);
     }
+
 
 }

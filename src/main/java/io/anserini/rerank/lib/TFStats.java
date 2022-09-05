@@ -10,6 +10,17 @@ public class TFStats {
     private final float b_length_normalization_parameter;
     private final float dl_length_of_field;
     private final float avgdl_average_length_of_field;
+    private float assignedweight;
+
+    public float getAssignedweight()
+    {
+        return assignedweight;
+    }
+
+    public void setAssignedweight( float assignedweight_ )
+    {
+        assignedweight = assignedweight_;
+    }
 
     public float getTfValue() {
         return tfValue;

@@ -1,8 +1,12 @@
 package io.anserini.rerank.lib;
 
+import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.WeightedExpansionTerm;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class TermScoreDetails {
     private final String term;
@@ -63,10 +67,22 @@ public class TermScoreDetails {
         return tfSStats;
     }
 
-    public void addSynonymsTFStats(TFStats synonymTFSStat){
+    public void addSynonymsTFStats(TFStats synonymTFSStat, RerankerContext context_ ){
         synonymsTFStats.add(synonymTFSStat);
+        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( term );
+        Optional<WeightedExpansionTerm> first = expansionTerms.stream()
+            .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( synonymTFSStat.getTerm() ) ).findFirst();
+        if(first.isPresent()){
+            synonymTFSStat.setAssignedweight( first.get().getWeight() );
+        }
     }
-    public void addSynonymsIDFStats(IDFStats synonymIDFStat){
+    public void addSynonymsIDFStats(IDFStats synonymIDFStat,RerankerContext context_){
         synonymsIDFStats.add(synonymIDFStat);
+        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( term );
+        Optional<WeightedExpansionTerm> first = expansionTerms.stream()
+            .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( synonymIDFStat.getTerm() ) ).findFirst();
+        if(first.isPresent()){
+            synonymIDFStat.setAssignedweight( first.get().getWeight() );
+        }
     }
 }
