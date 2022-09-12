@@ -117,6 +117,9 @@ public class RerankerContext<K> {
 
   public static boolean isSynonyms(String original, String expanded){
     List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get(original);
+    if(weightedExpansionTerms==null || weightedExpansionTerms.isEmpty()){
+      return false;
+    }
     for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
       if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(expanded)){
         return true;

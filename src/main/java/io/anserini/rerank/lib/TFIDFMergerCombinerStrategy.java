@@ -9,9 +9,26 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     @Override
     public float aggregateTF(TFStats original, List<TFStats> synonymsTFStats) {
         float tfTotal=original.getTfValue();
+        float freqTotal=original.getFreq();
         for(TFStats synonymsTF: synonymsTFStats){
-            tfTotal+=synonymsTF.getTfValue();
+            if(!synonymsTF.getTerm().equals( original.getTerm() ))
+            {
+                 freqTotal+= synonymsTF.getFreq();
+
+
+            }
+            //freq / (freq + k1 * (1 - b + b * dl / avgdl))
+
         }
+        float avgdl=original.getAvgdl_average_length_of_field();
+        float dl=original.getDl_length_of_field();
+        float b=original.getB_length_normalization_parameter();
+        float k1=original.getK1_term_saturation_parameter();
+        if(freqTotal==0.0){
+            return original.getTfValue();
+        }
+        tfTotal=freqTotal / (freqTotal + k1 * (1 - b + b * dl / avgdl));
+
         return tfTotal;
     }
 

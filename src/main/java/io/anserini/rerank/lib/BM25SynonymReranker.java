@@ -53,6 +53,7 @@ public class BM25SynonymReranker implements Reranker {
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext context) {
 
+
     IndexSearcher searcher = context.getIndexSearcher();
     Query query = context.getQuery();
     String queryText = context.getQueryText();
@@ -61,6 +62,7 @@ public class BM25SynonymReranker implements Reranker {
     int[] ids = docs.ids;
     for (int id : ids) {
       try {
+        System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
         Map<Integer, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, id, query,context);
         System.out.println("All stats >>>"+allStats);
@@ -78,6 +80,11 @@ public class BM25SynonymReranker implements Reranker {
     }
     System.out.println("Computed Scores >>"+computedScores);
     System.out.println("ALL DOCS stats >>"+allDocsSStats);
+
+    if(context.getSearchArgs().no_rerank==true){
+      System.out.println("reranking is false. So, returning without reranking using queryExpansion");
+      return docs;
+    }
     Map<Integer, Float> integerFloatMap =null;
 
     try {

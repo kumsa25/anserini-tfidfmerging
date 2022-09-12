@@ -154,6 +154,38 @@ public class SearchCollectionTest {
 
   @Test
   public void testSearchLucene_sk() throws Exception {
+    double logValue=Math.log(8.0/7);
+    System.out.println("log >>>"+logValue);
+    SearchCollection.main(
+        new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
+            "-topics", "src/test/resources/sample_topics/Trec_sk_1",
+            "-topicreader", "Trec", "-output", "run.test1", "-bm25", "-bm25syn","-no_rerank","-expwords","/Users/kumsa25/dictionary.txt"});
+    check("run.test1", new String[]{
+        "1 Q0 TREC_DOC_1 1 0.259700 Anserini",
+        "1 Q0 DOC222 2 0.241600 Anserini"});
+    new File("run.test1").delete();
+
+
+    SearchCollection.main(
+        new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
+            "-topics", "src/test/resources/sample_topics/Trec_sk_2",
+            "-topicreader", "Trec", "-output", "run.test2", "-bm25", "-bm25syn","-no_rerank","-expwords","/Users/kumsa25/dictionary.txt"});
+    check("run.test2", new String[]{
+        "1 Q0 DOC222 1 0.101500 Anserini",
+        "1 Q0 TREC_DOC_1 2 0.073800 Anserini",
+        "1 Q0 WSJ_1 3 0.068700 Anserini"
+
+    });
+    new File("run.test2").delete();
+
+    SearchCollection.main(
+        new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
+            "-topics", "src/test/resources/sample_topics/Trec_sk_3",
+            "-topicreader", "Trec", "-output", "run.test3", "-bm25", "-bm25syn","-no_rerank","-expwords","/Users/kumsa25/dictionary.txt"});
+    check("run.test3", new String[]{
+        "1 Q0 WSJ_1 1 0.504300 Anserini" });
+    new File("run.test3").delete();
+
     SearchCollection.main(
         new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_trec_collection2/",
             "-topics", "src/test/resources/sample_topics/Trec",
@@ -163,6 +195,8 @@ public class SearchCollectionTest {
         "1 Q0 TREC_DOC_1 2 0.333400 Anserini",
         "1 Q0 WSJ_1 3 0.068700 Anserini"});
     new File("run.test").delete();
+
+
 
     /*SearchCollection.main(
             new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_json_collection_tokenized/",
