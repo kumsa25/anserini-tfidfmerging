@@ -136,6 +136,11 @@ public class RerankerContext<K> {
   private static String findRootWord(String original)
   {
     Set<String> strings = expansionWords.keySet();
-    return strings.stream().filter( str->str.startsWith( original )).findFirst().get();
+    for(String str: strings){
+      if(str.startsWith( original )){
+        return str;
+      }
+    }
+    return null;
   }
 }
