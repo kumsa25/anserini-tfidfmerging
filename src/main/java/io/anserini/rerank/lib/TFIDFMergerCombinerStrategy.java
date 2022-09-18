@@ -13,7 +13,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         for(TFStats synonymsTF: synonymsTFStats){
             if(!synonymsTF.getTerm().equals( original.getTerm() ))
             {
-                 freqTotal+= synonymsTF.getFreq();
+                 freqTotal+= synonymsTF.getFreq()*synonymsTF.getAssignedweight();
 
 
             }

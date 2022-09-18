@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class IDFStats {
     private static Map<String, Set<Integer>> termVsDocIds= new HashMap<>();
@@ -66,7 +67,7 @@ public class IDFStats {
     public static void setDocid(String term,int docId){
         Set<Integer> docIds = termVsDocIds.get(term);
         if(docIds==null){
-            docIds= new HashSet<>();
+            docIds= new CopyOnWriteArraySet<>();
         }
         docIds.add(docId);
         termVsDocIds.put(term,docIds);

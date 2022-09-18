@@ -118,7 +118,12 @@ public class RerankerContext<K> {
   public static boolean isSynonyms(String original, String expanded){
     List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get(original);
     if(weightedExpansionTerms==null || weightedExpansionTerms.isEmpty()){
-      return false;
+      String rootWord=findRootWord(original);
+      if(rootWord==null)
+      {
+        return false;
+      }
+      weightedExpansionTerms = expansionWords.get(rootWord);
     }
     for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
       if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(expanded)){
@@ -126,5 +131,11 @@ public class RerankerContext<K> {
       }
     }
     return false;
+  }
+
+  private static String findRootWord(String original)
+  {
+    Set<String> strings = expansionWords.keySet();
+    return strings.stream().filter( str->str.startsWith( original )).findFirst().get();
   }
 }

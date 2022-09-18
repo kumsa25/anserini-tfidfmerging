@@ -199,9 +199,22 @@ public class BM25SynonymReranker implements Reranker {
     rankedDocs.addAll(expandedDocs);
     Map<Integer,Float> finalComputedScores=new HashMap<>();
     for(int docid: rankedDocs){
-      List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get(docid);
-      float weight=createWeight(1,docid,originalScoredDocsStats,synonymsTermScoredDetails,context_);
-      finalComputedScores.put(docid,weight);
+      if(originalDocs.contains( docid ))
+      {
+        List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
+        float weight = createWeight( 1, docid, originalScoredDocsStats, synonymsTermScoredDetails, context_ );
+        finalComputedScores.put( docid, weight );
+      }else{
+        List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
+        float weight=0;
+        for(TermScoreDetails termScoreDetails: synonymsTermScoredDetails){
+          float tfValue = termScoreDetails.getTfSStats().getTfValue();
+          float idf=termScoreDetails.getIdfStats().getIdfValue();
+          weight+=tfValue*idf;
+        }
+        finalComputedScores.put( docid, weight );
+
+      }
 
     }
     System.out.println("Final final score >>>>"+finalComputedScores);
