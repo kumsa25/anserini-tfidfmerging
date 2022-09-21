@@ -37,7 +37,10 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         float count=original.getNumOfDocsContainingTerm();
         Set<Integer> allDocs=new HashSet<>();
         Set<Integer> originalDocIds=IDFStats.getDocId(original);
-        allDocs.addAll(originalDocIds);
+        if(originalDocIds !=null && !originalDocIds.isEmpty())
+        {
+            allDocs.addAll( originalDocIds );
+        }
         for(IDFStats idfStats: synonymsIDFStats){
             Set<Integer> synonymsDocIds = IDFStats.getDocId(idfStats);
             allDocs.addAll(synonymsDocIds);
