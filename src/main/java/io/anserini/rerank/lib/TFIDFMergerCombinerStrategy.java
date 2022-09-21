@@ -35,14 +35,14 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     @Override
     public float aggregateIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
         float count=original.getNumOfDocsContainingTerm();
-        Set<Integer> allDocs=new HashSet<>();
-        Set<Integer> originalDocIds=IDFStats.getDocId(original);
+        Set<String> allDocs=new HashSet<>();
+        Set<String> originalDocIds=IDFStats.getDocId(original);
         if(originalDocIds !=null && !originalDocIds.isEmpty())
         {
             allDocs.addAll( originalDocIds );
         }
         for(IDFStats idfStats: synonymsIDFStats){
-            Set<Integer> synonymsDocIds = IDFStats.getDocId(idfStats);
+            Set<String> synonymsDocIds = IDFStats.getDocId(idfStats);
             allDocs.addAll(synonymsDocIds);
         }
         float corpusSize=original.getTotal_number_of_documents_with_field();

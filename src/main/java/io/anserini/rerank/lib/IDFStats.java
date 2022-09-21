@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class IDFStats {
-    private static Map<String, Set<Integer>> termVsDocIds= new HashMap<>();
+    private static Map<String, Set<String>> termVsDocIds= new HashMap<>();
 
     public String getTerm()
     {
@@ -16,7 +16,7 @@ public class IDFStats {
 
     private final String term;
 
-    public static Set<Integer> getDocId(IDFStats original) {
+    public static Set<String> getDocId(IDFStats original) {
         return termVsDocIds.get(original.term);
     }
 
@@ -64,8 +64,8 @@ public class IDFStats {
         this.total_number_of_documents_with_field = total_number_of_documents_with_field;
     }
 
-    public static void setDocid(String term,int docId){
-        Set<Integer> docIds = termVsDocIds.get(term);
+    public static void setDocid(String term,String docId){
+        Set<String> docIds = termVsDocIds.get(term);
         if(docIds==null){
             docIds= new CopyOnWriteArraySet<>();
         }
