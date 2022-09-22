@@ -143,6 +143,7 @@ public class BM25SynonymReranker implements Reranker {
       Document doc = docIdVsDocument.get( docid );
       scoredDocs.documents[index++]=doc;
     }
+    docIdVsDocument.clear();
     return scoredDocs;
   }
 
@@ -342,6 +343,9 @@ public class BM25SynonymReranker implements Reranker {
   private IDFStats extractIDFDetails(String term, Explanation idfExplanation) {
     float idfValue=idfExplanation.getValue().floatValue();
     Explanation[] details = idfExplanation.getDetails();
+    if(details ==null || details.length==0){
+      LOG.error( "Missing data in Explnation "+ idfExplanation);
+    }
     Explanation numbOfDocsWithThatTermExp=details[0];
     Explanation totalnumbOfDocsWithFieldExpl=details[1];
     float numbOfDocsWithThatTerm=numbOfDocsWithThatTermExp.getValue().floatValue();
