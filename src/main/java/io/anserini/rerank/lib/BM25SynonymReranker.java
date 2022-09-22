@@ -52,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class BM25SynonymReranker implements Reranker {
@@ -60,7 +61,7 @@ public class BM25SynonymReranker implements Reranker {
   private final Analyzer analyzer;
   private final String field;
   private final boolean outputQuery;
-  private Map<String,Document> docIdVsDocument= new HashMap<>();
+  private Map<String,Document> docIdVsDocument= new ConcurrentHashMap<>();
 
   public BM25SynonymReranker(Analyzer analyzer, String field, boolean outputQuery) {
     this.analyzer = analyzer;
@@ -79,69 +80,64 @@ public class BM25SynonymReranker implements Reranker {
     Map<String, List<TermScoreDetails>> allDocsSStats= new HashMap<>();
     Map<Integer,Float> computedScores=new HashMap<>();
     int[] ids = docs.ids;
-    int index=0;
     for (int id : ids) {
       try {
-        String actualDocId=docs.documents[index].getField( "id" ).stringValue();
-        docIdVsDocument.putIfAbsent( actualDocId, docs.documents[index]);
-        System.out.println("Query is >>>"+queryText);
+        Document doc = searcher.doc( id );
+        String actualDocId = doc.get( "id" );
+        docIdVsDocument.putIfAbsent( actualDocId, doc);
+      //  System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
-        Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, id, query,context,actualDocId);
-        System.out.println("All stats >>>"+allStats);
-        System.out.println("explain >>>" + id + ":::" + explain);
+        Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId);
+     //   System.out.println("All stats >>>"+allStats);
+     //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
         allDocsSStats.putAll(allStats);
         float weight=createWeight(1,actualDocId,allDocsSStats);
         computedScores.put(id,weight);
-        index++;
 
       } catch (IOException e) {
         e.printStackTrace();
       }
 
     }
-    for (int i=0; i<docs.documents.length; i++) {
+    /*for (int i=0; i<docs.documents.length; i++) {
       System.out.println("doc>>"+i+"::"+docs.scores[i]);
     }
     System.out.println("Computed Scores >>"+computedScores);
-    System.out.println("ALL DOCS stats >>"+allDocsSStats);
+    System.out.println("ALL DOCS stats >>"+allDocsSStats);*/
 
     if(context.getSearchArgs().no_rerank==true){
-      System.out.println("reranking is false. So, returning without reranking using queryExpansion");
+   //   System.out.println("reranking is false. So, returning without reranking using queryExpansion");
       return docs;
     }
-    Map<String, Float> integerFloatMap =null;
+    Map<String, Float> stringFloatMap =null;
 
     try {
-      integerFloatMap = expandAndSearchSynonyms(queryText, allDocsSStats, searcher, context,docs);
+      stringFloatMap = expandAndSearchSynonyms(queryText, allDocsSStats, searcher, context,docs);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
     LinkedHashMap<String, Float> reverseSortedMap = new LinkedHashMap<>();
-    LinkedHashSet<Integer> docsids= new LinkedHashSet<>();
-    Set<String> strings = reverseSortedMap.keySet();
-    Iterator<String> iterator1 = strings.iterator();
-    int i=00;
-    while( iterator1.hasNext() ){
-      String strId=iterator1.next();
-      docsids.add( i );
-      i++;
-    }
 
     //Use Comparator.reverseOrder() for reverse ordering
-    integerFloatMap.entrySet()
-            .stream()
-            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-            .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+    stringFloatMap.entrySet()
+        .stream()
+        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+        .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+
+  //  System.out.println("reverseSortedMap>>>>"+reverseSortedMap);
 
     ScoredDocuments scoredDocs= new ScoredDocuments();
     scoredDocs.ids = new int[reverseSortedMap.size()];
     scoredDocs.scores = new float[reverseSortedMap.size()];
     scoredDocs.documents= new Document[reverseSortedMap.size()];
-    scoredDocs.ids = ArrayUtils.toPrimitive(docsids.toArray(new Integer[docsids.size()]));
+    for(int i=1;i<= reverseSortedMap.size();i++){
+      scoredDocs.ids[i-1]=i;
+    }
+    //scoredDocs.ids = ArrayUtils.toPrimitive(reverseSortedMap.keySet().toArray(new Integer[reverseSortedMap.size()]));
     scoredDocs.scores = ArrayUtils.toPrimitive(reverseSortedMap.values().toArray(new Float[reverseSortedMap.size()]), Float.NaN);
     Iterator<String> iterator = reverseSortedMap.keySet().iterator();
-    index=0;
+    int index=0;
     while(iterator.hasNext()){
       String docid = iterator.next();
       Document doc = docIdVsDocument.get( docid );
@@ -149,6 +145,8 @@ public class BM25SynonymReranker implements Reranker {
     }
     return scoredDocs;
   }
+
+
   private Map<String, Float> expandAndSearchSynonyms(String queryText, Map<String, List<TermScoreDetails>> originalScoredDocsStats, IndexSearcher searcher, RerankerContext context, ScoredDocuments originalDocs) throws IOException {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
@@ -163,28 +161,27 @@ public class BM25SynonymReranker implements Reranker {
 
       Map<String, List<TermScoreDetails>> synonymsScoredDocsStats= new HashMap<>();
       Map<Integer,Float> computedScores=new HashMap<>();
-      int index=0;
       for(ScoreDoc doc: docs){
         int docid=doc.doc;
-        String actualDocId= scoredDocuments.documents[index].get( "id" );
-        docIdVsDocument.putIfAbsent( actualDocId, scoredDocuments.documents[index]);
-        System.out.println("actualDoc >>"+actualDocId);
+        Document doc1 = searcher.doc( docid );
+        String actualDocId= doc1.get( "id" );
+        docIdVsDocument.putIfAbsent( actualDocId, doc1);
+      //  System.out.println("actualDoc >>"+actualDocId);
         try {
           Explanation explain = searcher.explain(query, docid);
-          Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, docid, query,context,actualDocId);
-          System.out.println("All stats >>>"+allStats);
-          System.out.println("explain >>>" + docid + ":::" + explain);
+          Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId);
+        //  System.out.println("All stats >>>"+allStats);
+       //   System.out.println("explain >>>" + docid + "::actualDOc::"+actualDocId+"::" + explain);
           synonymsScoredDocsStats.putAll(allStats);
 
           float weight=createWeight(1,actualDocId,synonymsScoredDocsStats);
           computedScores.put(docid,weight);
-          System.out.println("After expansion >>>"+computedScores);
+        //  System.out.println("After expansion >>>"+computedScores);
 
 
         } catch (IOException e) {
           e.printStackTrace();
         }
-        index++;
 
       }
       return rerankDocs(originalScoredDocsStats,synonymsScoredDocsStats,context);
@@ -255,7 +252,7 @@ public class BM25SynonymReranker implements Reranker {
       }
 
     }
-    System.out.println("Final final score >>>>"+finalComputedScores);
+  //  System.out.println("Final final score >>>>"+finalComputedScores);
     return finalComputedScores;
   }
 
@@ -353,7 +350,7 @@ public class BM25SynonymReranker implements Reranker {
 
   }
 
-  private Map<String, List<TermScoreDetails>> extractStatsFromExplanation(Explanation explanation, int docId, Query query,RerankerContext context_,String actaulDocId) {
+  private Map<String, List<TermScoreDetails>> extractStatsFromExplanation(Explanation explanation, Query query,RerankerContext context_,String actaulDocId) {
     Number docTotalWeight = explanation.getValue();
     Map<String, List<TermScoreDetails>> docIdvsAlltermsScoreDetails= new HashMap<>();
     Explanation[] details=null;
@@ -380,7 +377,7 @@ public class BM25SynonymReranker implements Reranker {
         IDFStats.setDocid(term,actaulDocId);
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation);
-        TermScoreDetails termScoreDetails= new TermScoreDetails(term,docId,idfStats,tfStats);
+        TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
         termScoreDetailsList.add(termScoreDetails);
       }
       docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);

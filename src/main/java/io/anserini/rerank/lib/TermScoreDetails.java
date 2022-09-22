@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class TermScoreDetails {
     private final String term;
-    private final int docid;
+    private final String docid;
     private final IDFStats idfStats;
     private final TFStats tfSStats;
     private List<TFStats> synonymsTFStats= new ArrayList<>();
@@ -18,7 +18,7 @@ public class TermScoreDetails {
 
 
 
-    public TermScoreDetails(String term, int docid, IDFStats idfStats, TFStats tfSStats) {
+    public TermScoreDetails(String term, String docid, IDFStats idfStats, TFStats tfSStats) {
         this.term = term;
         this.docid = docid;
         this.idfStats = idfStats;
@@ -55,7 +55,7 @@ public class TermScoreDetails {
         return term;
     }
 
-    public int getDocid() {
+    public String getDocid() {
         return docid;
     }
 
