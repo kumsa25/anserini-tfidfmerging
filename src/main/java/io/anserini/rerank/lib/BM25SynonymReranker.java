@@ -340,11 +340,14 @@ public class BM25SynonymReranker implements Reranker {
     return new TFStats(term,tfValue,freqExpl.getValue().floatValue(),K1_termSaturation,b_length_normalization,dl_lengthOfField,avgdl_avgLengthofField);
   }
 
-  private IDFStats extractIDFDetails(String term, Explanation idfExplanation) {
+  private IDFStats extractIDFDetails( String term, Explanation idfExplanation, Explanation[] termSpecificExplanation_ ) {
     float idfValue=idfExplanation.getValue().floatValue();
     Explanation[] details = idfExplanation.getDetails();
     if(details ==null || details.length==0){
       LOG.error( "Missing data in Explnation "+ idfExplanation);
+      for(Explanation explanation: termSpecificExplanation_){
+        LOG.error( "Explanation is >>>"+explanation );
+      }
     }
     Explanation numbOfDocsWithThatTermExp=details[0];
     Explanation totalnumbOfDocsWithFieldExpl=details[1];
@@ -377,7 +380,7 @@ public class BM25SynonymReranker implements Reranker {
         Number eachTerrmscore = termScoreExplanation.getValue();
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
         Explanation idfExplanation=termSpecificExplanation[0];
-        IDFStats idfStats = extractIDFDetails(term, idfExplanation);
+        IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
         IDFStats.setDocid(term,actaulDocId);
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation);
