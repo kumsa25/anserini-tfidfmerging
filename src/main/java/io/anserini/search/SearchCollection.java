@@ -64,6 +64,7 @@ import org.apache.lucene.analysis.sv.SwedishAnalyzer;
 import org.apache.lucene.analysis.th.ThaiAnalyzer;
 import org.apache.lucene.analysis.tr.TurkishAnalyzer;
 import org.apache.lucene.analysis.uk.UkrainianMorfologikAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -242,7 +243,13 @@ public final class SearchCollection implements Closeable {
 
             int rank = 1;
             for (int i = 0; i < docs.documents.length; i++) {
-              String docid = docs.documents[i].get(IndexArgs.ID);
+              Document document = docs.documents[i];
+              if(document==null)
+              {
+                LOG.info( "id is >>" + i + "::" + document );
+                continue;
+              }
+              String docid = document.get(IndexArgs.ID);
 
               if (args.selectMaxPassage) {
                 docid = docid.split(args.selectMaxPassage_delimiter)[0];
