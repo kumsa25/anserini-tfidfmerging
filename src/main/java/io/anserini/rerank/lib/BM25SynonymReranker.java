@@ -325,9 +325,21 @@ public class BM25SynonymReranker implements Reranker {
     return boost * tfSStats .getTfValue()* idfStats.getIdfValue();
   }
 
-  private TFStats extractTFDetails(String term, Explanation tfExplnation) {
+  private TFStats extractTFDetails( String term, Explanation tfExplnation, Explanation[] termSpecificExplanation_ ) {
     float tfValue=tfExplnation.getValue().floatValue();
     Explanation[] details = tfExplnation.getDetails();
+    if(details ==null || details.length==0){
+      LOG.error( "Missing data in Explnation "+ tfExplnation);
+      for(Explanation explanation: termSpecificExplanation_){
+        LOG.error( "Explanation is >>>"+explanation );
+        if(explanation.getDescription().indexOf( "tf" ) !=-1){
+          tfExplnation=explanation;
+          details=tfExplnation.getDetails();
+          break;
+        }
+
+      }
+    }
     Explanation freqExpl=details[0];
     Explanation K1_termSaturationExpl=details[1];
     Explanation b_length_normalizationExp=details[2];
@@ -347,6 +359,12 @@ public class BM25SynonymReranker implements Reranker {
       LOG.error( "Missing data in Explnation "+ idfExplanation);
       for(Explanation explanation: termSpecificExplanation_){
         LOG.error( "Explanation is >>>"+explanation );
+        if(explanation.getDescription().indexOf( "idf" ) !=-1){
+          idfExplanation=explanation;
+          details=idfExplanation.getDetails();
+          break;
+        }
+
       }
     }
     Explanation numbOfDocsWithThatTermExp=details[0];
@@ -383,7 +401,7 @@ public class BM25SynonymReranker implements Reranker {
         IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
         IDFStats.setDocid(term,actaulDocId);
         Explanation tfExplnation=termSpecificExplanation[1];
-        TFStats tfStats = extractTFDetails(term, tfExplnation);
+        TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
         termScoreDetailsList.add(termScoreDetails);
       }
