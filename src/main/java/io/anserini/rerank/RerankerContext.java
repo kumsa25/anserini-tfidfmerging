@@ -112,7 +112,8 @@ public class RerankerContext<K> {
   }
 
   public List<WeightedExpansionTerm> getExpansionTerms(String word){
-    return expansionWords.get(word);
+    List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( word );
+    return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
   }
 
   public static boolean isSynonyms(String original, String expanded){
