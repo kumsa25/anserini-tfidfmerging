@@ -332,7 +332,7 @@ public class BM25SynonymReranker implements Reranker {
 
 
     for(Explanation explanation: termSpecificExplanation_){
-      LOG.error( "Explanation is >>>"+explanation );
+      //LOG.error( "Explanation is >>>"+explanation );
       if(explanation.getDescription().indexOf( "tf" ) !=-1){
         tfValue=explanation.getValue().floatValue();
         tfExplnation=explanation;
@@ -359,7 +359,7 @@ public class BM25SynonymReranker implements Reranker {
     Explanation[] details = null;
 
     for(Explanation explanation: termSpecificExplanation_){
-      LOG.error( "Explanation is >>>"+explanation );
+     // LOG.error( "Explanation is >>>"+explanation );
       if(explanation.getDescription().indexOf( "boost" ) !=-1){
         boost=explanation.getValue().floatValue();
       }
