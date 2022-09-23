@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public class IDFStats {
     private static Map<String, Set<String>> termVsDocIds= new HashMap<>();
+    private  float boost=1;
 
     public String getTerm()
     {
@@ -63,6 +64,13 @@ public class IDFStats {
         this.numOfDocsContainingTerm = numOfDocsContainingTerm;
         this.total_number_of_documents_with_field = total_number_of_documents_with_field;
     }
+    public IDFStats(String term, float idfValue, float numOfDocsContainingTerm, float total_number_of_documents_with_field,float boost) {
+        this.term = term;
+        this.idfValue=idfValue;
+        this.numOfDocsContainingTerm = numOfDocsContainingTerm;
+        this.total_number_of_documents_with_field = total_number_of_documents_with_field;
+        this.boost=boost;
+    }
 
     public static void setDocid(String term,String docId){
         Set<String> docIds = termVsDocIds.get(term);
@@ -71,6 +79,10 @@ public class IDFStats {
         }
         docIds.add(docId);
         termVsDocIds.put(term,docIds);
+    }
+
+    public float getBoost(){
+        return boost;
     }
 
 

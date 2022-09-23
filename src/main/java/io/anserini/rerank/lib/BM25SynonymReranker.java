@@ -267,6 +267,7 @@ public class BM25SynonymReranker implements Reranker {
       TermScoreDetails termScoreDetails = iterator.next();
       TFStats tfSStats = termScoreDetails.getTfSStats();
       IDFStats idfStats = termScoreDetails.getIdfStats();
+      boost=idfStats.getBoost();
       float termWeight=createTermWeight(boost,tfSStats,idfStats);
       totalScore+=termWeight;
     }
@@ -326,20 +327,19 @@ public class BM25SynonymReranker implements Reranker {
   }
 
   private TFStats extractTFDetails( String term, Explanation tfExplnation, Explanation[] termSpecificExplanation_ ) {
-    float tfValue=tfExplnation.getValue().floatValue();
-    Explanation[] details = tfExplnation.getDetails();
-    if(details ==null || details.length==0){
-      LOG.error( "Missing data in Explnation "+ tfExplnation);
-      for(Explanation explanation: termSpecificExplanation_){
-        LOG.error( "Explanation is >>>"+explanation );
-        if(explanation.getDescription().indexOf( "tf" ) !=-1){
-          tfValue=explanation.getValue().floatValue();
-          tfExplnation=explanation;
-          details=tfExplnation.getDetails();
-          break;
-        }
+    float tfValue=0;
+    Explanation[] details = null;
 
+
+    for(Explanation explanation: termSpecificExplanation_){
+      LOG.error( "Explanation is >>>"+explanation );
+      if(explanation.getDescription().indexOf( "tf" ) !=-1){
+        tfValue=explanation.getValue().floatValue();
+        tfExplnation=explanation;
+        details=tfExplnation.getDetails();
+        break;
       }
+
     }
     Explanation freqExpl=details[0];
     Explanation K1_termSaturationExpl=details[1];
@@ -354,26 +354,29 @@ public class BM25SynonymReranker implements Reranker {
   }
 
   private IDFStats extractIDFDetails( String term, Explanation idfExplanation, Explanation[] termSpecificExplanation_ ) {
-    float idfValue=idfExplanation.getValue().floatValue();
-    Explanation[] details = idfExplanation.getDetails();
-    if(details ==null || details.length==0){
-      LOG.error( "Missing data in Explnation "+ idfExplanation);
-      for(Explanation explanation: termSpecificExplanation_){
-        LOG.error( "Explanation is >>>"+explanation );
-        if(explanation.getDescription().indexOf( "idf" ) !=-1){
-          idfValue=explanation.getValue().floatValue();
-          idfExplanation=explanation;
-          details=idfExplanation.getDetails();
-          break;
-        }
+    float idfValue=0;
+    float boost=1;
+    Explanation[] details = null;
 
+    for(Explanation explanation: termSpecificExplanation_){
+      LOG.error( "Explanation is >>>"+explanation );
+      if(explanation.getDescription().indexOf( "boost" ) !=-1){
+        boost=explanation.getValue().floatValue();
       }
+      if(explanation.getDescription().indexOf( "idf" ) !=-1){
+        idfValue=explanation.getValue().floatValue();
+        idfExplanation=explanation;
+        details=idfExplanation.getDetails();
+        break;
+      }
+
+
     }
     Explanation numbOfDocsWithThatTermExp=details[0];
     Explanation totalnumbOfDocsWithFieldExpl=details[1];
     float numbOfDocsWithThatTerm=numbOfDocsWithThatTermExp.getValue().floatValue();
     float totalnumbOfDocsWithField=totalnumbOfDocsWithFieldExpl.getValue().floatValue();
-    return new IDFStats(term,idfValue,numbOfDocsWithThatTerm,totalnumbOfDocsWithField);
+    return new IDFStats(term,idfValue,numbOfDocsWithThatTerm,totalnumbOfDocsWithField,boost);
 
   }
 
