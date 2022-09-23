@@ -131,8 +131,8 @@ public class BM25SynonymReranker implements Reranker {
     scoredDocs.ids = new int[reverseSortedMap.size()];
     scoredDocs.scores = new float[reverseSortedMap.size()];
     scoredDocs.documents= new Document[reverseSortedMap.size()];
-    for(int i=1;i<= reverseSortedMap.size();i++){
-      scoredDocs.ids[i-1]=i;
+    for(int i=0;i< reverseSortedMap.size();i++){
+      scoredDocs.ids[i]=i;
     }
     //scoredDocs.ids = ArrayUtils.toPrimitive(reverseSortedMap.keySet().toArray(new Integer[reverseSortedMap.size()]));
     scoredDocs.scores = ArrayUtils.toPrimitive(reverseSortedMap.values().toArray(new Float[reverseSortedMap.size()]), Float.NaN);
