@@ -250,7 +250,7 @@ public class BM25SynonymReranker implements Reranker {
       {
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
         if(synonymsTermScoredDetails !=null  && !synonymsTermScoredDetails.isEmpty() ){
-          System.out.println("synonym word found in the same doc id "+docid+":::"+context_.getQueryId()+":::"+context_.getQueryText());
+        //  System.out.println("synonym word found in the same doc id "+docid+":::"+context_.getQueryId()+":::"+context_.getQueryText());
         }
 
         float weight = createWeight( 1, docid, originalScoredDocsStats, synonymsTermScoredDetails, context_ );
