@@ -237,6 +237,7 @@ public class BM25SynonymReranker implements Reranker {
     return feedbackQueryBuilder.build();
   }
   private Map<String,Float> rerankDocs(Map<String, List<TermScoreDetails>> originalScoredDocsStats, Map<String, List<TermScoreDetails>> synonymsScoredDocsStats,RerankerContext context_) {
+    Set<Object> queryIdsInSamedDoc= new HashSet<>();
     Set<String> originalDocs = originalScoredDocsStats.keySet();
     Set<String> expandedDocs = synonymsScoredDocsStats.keySet();
     if(originalDocs.equals( expandedDocs )){
@@ -250,6 +251,7 @@ public class BM25SynonymReranker implements Reranker {
       {
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
         if(synonymsTermScoredDetails !=null  && !synonymsTermScoredDetails.isEmpty() ){
+          queryIdsInSamedDoc.add( context_.getQueryId() );
         //  System.out.println("synonym word found in the same doc id "+docid+":::"+context_.getQueryId()+":::"+context_.getQueryText());
         }
 
@@ -270,7 +272,9 @@ public class BM25SynonymReranker implements Reranker {
       }
 
     }
-  //  System.out.println("Final final score >>>>"+finalComputedScores);
+    String collect = queryIdsInSamedDoc.stream().map( id -> id.toString() ).collect( Collectors.joining( ", " ) );
+    LOG.info( "Doc ids that had both original query and expansion termms ::"+collect );
+    //  System.out.println("Final final score >>>>"+finalComputedScores);
     return finalComputedScores;
   }
 
