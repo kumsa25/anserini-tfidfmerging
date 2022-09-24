@@ -13,10 +13,10 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         for(TFStats synonymsTF: synonymsTFStats){
 
             float assignedweight = synonymsTF.getAssignedweight();
-            System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
+            //System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
             freqTotal+= synonymsTF.getFreq()* assignedweight;
 
-            System.out.println("Freq  >>"+freqTotal+":::"+original.getTerm()+"::::"+synonymsTF.getFreq());
+           // System.out.println("Freq  >>"+freqTotal+":::"+original.getTerm()+"::::"+synonymsTF.getFreq());
             //freq / (freq + k1 * (1 - b + b * dl / avgdl))
 
         }
