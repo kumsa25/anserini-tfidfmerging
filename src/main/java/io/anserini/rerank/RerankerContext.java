@@ -117,9 +117,19 @@ public class RerankerContext<K> {
   }
 
   public static boolean isSynonyms(String original, String expanded){
+    boolean shouldLog=false;
+    if(original.equals( "airbu" )){
+      shouldLog=true;
+    }
     List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get(original);
+    if(shouldLog){
+      System.out.println("weightedExpansionTerms >>>"+weightedExpansionTerms);
+    }
     if(weightedExpansionTerms==null || weightedExpansionTerms.isEmpty()){
       String rootWord=findRootWord(original);
+      if(shouldLog){
+        System.out.println("Root word >>>"+rootWord);
+      }
       if(rootWord==null)
       {
         return false;
