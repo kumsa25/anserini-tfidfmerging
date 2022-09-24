@@ -250,7 +250,7 @@ public class BM25SynonymReranker implements Reranker {
       if(originalDocs.contains( docid ))
       {
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
-        if(synonymsScoredDocsStats !=null  && !synonymsTermScoredDetails.isEmpty() ){
+        if(synonymsTermScoredDetails !=null  && !synonymsTermScoredDetails.isEmpty() ){
           System.out.println("synonym word found in the same doc id "+docid+":::"+context_.getQueryId()+":::"+context_.getQueryText());
         }
 
