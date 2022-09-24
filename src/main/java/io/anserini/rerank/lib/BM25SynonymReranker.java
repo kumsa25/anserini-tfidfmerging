@@ -250,12 +250,15 @@ public class BM25SynonymReranker implements Reranker {
       if(originalDocs.contains( docid ))
       {
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
-        System.out.println("same docId as origsynonymsTermScoredDetails>>>>>"+docid+":::"+synonymsScoredDocsStats);
+        if(synonymsScoredDocsStats !=null  && !synonymsTermScoredDetails.isEmpty() ){
+          System.out.println("synonym word found in the same doc id "+docid+":::"+context_.getQueryId()+":::"+context_.getQueryText());
+        }
+
         float weight = createWeight( 1, docid, originalScoredDocsStats, synonymsTermScoredDetails, context_ );
         finalComputedScores.put( docid, weight );
       }else{
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
-        System.out.println("different docId as origsynonymsTermScoredDetails>>>>>"+docid+":::"+synonymsScoredDocsStats);
+        System.out.println("synonym word found in the different doc id>>>>>"+docid);
 
         float weight=0;
         for(TermScoreDetails termScoreDetails: synonymsTermScoredDetails){
