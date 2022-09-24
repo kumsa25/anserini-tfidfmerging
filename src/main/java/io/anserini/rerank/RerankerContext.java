@@ -119,7 +119,7 @@ public class RerankerContext<K> {
   public static boolean isSynonyms(String original, String expanded){
     boolean shouldLog=false;
     if(original.equals( "airbu" )){
-      shouldLog=true;
+    //  shouldLog=true;
     }
     List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get(original);
     if(shouldLog){
