@@ -177,7 +177,7 @@ public class BM25SynonymReranker implements Reranker {
         try {
           Explanation explain = searcher.explain(query, docid);
           Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId);
-          System.out.println("allStats for synonyms match >>>"+allStats);
+         // System.out.println("allStats for synonyms match >>>"+allStats);
         //  System.out.println("All stats >>>"+allStats);
        //   System.out.println("explain >>>" + docid + "::actualDOc::"+actualDocId+"::" + explain);
           synonymsScoredDocsStats.putAll(allStats);
