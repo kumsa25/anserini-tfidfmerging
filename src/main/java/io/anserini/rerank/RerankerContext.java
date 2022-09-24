@@ -128,7 +128,7 @@ public class RerankerContext<K> {
     if(weightedExpansionTerms==null || weightedExpansionTerms.isEmpty()){
       String rootWord=findRootWord(original);
       if(shouldLog){
-        System.out.println("Root word >>>"+rootWord);
+        System.out.println("Root word >>>"+rootWord+"::::"+expanded);
       }
       if(rootWord==null)
       {
