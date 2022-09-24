@@ -351,21 +351,24 @@ public class BM25SynonymReranker implements Reranker {
         System.out.println("::"+docId+":::"+tfSStats+"::::"+idfStats);
         System.out.println("docId >>"+docId+"::::"+expandedScoredDocsStats);
       }
-      float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_);
+      float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_,docId);
       totalScore+=termWeight;
     }
     return totalScore;
   }
 
-  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_) {
+  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_,String docId) {
     if(expandedScoredDocsStats==null){
       expandedScoredDocsStats= new ArrayList<>();
     }
     boolean shouldLog=false;
-    if(context_.getQueryText().equals("Airbus Subsidies")){
+    if(context_.getQueryText().equals("Airbus Subsidies") && docId.equalsIgnoreCase( "WSJ871218-0126" )){
       shouldLog=true;
     }
     Iterator<TermScoreDetails> iterator = expandedScoredDocsStats.iterator();
+    if(shouldLog){
+      System.out.println("expandedScoredDocsStats >>>"+expandedScoredDocsStats);
+    }
     List<TFStats> expandedTFSStatsList= new ArrayList<>();
     List<IDFStats> expandedIDFStatsList= new ArrayList<>();
     while (iterator.hasNext()){

@@ -6,4 +6,8 @@ public interface TFIDFCombinerStrategy {
     public float aggregateTF(TFStats original, List<TFStats>synonymsTFStats);
 
     public float aggregateIDF(IDFStats original, List<IDFStats>synonymsIDFStats);
+
+    public float aggregateTF(TFStats original, List<TFStats>synonymsTFStats,boolean shouldLog);
+
+    public float aggregateIDF(IDFStats original, List<IDFStats>synonymsIDFStats,boolean shouldLog);
 }
