@@ -27,7 +27,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         if(freqTotal==0.0){
             return original.getTfValue();
         }
-        float v = freqTotal + k1 * (1 - b + b * dl / avgdl);
+        float v = freqTotal + k1 * (1 - (b + (b * dl / avgdl)));
         System.out.println("divisor v is >>>"+v);
         tfTotal=freqTotal / v;
 
