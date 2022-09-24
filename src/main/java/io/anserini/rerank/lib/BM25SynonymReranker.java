@@ -307,9 +307,11 @@ public class BM25SynonymReranker implements Reranker {
     while (iterator.hasNext()){
       TermScoreDetails next = iterator.next();
       if(isSynonym(tfSStats.getTerm(),next.getTerm())) {
+        System.out.println("found synonym for "+tfSStats.getTerm());
         TFStats expandedTFStat = next.getTfSStats();
         IDFStats expandedIDFStat = next.getIdfStats();
         List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( tfSStats.getTerm() );
+        System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()
             .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( next.getTerm() ) ).findFirst();
         if(first.isPresent()){
