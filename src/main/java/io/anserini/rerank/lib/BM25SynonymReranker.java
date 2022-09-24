@@ -273,7 +273,7 @@ public class BM25SynonymReranker implements Reranker {
 
     }
     String collect = queryIdsInSamedDoc.stream().map( id -> id.toString() ).collect( Collectors.joining( ", " ) );
-    LOG.info( "Doc ids that had both original query and expansion termms ::"+collect );
+   // LOG.info( "Doc ids that had both original query and expansion termms ::"+collect );
     //  System.out.println("Final final score >>>>"+finalComputedScores);
     return finalComputedScores;
   }
