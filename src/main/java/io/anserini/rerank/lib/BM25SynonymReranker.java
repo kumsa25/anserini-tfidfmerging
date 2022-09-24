@@ -292,14 +292,26 @@ public class BM25SynonymReranker implements Reranker {
   }
 
   public float createWeight(float boost, String docId,Map<String, List<TermScoreDetails>> originalScoredDocsStats,List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_){
+    boolean shouldLog=false;
+    if(context_.getQueryText().equals("Airbus Subsidies")){
+      shouldLog=true;
+    }
     List<TermScoreDetails> termScoreDetailsList = originalScoredDocsStats.get(docId);
+    if(shouldLog){
+      System.out.println("Doc id >>>"+docId+"::::"+termScoreDetailsList);
+    }
     Iterator<TermScoreDetails> iterator = termScoreDetailsList.iterator();
     float totalScore=0;
     while(iterator.hasNext()){
       TermScoreDetails termScoreDetails = iterator.next();
       TFStats tfSStats = termScoreDetails.getTfSStats();
 
+
       IDFStats idfStats = termScoreDetails.getIdfStats();
+      if(shouldLog){
+        System.out.println("::"+docId+":::"+tfSStats+"::::"+idfStats);
+        System.out.println("docId >>"+docId+"::::"+expandedScoredDocsStats);
+      }
       float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_);
       totalScore+=termWeight;
     }
@@ -310,12 +322,19 @@ public class BM25SynonymReranker implements Reranker {
     if(expandedScoredDocsStats==null){
       expandedScoredDocsStats= new ArrayList<>();
     }
+    boolean shouldLog=false;
+    if(context_.getQueryText().equals("Airbus Subsidies")){
+      shouldLog=true;
+    }
     Iterator<TermScoreDetails> iterator = expandedScoredDocsStats.iterator();
     List<TFStats> expandedTFSStatsList= new ArrayList<>();
     List<IDFStats> expandedIDFStatsList= new ArrayList<>();
     while (iterator.hasNext()){
       TermScoreDetails next = iterator.next();
       if(isSynonym(tfSStats.getTerm(),next.getTerm())) {
+        if(shouldLog){
+          System.out.println("Are synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
+        }
      //   System.out.println("found synonym for "+tfSStats.getTerm());
         TFStats expandedTFStat = next.getTfSStats();
         IDFStats expandedIDFStat = next.getIdfStats();
@@ -329,7 +348,12 @@ public class BM25SynonymReranker implements Reranker {
         }
         expandedTFSStatsList.add( expandedTFStat );
         expandedIDFStatsList.add( expandedIDFStat );
+      }else{
+        if(shouldLog){
+          System.out.println("sre not  synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
+        }
       }
+
     }
     TFIDFCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
     float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList);
