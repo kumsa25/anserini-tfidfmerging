@@ -16,6 +16,7 @@
 
 package io.anserini.rerank;
 
+import io.anserini.rerank.lib.TFStats;
 import io.anserini.search.SearchArgs;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -77,6 +78,26 @@ public class RerankerContext<K> {
 
       }
     }
+  }
+
+  public static float calculateWeight( String original, TFStats synonymsTF_ )
+  {
+    String root=findRootWord( original );
+    if(root !=null){
+      List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( root );
+      String rootSynonym=findRootWord( synonymsTF_.getTerm() );
+      for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
+        String expansionTerm = weightedExpansionTerm.getExpansionTerm();
+        if( expansionTerm.equalsIgnoreCase( rootSynonym ) || expansionTerm.equalsIgnoreCase( synonymsTF_.getTerm() ))
+        {
+          return weightedExpansionTerm.getWeight();
+        }
+
+
+      }
+
+    }
+    return 0;
   }
 
   public IndexSearcher getIndexSearcher() {

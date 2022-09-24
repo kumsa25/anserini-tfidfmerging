@@ -1,5 +1,7 @@
 package io.anserini.rerank.lib;
 
+import io.anserini.rerank.RerankerContext;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +16,11 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
             float assignedweight = synonymsTF.getAssignedweight();
             if(assignedweight==0){
-                System.out.println("Why the assigned weight is zero >>>"+original.getTerm()+":::"+synonymsTF.getTerm());
+                assignedweight=RerankerContext.calculateWeight(original.getTerm(),synonymsTF);
+                if(assignedweight==0)
+                {
+                    System.out.println( "Why the assigned weight is zero >>>" + original.getTerm() + ":::" + synonymsTF.getTerm() );
+                }
             }
             //System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
             freqTotal+= synonymsTF.getFreq()* assignedweight;
