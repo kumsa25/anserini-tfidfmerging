@@ -240,6 +240,9 @@ public class BM25SynonymReranker implements Reranker {
   private Map<String,Float> rerankDocs(Map<String, List<TermScoreDetails>> originalScoredDocsStats, Map<String, List<TermScoreDetails>> synonymsScoredDocsStats,RerankerContext context_) {
     Set<String> originalDocs = originalScoredDocsStats.keySet();
     Set<String> expandedDocs = synonymsScoredDocsStats.keySet();
+    if(originalDocs.equals( expandedDocs )){
+      System.out.println("original docs and expanded are same");
+    }
     Set<String> rankedDocs= new HashSet<>(originalDocs);
     rankedDocs.addAll(expandedDocs);
     Map<String,Float> finalComputedScores=new HashMap<>();
@@ -247,10 +250,13 @@ public class BM25SynonymReranker implements Reranker {
       if(originalDocs.contains( docid ))
       {
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
+        System.out.println("same docId as origsynonymsTermScoredDetails>>>>>"+docid+":::"+synonymsScoredDocsStats);
         float weight = createWeight( 1, docid, originalScoredDocsStats, synonymsTermScoredDetails, context_ );
         finalComputedScores.put( docid, weight );
       }else{
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
+        System.out.println("different docId as origsynonymsTermScoredDetails>>>>>"+docid+":::"+synonymsScoredDocsStats);
+
         float weight=0;
         for(TermScoreDetails termScoreDetails: synonymsTermScoredDetails){
           float tfValue = termScoreDetails.getTfSStats().getTfValue();
