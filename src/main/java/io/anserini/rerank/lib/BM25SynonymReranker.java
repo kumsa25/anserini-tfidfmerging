@@ -343,6 +343,7 @@ public class BM25SynonymReranker implements Reranker {
         TFStats expandedTFStat = next.getTfSStats();
         IDFStats expandedIDFStat = next.getIdfStats();
         List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( tfSStats.getTerm() );
+
       //  System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()
             .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( next.getTerm() ) ).findFirst();

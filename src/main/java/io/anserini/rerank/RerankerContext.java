@@ -113,6 +113,10 @@ public class RerankerContext<K> {
 
   public List<WeightedExpansionTerm> getExpansionTerms(String word){
     List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( word );
+    if(weightedExpansionTerms==null){
+      String root=findRootWord( word );
+      weightedExpansionTerms = expansionWords.get( word );
+    }
     return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
   }
 
