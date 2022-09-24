@@ -350,7 +350,7 @@ public class BM25SynonymReranker implements Reranker {
         expandedIDFStatsList.add( expandedIDFStat );
       }else{
         if(shouldLog){
-          System.out.println("sre not  synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
+          System.out.println("are not  synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
         }
       }
 

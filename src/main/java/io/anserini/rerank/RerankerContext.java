@@ -138,7 +138,7 @@ public class RerankerContext<K> {
   {
     Set<String> strings = expansionWords.keySet();
     for(String str: strings){
-      if(str.startsWith( original )){
+      if(str.toLowerCase().startsWith( original.toLowerCase() )){
         return str;
       }
     }
