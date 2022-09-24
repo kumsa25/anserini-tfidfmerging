@@ -162,7 +162,7 @@ public class BM25SynonymReranker implements Reranker {
       ScoredDocuments scoredDocuments=ScoredDocuments.fromTopDocs( topDocs,context.getIndexSearcher() );
       ScoreDoc[] docs = topDocs.scoreDocs;
       if(docs.length==0){
-        System.out.println("NO MATCH after expansion "+queryText);
+      //  System.out.println("NO MATCH after expansion "+queryText);
       }
 
       Map<String, List<TermScoreDetails>> synonymsScoredDocsStats= new HashMap<>();
@@ -213,7 +213,6 @@ public class BM25SynonymReranker implements Reranker {
 
         buffer.append(weightedExpansionTerm.getExpansionTerm());
         buffer.append(" ");
-        System.out.println(" synonyms matched >>>"+queryText+":::"+token+":::"+buffer.toString());
       }
     }
 
@@ -241,7 +240,7 @@ public class BM25SynonymReranker implements Reranker {
     Set<String> originalDocs = originalScoredDocsStats.keySet();
     Set<String> expandedDocs = synonymsScoredDocsStats.keySet();
     if(originalDocs.equals( expandedDocs )){
-      System.out.println("original docs and expanded are same");
+  //    System.out.println("original docs and expanded are same");
     }
     Set<String> rankedDocs= new HashSet<>(originalDocs);
     rankedDocs.addAll(expandedDocs);
@@ -258,7 +257,7 @@ public class BM25SynonymReranker implements Reranker {
         finalComputedScores.put( docid, weight );
       }else{
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
-        System.out.println("synonym word found in the different doc id>>>>>"+docid);
+       // System.out.println("synonym word found in the different doc id>>>>>"+docid);
 
         float weight=0;
         for(TermScoreDetails termScoreDetails: synonymsTermScoredDetails){
@@ -317,11 +316,11 @@ public class BM25SynonymReranker implements Reranker {
     while (iterator.hasNext()){
       TermScoreDetails next = iterator.next();
       if(isSynonym(tfSStats.getTerm(),next.getTerm())) {
-        System.out.println("found synonym for "+tfSStats.getTerm());
+     //   System.out.println("found synonym for "+tfSStats.getTerm());
         TFStats expandedTFStat = next.getTfSStats();
         IDFStats expandedIDFStat = next.getIdfStats();
         List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( tfSStats.getTerm() );
-        System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
+      //  System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()
             .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( next.getTerm() ) ).findFirst();
         if(first.isPresent()){
