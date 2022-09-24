@@ -19,7 +19,10 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
                 assignedweight=RerankerContext.calculateWeight(original.getTerm(),synonymsTF);
                 if(assignedweight==0)
                 {
-                    System.out.println( "Why the assigned weight is zero >>>" + original.getTerm() + ":::" + synonymsTF.getTerm() );
+                    if(shdLog)
+                    {
+                        System.out.println( "Why the assigned weight is zero >>>" + original.getTerm() + ":::" + synonymsTF.getTerm() );
+                    }
                 }
             }
             //System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
@@ -74,12 +77,12 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     @Override
     public float aggregateTF( TFStats original, List<TFStats> synonymsTFStats)
     {
-        return 0;
+        return aggregateTF( original,synonymsTFStats,false );
     }
 
     @Override
     public float aggregateIDF( IDFStats original, List<IDFStats> synonymsIDFStats)
     {
-        return 0;
+        return aggregateIDF( original,synonymsIDFStats,false );
     }
 }

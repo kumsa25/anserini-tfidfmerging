@@ -399,9 +399,9 @@ public class BM25SynonymReranker implements Reranker {
 
     }
     TFIDFCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
-    float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList);
+    float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,true);
 
-    float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList);
+    float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,true);
     if(shouldLog){
       System.out.println("TF before and after >>>"+tfSStats.getTfValue()+"::::"+finalTFValue);
       System.out.println("IDF before and after >>>"+idfStats.getIdfValue()+"::::"+finalIDFValue);
