@@ -16,7 +16,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
             freqTotal+= synonymsTF.getFreq()* assignedweight;
 
-
+            System.out.println("Freq  >>"+freqTotal+":::"+original.getTerm()+"::::"+synonymsTF.getFreq());
             //freq / (freq + k1 * (1 - b + b * dl / avgdl))
 
         }
@@ -27,7 +27,9 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         if(freqTotal==0.0){
             return original.getTfValue();
         }
-        tfTotal=freqTotal / (freqTotal + k1 * (1 - b + b * dl / avgdl));
+        float v = freqTotal + k1 * (1 - b + b * dl / avgdl);
+        System.out.println("divisor v is >>>"+v);
+        tfTotal=freqTotal / v;
 
         return tfTotal;
     }
