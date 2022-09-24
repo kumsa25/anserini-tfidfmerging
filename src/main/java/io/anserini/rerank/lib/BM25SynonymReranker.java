@@ -93,7 +93,7 @@ public class BM25SynonymReranker implements Reranker {
      //   System.out.println("All stats >>>"+allStats);
      //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
         allDocsSStats.putAll(allStats);
-        float weight=createWeight(1,actualDocId,allDocsSStats);
+        float weight=createWeight(1,actualDocId,allDocsSStats,false);
         computedScores.put(id,weight);
 
       } catch (IOException e) {
@@ -154,8 +154,14 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
+    boolean shdLog=false;
+    if(queryText.toLowerCase().indexOf( "airb" ) !=-1){
+      shdLog=true;
+    }
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
-
+    if(shdLog){
+      System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
+    }
     try {
       TopDocs topDocs = searcher.search(query, context.getSearchArgs().hits);
 
@@ -171,20 +177,35 @@ public class BM25SynonymReranker implements Reranker {
         int docid=doc.doc;
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
+        if(shdLog)
+        {
+          System.out.println( "added doc id"+actualDocId );
+        }
 
         docIdVsDocument.putIfAbsent(context.getQueryText()+":"+ actualDocId, doc1);
       //  System.out.println("actualDoc >>"+actualDocId);
         try {
           Explanation explain = searcher.explain(query, docid);
+
           Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId);
          // System.out.println("allStats for synonyms match >>>"+allStats);
         //  System.out.println("All stats >>>"+allStats);
        //   System.out.println("explain >>>" + docid + "::actualDOc::"+actualDocId+"::" + explain);
           synonymsScoredDocsStats.putAll(allStats);
 
-          float weight=createWeight(1,actualDocId,synonymsScoredDocsStats);
+
+
+          float weight=createWeight(1,actualDocId,synonymsScoredDocsStats,shdLog);
           computedScores.put(docid,weight);
         //  System.out.println("After expansion >>>"+computedScores);
+
+          if(shdLog){
+            if(actualDocId.equalsIgnoreCase( "WSJ871218-0126" )){
+              System.out.println("explanation for WSJ871218-0126 is "+explain);
+              System.out.println("synonyms map >>>>"+allStats);
+              System.out.println("for docid "+actualDocId+":::Weight>>>"+weight);
+            }
+          }
 
 
         } catch (IOException e) {
@@ -202,10 +223,18 @@ public class BM25SynonymReranker implements Reranker {
   }
 
   private String getExpandedQueryTerms(String queryText, RerankerContext context) {
+
     List<String> queryTokens = Arrays.stream(queryText.split(" ")).collect(Collectors.toList());
     StringBuffer buffer= new StringBuffer();
     for(String token: queryTokens){
+      boolean log=false;
+      if("airbus subsidies".toLowerCase().indexOf( token.toLowerCase() ) !=-1){
+           log=true;
+      }
       List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(token);
+      if(log){
+        System.out.println("expansionTerms >>>"+token+"::::"+token);
+      }
       if(expansionTerms==null || expansionTerms.isEmpty()){
         continue;
       }
@@ -280,15 +309,21 @@ public class BM25SynonymReranker implements Reranker {
 
 
 
-  public float createWeight(float boost, String docId,Map<String, List<TermScoreDetails>> allStats){
+  public float createWeight( float boost, String docId, Map<String, List<TermScoreDetails>> allStats, boolean shdLog_ ){
     List<TermScoreDetails> termScoreDetailsList = allStats.get(docId);
+
     Iterator<TermScoreDetails> iterator = termScoreDetailsList.iterator();
     float totalScore=0;
     while(iterator.hasNext()){
       TermScoreDetails termScoreDetails = iterator.next();
+
       TFStats tfSStats = termScoreDetails.getTfSStats();
       IDFStats idfStats = termScoreDetails.getIdfStats();
       boost=idfStats.getBoost();
+      if(shdLog_){
+        System.out.println(""+tfSStats.getTerm()+"::::"+tfSStats.getTfValue());
+        System.out.println(""+idfStats.getIdfValue()+"::::"+idfStats.getIdfValue());
+      }
       float termWeight=createTermWeight(boost,tfSStats,idfStats);
       totalScore+=termWeight;
     }
@@ -297,8 +332,8 @@ public class BM25SynonymReranker implements Reranker {
 
   public float createWeight(float boost, String docId,Map<String, List<TermScoreDetails>> originalScoredDocsStats,List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_){
     boolean shouldLog=false;
-    if(context_.getQueryText().equals("Airbus Subsidies")){
-   //   shouldLog=true;
+    if(context_.getQueryText().equals("Airbus Subsidies") && docId.equalsIgnoreCase( "WSJ871218-0126" )){
+      shouldLog=true;
     }
     List<TermScoreDetails> termScoreDetailsList = originalScoredDocsStats.get(docId);
     if(shouldLog){
@@ -328,7 +363,7 @@ public class BM25SynonymReranker implements Reranker {
     }
     boolean shouldLog=false;
     if(context_.getQueryText().equals("Airbus Subsidies")){
-    //  shouldLog=true;
+      shouldLog=true;
     }
     Iterator<TermScoreDetails> iterator = expandedScoredDocsStats.iterator();
     List<TFStats> expandedTFSStatsList= new ArrayList<>();
@@ -362,10 +397,12 @@ public class BM25SynonymReranker implements Reranker {
     }
     TFIDFCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
     float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList);
-    if(tfSStats.getTfValue() < finalTFValue){
-   //   System.out.println("tf score changed for  query id "+context_.getQueryId()+":::old"+tfSStats.getTfValue()+":::new::"+finalTFValue);
-    }
+
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList);
+    if(shouldLog){
+      System.out.println("TF before and after >>>"+tfSStats.getTfValue()+"::::"+finalTFValue);
+      System.out.println("IDF before and after >>>"+idfStats.getIdfValue()+"::::"+finalIDFValue);
+    }
     return boost * finalTFValue* finalIDFValue;
   }
 

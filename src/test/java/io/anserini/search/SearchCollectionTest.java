@@ -153,6 +153,36 @@ public class SearchCollectionTest {
   }
 
   @Test
+  public void testBM25TF(){
+    float k= (float) 0.9;
+    float b= (float) 0.4;
+    float dl=6;
+    float avgdl= (float) 5.3333335;
+    float[] weights= new float[]{0,1,10,20,30,40,50};
+    float[] tfTotal= new float[weights.length];
+    float v1 = b * dl / avgdl;
+
+    float[] freq= new float[]{ (float) 1.0, (float) 5.0, (float) 10.0, (float) 20.0 };
+
+    for(int i=0;i<freq.length;i++)
+    {
+      float freqTotal = freq[i];
+      for( int j = 0; j < weights.length; j++ )
+      {
+        freqTotal = freq[i];
+        freqTotal += freqTotal * weights[j];
+        float v = freqTotal + (k * (1 - b + v1));
+        tfTotal[j] = freqTotal / v;
+        System.out.println(freq[i]+":::"+freqTotal+":::"+ weights[j] + "::::" + tfTotal[j] );
+
+      }
+    }
+
+
+
+
+  }
+  @Test
   public void testSearchLucene_sk() throws Exception {
     double logValue=Math.log(8.0/7);
     System.out.println("log >>>"+logValue);
