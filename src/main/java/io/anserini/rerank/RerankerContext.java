@@ -140,6 +140,14 @@ public class RerankerContext<K> {
       if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(expanded)){
         return true;
       }
+      String rootWord=findRootWord(expanded);
+      if(rootWord==null)
+      {
+        return false;
+      }
+      if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(rootWord)){
+        return true;
+      }
     }
     return false;
   }
