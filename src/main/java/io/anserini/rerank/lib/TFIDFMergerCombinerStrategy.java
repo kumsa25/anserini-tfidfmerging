@@ -13,7 +13,14 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         for(TFStats synonymsTF: synonymsTFStats){
             if(!synonymsTF.getTerm().equals( original.getTerm() ))
             {
-                 freqTotal+= synonymsTF.getFreq()*synonymsTF.getAssignedweight();
+                System.out.println("different synonym word found for tf merging "+original.getTerm());
+                freqTotal+= synonymsTF.getFreq()*synonymsTF.getAssignedweight();
+
+
+            }
+            if(synonymsTF.getTerm().equals( original.getTerm() ))
+            {
+                System.out.println("Same synonym word found for tf merging "+original.getTerm());
 
 
             }

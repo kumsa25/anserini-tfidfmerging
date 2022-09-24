@@ -158,9 +158,12 @@ public class BM25SynonymReranker implements Reranker {
 
     try {
       TopDocs topDocs = searcher.search(query, context.getSearchArgs().hits);
+
       ScoredDocuments scoredDocuments=ScoredDocuments.fromTopDocs( topDocs,context.getIndexSearcher() );
       ScoreDoc[] docs = topDocs.scoreDocs;
-
+      if(docs.length==0){
+        System.out.println("NO MATCH after expansion "+queryText);
+      }
 
       Map<String, List<TermScoreDetails>> synonymsScoredDocsStats= new HashMap<>();
       Map<Integer,Float> computedScores=new HashMap<>();
@@ -209,8 +212,10 @@ public class BM25SynonymReranker implements Reranker {
 
         buffer.append(weightedExpansionTerm.getExpansionTerm());
         buffer.append(" ");
+        System.out.println(" synonyms matched >>>"+queryText+":::"+token+":::"+buffer.toString());
       }
     }
+
     return buffer.toString();
 
   }
