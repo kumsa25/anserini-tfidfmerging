@@ -66,7 +66,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             allDocs.addAll(synonymsDocIds);
         }
         if(shdLog){
-            System.out.println("original Matching docs before and after >>"+originalDocIds.size()+":::"+allDocs.size());
+            System.out.println("original Matching docs before and after >>"+original.getTerm()+"::"+originalDocIds.size()+":::"+allDocs.size());
         }
         float corpusSize=original.getTotal_number_of_documents_with_field();
         float docIdsSize=allDocs.size();

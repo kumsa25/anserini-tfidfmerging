@@ -93,7 +93,12 @@ public class BM25SynonymReranker implements Reranker {
      //   System.out.println("All stats >>>"+allStats);
      //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
         allDocsSStats.putAll(allStats);
-        float weight=createWeight(1,actualDocId,allDocsSStats,false);
+        boolean shdLog=false;
+        if(actualDocId.equalsIgnoreCase( "WSJ871218-0126"  )){
+          shdLog=true;
+        }
+        float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
+
         computedScores.put(id,weight);
 
       } catch (IOException e) {
@@ -314,6 +319,9 @@ public class BM25SynonymReranker implements Reranker {
 
     Iterator<TermScoreDetails> iterator = termScoreDetailsList.iterator();
     float totalScore=0;
+    if(shdLog_){
+      System.out.println("Computing Weight for  docid ::"+docId);
+    }
     while(iterator.hasNext()){
       TermScoreDetails termScoreDetails = iterator.next();
 
@@ -321,8 +329,8 @@ public class BM25SynonymReranker implements Reranker {
       IDFStats idfStats = termScoreDetails.getIdfStats();
       boost=idfStats.getBoost();
       if(shdLog_){
-        System.out.println(""+tfSStats.getTerm()+"::::"+tfSStats.getTfValue());
-        System.out.println(""+idfStats.getIdfValue()+"::::"+idfStats.getIdfValue());
+        System.out.println(""+tfSStats.getTerm()+"::"+tfSStats.getTerm()+"::::"+tfSStats.getTfValue());
+        System.out.println(""+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+idfStats.getIdfValue());
       }
       float termWeight=createTermWeight(boost,tfSStats,idfStats);
       totalScore+=termWeight;
