@@ -161,13 +161,9 @@ public class BM25SynonymReranker implements Reranker {
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
     boolean shdLog=false;
-    if(queryText.toLowerCase().indexOf( "airb" ) !=-1){
-      shdLog=true;
-    }
+
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
-    if(shdLog){
-      System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
-    }
+
     try {
       TopDocs topDocs = searcher.search(query, context.getSearchArgs().hits);
 
@@ -183,9 +179,12 @@ public class BM25SynonymReranker implements Reranker {
         int docid=doc.doc;
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
-        if(shdLog && actualDocId.equalsIgnoreCase( "WSJ871218-0126" ))
-        {
-          System.out.println( "added doc id"+actualDocId );
+        if(queryText.toLowerCase().indexOf( "airb" ) !=-1 && actualDocId.equalsIgnoreCase( "WSJ871218-0126" )){
+          shdLog=true;
+        }
+
+        if(shdLog){
+          System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
         }
 
         docIdVsDocument.putIfAbsent(context.getQueryText()+":"+ actualDocId, doc1);
