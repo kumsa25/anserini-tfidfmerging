@@ -94,7 +94,8 @@ public class BM25SynonymReranker implements Reranker {
      //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
         allDocsSStats.putAll(allStats);
         boolean shdLog=false;
-        if(actualDocId.equalsIgnoreCase( "WSJ871218-0126"  )){
+
+        if(queryText.toLowerCase().indexOf( "airb" ) !=-1 &&  actualDocId.equalsIgnoreCase( "WSJ871218-0126"  )){
           shdLog=true;
         }
         float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
@@ -412,9 +413,9 @@ public class BM25SynonymReranker implements Reranker {
 
     }
     TFIDFCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
-    float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,true);
+    float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,shouldLog);
 
-    float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,true);
+    float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,shouldLog);
     float v = boost * finalTFValue * finalIDFValue;
     if(shouldLog){
       System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
