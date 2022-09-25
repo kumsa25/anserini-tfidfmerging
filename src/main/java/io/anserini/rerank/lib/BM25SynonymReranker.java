@@ -96,6 +96,7 @@ public class BM25SynonymReranker implements Reranker {
         boolean shdLog=false;
 
         if(queryText.toLowerCase().indexOf( "airb" ) !=-1 &&  actualDocId.equalsIgnoreCase( "WSJ871218-0126"  )){
+
           shdLog=true;
         }
         float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
@@ -160,7 +161,6 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
-    boolean shdLog=false;
 
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
 
@@ -176,6 +176,8 @@ public class BM25SynonymReranker implements Reranker {
       Map<String, List<TermScoreDetails>> synonymsScoredDocsStats= new HashMap<>();
       Map<Integer,Float> computedScores=new HashMap<>();
       for(ScoreDoc doc: docs){
+        boolean shdLog=false;
+
         int docid=doc.doc;
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
@@ -329,8 +331,8 @@ public class BM25SynonymReranker implements Reranker {
       IDFStats idfStats = termScoreDetails.getIdfStats();
       boost=idfStats.getBoost();
       if(shdLog_){
-        System.out.println(""+tfSStats.getTerm()+"::"+tfSStats.getTerm()+"::::"+tfSStats.getTfValue());
-        System.out.println(""+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+idfStats.getIdfValue());
+        //System.out.println(""+tfSStats.getTerm()+"::"+tfSStats.getTfValue());
+        //System.out.println(""+idfStats.getTerm()+":::"+idfStats.getIdfValue());
       }
       float termWeight=createTermWeight(boost,tfSStats,idfStats);
       totalScore+=termWeight;
