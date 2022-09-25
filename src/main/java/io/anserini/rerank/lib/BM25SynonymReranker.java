@@ -177,7 +177,7 @@ public class BM25SynonymReranker implements Reranker {
         int docid=doc.doc;
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
-        if(shdLog)
+        if(shdLog && actualDocId.equalsIgnoreCase( "WSJ871218-0126" ))
         {
           System.out.println( "added doc id"+actualDocId );
         }
@@ -347,12 +347,17 @@ public class BM25SynonymReranker implements Reranker {
 
 
       IDFStats idfStats = termScoreDetails.getIdfStats();
+
+      float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_,docId);
       if(shouldLog){
         System.out.println("::"+docId+":::"+tfSStats+"::::"+idfStats);
         System.out.println("docId >>"+docId+"::::"+expandedScoredDocsStats);
+        System.out.println("Weight afterr expansion>>"+tfSStats.getTerm()+":::"+termScoreDetails);
       }
-      float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_,docId);
       totalScore+=termWeight;
+    }
+    if(shouldLog){
+      System.out.println("Final Weight of query >>>"+totalScore);
     }
     return totalScore;
   }
@@ -402,11 +407,14 @@ public class BM25SynonymReranker implements Reranker {
     float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,true);
 
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,true);
+    float v = boost * finalTFValue * finalIDFValue;
     if(shouldLog){
-      System.out.println("TF before and after >>>"+tfSStats.getTfValue()+"::::"+finalTFValue);
-      System.out.println("IDF before and after >>>"+idfStats.getIdfValue()+"::::"+finalIDFValue);
+      System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
+      System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
+      System.out.println("final Weight after expanssion "+tfSStats.getTerm()+":::"+v);
     }
-    return boost * finalTFValue* finalIDFValue;
+
+    return v;
   }
 
   private boolean isSynonym(String orig, String expanded) {
