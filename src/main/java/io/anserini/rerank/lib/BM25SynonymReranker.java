@@ -76,7 +76,7 @@ public class BM25SynonymReranker implements Reranker {
 
     IndexSearcher searcher = context.getIndexSearcher();
     Query query = context.getQuery();
-
+    List queryTokens = context.getQueryTokens();
     String queryText = context.getQueryText();
     Map<String, List<TermScoreDetails>> allDocsSStats= new HashMap<>();
     Map<Integer,Float> computedScores=new HashMap<>();
