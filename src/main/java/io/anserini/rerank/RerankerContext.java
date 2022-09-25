@@ -111,9 +111,9 @@ public class RerankerContext<K> {
         for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
           String expansionTerm = weightedExpansionTerm.getExpansionTerm();
           String stem1=findStemWord( expansionTerm );
-          System.out.println(expansionTerm+":::"+stem1);
+          //System.out.println(expansionTerm+":::"+stem1);
           String stem2=findStemWord( synonym );
-          System.out.println(synonym+"::"+stem2);
+          //System.out.println(synonym+"::"+stem2);
           if(stem1.equalsIgnoreCase( stem2 )){
             return weightedExpansionTerm.getWeight();
           }
