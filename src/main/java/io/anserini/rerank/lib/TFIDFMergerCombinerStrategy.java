@@ -66,9 +66,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             allDocs.addAll(synonymsDocIds);
         }
         //TDO revisit this optimization
-        if(originalDocIds.size()==allDocs.size()){
-            return original.getIdfValue();
-        }
+
         if(shdLog){
             System.out.println("original Matching docs before and after >>"+original.getTerm()+"::"+originalDocIds.size()+":::"+allDocs.size());
         }
@@ -79,8 +77,14 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         double logValue=Math.log(value);
         float v = Double.valueOf( logValue ).floatValue();
         if(shdLog){
-            System.out.println(original.getTerm()+":::"+"IDF::"+original.getIdfValue()+":::"+"::"+v);
+            System.out.println(original.getTerm()+":::"+"IDF::"+original.getIdfValue()+":::"+"final ::"+v+"::orig size"+originalDocIds.size()+"::total size:"+allDocs.size());
+            System.out.println("Corpus >>>"+corpusSize);
         }
+
+        if(originalDocIds.size()==allDocs.size()){
+            return original.getIdfValue();
+        }
+
         return v;
 
     }
