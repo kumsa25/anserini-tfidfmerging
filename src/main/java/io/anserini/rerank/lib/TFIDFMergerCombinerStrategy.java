@@ -65,6 +65,10 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             Set<String> synonymsDocIds = IDFStats.getDocId(idfStats);
             allDocs.addAll(synonymsDocIds);
         }
+        //TDO revisit this optimization
+        if(originalDocIds.size()==allDocs.size()){
+            return original.getIdfValue();
+        }
         if(shdLog){
             System.out.println("original Matching docs before and after >>"+original.getTerm()+"::"+originalDocIds.size()+":::"+allDocs.size());
         }

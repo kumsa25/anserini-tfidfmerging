@@ -98,6 +98,7 @@ public class BM25SynonymReranker implements Reranker {
         if(queryText.toLowerCase().indexOf( "airb" ) !=-1 &&  actualDocId.equalsIgnoreCase( "WSJ871218-0126"  )){
 
           shdLog=true;
+          System.out.println("Original Query explanation stats is >>"+allDocsSStats);
         }
         float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
 
@@ -210,7 +211,6 @@ public class BM25SynonymReranker implements Reranker {
             if(actualDocId.equalsIgnoreCase( "WSJ871218-0126" )){
               System.out.println("explanation for WSJ871218-0126 is "+explain);
               System.out.println("synonyms map >>>>"+allStats);
-              System.out.println("for docid "+actualDocId+":::Weight>>>"+weight);
             }
           }
 
@@ -342,7 +342,7 @@ public class BM25SynonymReranker implements Reranker {
 
   public float createWeight(float boost, String docId,Map<String, List<TermScoreDetails>> originalScoredDocsStats,List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_){
     boolean shouldLog=false;
-    if(context_.getQueryText().equals("Airbus Subsidies") && docId.equalsIgnoreCase( "WSJ871218-0126" )){
+    if(context_.getQueryText().equalsIgnoreCase("Airbus Subsidies") && docId.equalsIgnoreCase( "WSJ871218-0126" )){
       shouldLog=true;
     }
     List<TermScoreDetails> termScoreDetailsList = originalScoredDocsStats.get(docId);
@@ -357,6 +357,10 @@ public class BM25SynonymReranker implements Reranker {
 
 
       IDFStats idfStats = termScoreDetails.getIdfStats();
+      if(shouldLog){
+        System.out.println("before merge::"+docId+":::"+tfSStats+"::::"+idfStats);
+        System.out.println(" before merge docId >>"+docId+"::::"+expandedScoredDocsStats);
+      }
 
       float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_,docId);
       if(shouldLog){
