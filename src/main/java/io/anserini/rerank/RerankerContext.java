@@ -97,7 +97,19 @@ public class RerankerContext<K> {
       }
 
     }
+    return findSynRootWord( original,synonymsTF_.getTerm() );
+  }
+
+  private static float findSynRootWord( String original_, String synonym )
+  {
+    List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( original_ );
+    for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
+      if(weightedExpansionTerm.getExpansionTerm().toLowerCase().startsWith( synonym )){
+        return weightedExpansionTerm.getWeight();
+      }
+    }
     return 0;
+
   }
 
   public IndexSearcher getIndexSearcher() {
@@ -191,4 +203,6 @@ public class RerankerContext<K> {
     }
     return null;
   }
+
+
 }
