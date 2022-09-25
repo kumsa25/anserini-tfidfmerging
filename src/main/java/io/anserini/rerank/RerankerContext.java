@@ -103,7 +103,12 @@ public class RerankerContext<K> {
   private static float findSynRootWord( String original_, String synonym )
   {
     String root=findRootWord( original_ );
+
     List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( root );
+    if(weightedExpansionTerms==null){
+      System.out.println("Weight was found to be zero >>>"+original_+"::"+synonym+":::"+root);
+      return 0;
+    }
     for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
       if(weightedExpansionTerm.getExpansionTerm().toLowerCase().startsWith( synonym )){
         return weightedExpansionTerm.getWeight();
