@@ -20,6 +20,7 @@ import io.anserini.rerank.lib.TFStats;
 import io.anserini.search.SearchArgs;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -102,20 +103,32 @@ public class RerankerContext<K> {
 
   private static float findSynRootWord( String original_, String synonym )
   {
-    String root=findRootWord( original_ );
-
-    List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( root );
-    if(weightedExpansionTerms==null){
-      System.out.println("Weight was found to be zero >>>"+original_+"::"+synonym+":::"+root);
-      return 0;
-    }
-    for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
-      if(weightedExpansionTerm.getExpansionTerm().toLowerCase().startsWith( synonym )){
-        return weightedExpansionTerm.getWeight();
+    Set<String> strings = expansionWords.keySet();
+    for(String  str:strings){
+      String stem=findStemWord(str);
+      if(stem.equalsIgnoreCase( original_ )){
+        List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( str );
+        for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
+          String expansionTerm = weightedExpansionTerm.getExpansionTerm();
+          String stem1=findStemWord( expansionTerm );
+          System.out.println(expansionTerm+":::"+stem1);
+          String stem2=findStemWord( synonym );
+          System.out.println(synonym+"::"+stem2);
+          if(stem1.equalsIgnoreCase( stem2 )){
+            return weightedExpansionTerm.getWeight();
+          }
+        }
       }
     }
     return 0;
 
+  }
+
+  public static String findStemWord(String word){
+    PorterStemmer stem = new PorterStemmer();
+    stem.setCurrent(word);
+    stem.stem();
+    return stem.getCurrent();
   }
 
   public IndexSearcher getIndexSearcher() {
