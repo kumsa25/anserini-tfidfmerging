@@ -89,17 +89,19 @@ public class BM25SynonymReranker implements Reranker {
         docIdVsDocument.putIfAbsent( queryText+":"+actualDocId, doc);
       //  System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
-        Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId);
-     //   System.out.println("All stats >>>"+allStats);
-     //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
-        allDocsSStats.putAll(allStats);
         boolean shdLog=false;
-
         if(queryText.toLowerCase().indexOf( "airb" ) !=-1 &&  actualDocId.equalsIgnoreCase( "WSJ871218-0126"  )){
 
           shdLog=true;
           System.out.println("Original Query explanation stats is >>"+allDocsSStats);
         }
+        Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
+     //   System.out.println("All stats >>>"+allStats);
+     //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
+        allDocsSStats.putAll(allStats);
+
+
+
         float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
 
         computedScores.put(id,weight);
@@ -195,7 +197,7 @@ public class BM25SynonymReranker implements Reranker {
         try {
           Explanation explain = searcher.explain(query, docid);
 
-          Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId);
+          Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
          // System.out.println("allStats for synonyms match >>>"+allStats);
         //  System.out.println("All stats >>>"+allStats);
        //   System.out.println("explain >>>" + docid + "::actualDOc::"+actualDocId+"::" + explain);
@@ -466,7 +468,7 @@ public class BM25SynonymReranker implements Reranker {
     return new TFStats(term,tfValue,freqExpl.getValue().floatValue(),K1_termSaturation,b_length_normalization,dl_lengthOfField,avgdl_avgLengthofField);
   }
 
-  private IDFStats extractIDFDetails( String term, Explanation idfExplanation, Explanation[] termSpecificExplanation_ ) {
+  private IDFStats extractIDFDetails( String term, Explanation idfExplanation, Explanation[] termSpecificExplanation_, boolean shdlog_ ) {
     float idfValue=0;
     float boost=1;
     Explanation[] details = null;
@@ -490,13 +492,16 @@ public class BM25SynonymReranker implements Reranker {
     float numbOfDocsWithThatTerm=numbOfDocsWithThatTermExp.getValue().floatValue();
     float totalnumbOfDocsWithField=totalnumbOfDocsWithFieldExpl.getValue().floatValue();
 
-    float corpusSize=totalnumbOfDocsWithField
-    float docIdsSize=numbOfDocsWithThatTerm
+    float corpusSize=totalnumbOfDocsWithField;
+    float docIdsSize=numbOfDocsWithThatTerm;
     //log(1 + (N - n + 0.5) / (n + 0.5))
     double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
     double logValue=Math.log(value);
     float v = Double.valueOf( logValue ).floatValue();
-    System.out.println("COMPUTED IDF >>"+term+"::::"+v+"::"+idfValue);
+    if(shdlog_)
+    {
+      System.out.println( "COMPUTED IDF >>" + term + "::::" + v + "::" + idfValue + "corpusSize:::" + corpusSize + ":::docIdsSize::" + docIdsSize );
+    }
 
 
 
@@ -505,7 +510,7 @@ public class BM25SynonymReranker implements Reranker {
 
   }
 
-  private Map<String, List<TermScoreDetails>> extractStatsFromExplanation(Explanation explanation, Query query,RerankerContext context_,String actaulDocId) {
+  private Map<String, List<TermScoreDetails>> extractStatsFromExplanation(Explanation explanation, Query query,RerankerContext context_,String actaulDocId,boolean shdlog) {
     Number docTotalWeight = explanation.getValue();
     Map<String, List<TermScoreDetails>> docIdvsAlltermsScoreDetails= new HashMap<>();
     Explanation[] details=null;
@@ -528,7 +533,7 @@ public class BM25SynonymReranker implements Reranker {
         Number eachTerrmscore = termScoreExplanation.getValue();
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
         Explanation idfExplanation=termSpecificExplanation[0];
-        IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
+        IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation,shdlog);
         IDFStats.setDocid(term,actaulDocId);
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
