@@ -489,6 +489,18 @@ public class BM25SynonymReranker implements Reranker {
     Explanation totalnumbOfDocsWithFieldExpl=details[1];
     float numbOfDocsWithThatTerm=numbOfDocsWithThatTermExp.getValue().floatValue();
     float totalnumbOfDocsWithField=totalnumbOfDocsWithFieldExpl.getValue().floatValue();
+
+    float corpusSize=totalnumbOfDocsWithField
+    float docIdsSize=numbOfDocsWithThatTerm
+    //log(1 + (N - n + 0.5) / (n + 0.5))
+    double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
+    double logValue=Math.log(value);
+    float v = Double.valueOf( logValue ).floatValue();
+    System.out.println("COMPUTED IDF >>"+term+"::::"+v+"::"+idfValue);
+
+
+
+
     return new IDFStats(term,idfValue,numbOfDocsWithThatTerm,totalnumbOfDocsWithField,boost);
 
   }
