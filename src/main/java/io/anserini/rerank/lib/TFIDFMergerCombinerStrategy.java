@@ -83,6 +83,8 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
         if(originalDocIds.size()==allDocs.size()){
             return original.getIdfValue();
+        }else{
+            System.out.println("size different >>>"+originalDocIds.size()+"::"+allDocs.size()+"::idf::"+original.getIdfValue()+"::"+v);
         }
 
         return v;
