@@ -77,17 +77,18 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         double logValue=Math.log(value);
         float v = Double.valueOf( logValue ).floatValue();
         if(shdLog){
-            System.out.println(original.getTerm()+":::"+"IDF::"+original.getIdfValue()+":::"+"final ::"+v+"::orig size"+originalDocIds.size()+"::total size:"+allDocs.size());
-            System.out.println("Corpus >>>"+corpusSize);
+          //  System.out.println(original.getTerm()+":::"+"IDF::"+original.getIdfValue()+":::"+"final ::"+v+"::orig size"+originalDocIds.size()+"::total size:"+allDocs.size());
+           // System.out.println("Corpus >>>"+corpusSize);
         }
 
-        if(originalDocIds.size()==allDocs.size()){
+        /*if(originalDocIds.size()==allDocs.size()){
             return original.getIdfValue();
         }else{
-            System.out.println("size different >>>"+originalDocIds.size()+"::"+allDocs.size()+"::idf::"+original.getIdfValue()+"::"+v);
+           // System.out.println("size different >>>"+originalDocIds.size()+"::"+allDocs.size()+"::idf::"+original.getIdfValue()+"::"+v);
         }
 
-        return v;
+        return v;*/
+        return original.getIdfValue();
 
     }
 
