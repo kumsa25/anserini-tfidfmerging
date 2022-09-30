@@ -86,7 +86,7 @@ public class BM25SynonymReranker implements Reranker {
         Document doc = searcher.doc( id );
         String actualDocId = doc.get( "id" );
         Object queryId = context.getQueryId();
-        docIdVsDocument.putIfAbsent( queryText+":"+actualDocId, doc);
+        docIdVsDocument.put( queryText+":"+actualDocId, doc);
       //  System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
         boolean shdLog=false;
@@ -191,8 +191,7 @@ public class BM25SynonymReranker implements Reranker {
         if(shdLog){
           System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
         }
-
-        docIdVsDocument.putIfAbsent(context.getQueryText()+":"+ actualDocId, doc1);
+        docIdVsDocument.put(expandedQueryTerms+":"+ actualDocId, doc1);
       //  System.out.println("actualDoc >>"+actualDocId);
         try {
           Explanation explain = searcher.explain(query, docid);
