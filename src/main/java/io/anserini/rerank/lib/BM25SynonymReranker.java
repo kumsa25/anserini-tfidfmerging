@@ -135,7 +135,6 @@ public class BM25SynonymReranker implements Reranker {
     stringFloatMap.entrySet()
         .stream()
         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-        .limit( 50 )
         .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
   //  System.out.println("reverseSortedMap>>>>"+reverseSortedMap);
