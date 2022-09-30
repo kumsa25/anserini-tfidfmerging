@@ -62,6 +62,7 @@ public class BM25SynonymReranker implements Reranker {
   private final String field;
   private final boolean outputQuery;
   private Map<String,Document> docIdVsDocument= new ConcurrentHashMap<>();
+  private Map<String,String> expandedQueryMap= new HashMap<>();
 
   public BM25SynonymReranker(Analyzer analyzer, String field, boolean outputQuery) {
     this.analyzer = analyzer;
@@ -152,7 +153,15 @@ public class BM25SynonymReranker implements Reranker {
     int index=0;
     while(iterator.hasNext()){
       String docid = iterator.next();
-      Document doc = docIdVsDocument.get(context.getQueryText()+":"+ docid );
+      Document doc = docIdVsDocument.remove(context.getQueryText()+":"+ docid );
+      if(doc==null){
+        String s = expandedQueryMap.get( context.getQueryText() );
+        if(s !=null)
+        {
+
+          doc = docIdVsDocument.remove( s + ":" + docid );
+        }
+      }
       scoredDocs.documents[index++]=doc;
     }
  //   docIdVsDocument.clear();
@@ -164,6 +173,7 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
+    expandedQueryMap.put( context.getQueryText(),expandedQueryTerms);
 
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
 
