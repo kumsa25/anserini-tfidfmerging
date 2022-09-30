@@ -62,7 +62,6 @@ public class BM25SynonymReranker implements Reranker {
   private final String field;
   private final boolean outputQuery;
   private Map<String,Document> docIdVsDocument= new ConcurrentHashMap<>();
-  private Map<String,String> expandedQueryMap= new HashMap<>();
 
   public BM25SynonymReranker(Analyzer analyzer, String field, boolean outputQuery) {
     this.analyzer = analyzer;
@@ -87,8 +86,8 @@ public class BM25SynonymReranker implements Reranker {
         Document doc = searcher.doc( id );
         String actualDocId = doc.get( "id" );
         Object queryId = context.getQueryId();
-        docIdVsDocument.put( queryText+":"+actualDocId, doc);
-      //  System.out.println("Query is >>>"+queryText);
+        docIdVsDocument.putIfAbsent( queryText+":"+actualDocId, doc);
+        //  System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
         boolean shdLog=false;
         if(queryText.toLowerCase().indexOf( "airb" ) !=-1 &&  actualDocId.equalsIgnoreCase( "WSJ871218-0126"  )){
@@ -97,8 +96,8 @@ public class BM25SynonymReranker implements Reranker {
           System.out.println("Original Query explanation stats is >>"+allDocsSStats);
         }
         Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
-     //   System.out.println("All stats >>>"+allStats);
-     //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
+        //   System.out.println("All stats >>>"+allStats);
+        //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
         allDocsSStats.putAll(allStats);
 
 
@@ -119,7 +118,7 @@ public class BM25SynonymReranker implements Reranker {
     System.out.println("ALL DOCS stats >>"+allDocsSStats);*/
 
     if(context.getSearchArgs().no_rerank==true){
-   //   System.out.println("reranking is false. So, returning without reranking using queryExpansion");
+      //   System.out.println("reranking is false. So, returning without reranking using queryExpansion");
       return docs;
     }
     Map<String, Float> stringFloatMap =null;
@@ -138,7 +137,7 @@ public class BM25SynonymReranker implements Reranker {
         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
         .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
-  //  System.out.println("reverseSortedMap>>>>"+reverseSortedMap);
+    //  System.out.println("reverseSortedMap>>>>"+reverseSortedMap);
 
     ScoredDocuments scoredDocs= new ScoredDocuments();
     scoredDocs.ids = new int[reverseSortedMap.size()];
@@ -153,18 +152,10 @@ public class BM25SynonymReranker implements Reranker {
     int index=0;
     while(iterator.hasNext()){
       String docid = iterator.next();
-      Document doc = docIdVsDocument.remove(context.getQueryText()+":"+ docid );
-      if(doc==null){
-        String s = expandedQueryMap.get( context.getQueryText() );
-        if(s !=null)
-        {
-
-          doc = docIdVsDocument.remove( s + ":" + docid );
-        }
-      }
+      Document doc = docIdVsDocument.get(context.getQueryText()+":"+ docid );
       scoredDocs.documents[index++]=doc;
     }
- //   docIdVsDocument.clear();
+    //   docIdVsDocument.clear();
     return scoredDocs;
   }
 
@@ -173,7 +164,6 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
-    expandedQueryMap.put( context.getQueryText(),expandedQueryTerms);
 
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
 
@@ -183,7 +173,7 @@ public class BM25SynonymReranker implements Reranker {
       ScoredDocuments scoredDocuments=ScoredDocuments.fromTopDocs( topDocs,context.getIndexSearcher() );
       ScoreDoc[] docs = topDocs.scoreDocs;
       if(docs.length==0){
-      //  System.out.println("NO MATCH after expansion "+queryText);
+        //  System.out.println("NO MATCH after expansion "+queryText);
       }
 
       Map<String, List<TermScoreDetails>> synonymsScoredDocsStats= new HashMap<>();
@@ -201,22 +191,23 @@ public class BM25SynonymReranker implements Reranker {
         if(shdLog){
           System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
         }
-        docIdVsDocument.put(expandedQueryTerms+":"+ actualDocId, doc1);
-      //  System.out.println("actualDoc >>"+actualDocId);
+
+        docIdVsDocument.putIfAbsent(context.getQueryText()+":"+ actualDocId, doc1);
+        //  System.out.println("actualDoc >>"+actualDocId);
         try {
           Explanation explain = searcher.explain(query, docid);
 
           Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
-         // System.out.println("allStats for synonyms match >>>"+allStats);
-        //  System.out.println("All stats >>>"+allStats);
-       //   System.out.println("explain >>>" + docid + "::actualDOc::"+actualDocId+"::" + explain);
+          // System.out.println("allStats for synonyms match >>>"+allStats);
+          //  System.out.println("All stats >>>"+allStats);
+          //   System.out.println("explain >>>" + docid + "::actualDOc::"+actualDocId+"::" + explain);
           synonymsScoredDocsStats.putAll(allStats);
 
 
 
           float weight=createWeight(1,actualDocId,synonymsScoredDocsStats,shdLog);
           computedScores.put(docid,weight);
-        //  System.out.println("After expansion >>>"+computedScores);
+          //  System.out.println("After expansion >>>"+computedScores);
 
           if(shdLog){
             if(actualDocId.equalsIgnoreCase( "WSJ871218-0126" )){
@@ -247,7 +238,7 @@ public class BM25SynonymReranker implements Reranker {
     for(String token: queryTokens){
       boolean log=false;
       if("airbus subsidies".toLowerCase().indexOf( token.toLowerCase() ) !=-1){
-           log=true;
+        log=true;
       }
       List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(token);
       if(log){
@@ -288,7 +279,7 @@ public class BM25SynonymReranker implements Reranker {
     Set<String> originalDocs = originalScoredDocsStats.keySet();
     Set<String> expandedDocs = synonymsScoredDocsStats.keySet();
     if(originalDocs.equals( expandedDocs )){
-  //    System.out.println("original docs and expanded are same");
+      //    System.out.println("original docs and expanded are same");
     }
     Set<String> rankedDocs= new HashSet<>(originalDocs);
     rankedDocs.addAll(expandedDocs);
@@ -299,14 +290,14 @@ public class BM25SynonymReranker implements Reranker {
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
         if(synonymsTermScoredDetails !=null  && !synonymsTermScoredDetails.isEmpty() ){
           queryIdsInSamedDoc.add( context_.getQueryId() );
-        //  System.out.println("synonym word found in the same doc id "+docid+":::"+context_.getQueryId()+":::"+context_.getQueryText());
+          //  System.out.println("synonym word found in the same doc id "+docid+":::"+context_.getQueryId()+":::"+context_.getQueryText());
         }
 
         float weight = createWeight( 1, docid, originalScoredDocsStats, synonymsTermScoredDetails, context_ );
         finalComputedScores.put( docid, weight );
       }else{
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
-       // System.out.println("synonym word found in the different doc id>>>>>"+docid);
+        // System.out.println("synonym word found in the different doc id>>>>>"+docid);
 
         float weight=0;
         for(TermScoreDetails termScoreDetails: synonymsTermScoredDetails){
@@ -320,7 +311,7 @@ public class BM25SynonymReranker implements Reranker {
 
     }
     String collect = queryIdsInSamedDoc.stream().map( id -> id.toString() ).collect( Collectors.joining( ", " ) );
-   // LOG.info( "Doc ids that had both original query and expansion termms ::"+collect );
+    // LOG.info( "Doc ids that had both original query and expansion termms ::"+collect );
     //  System.out.println("Final final score >>>>"+finalComputedScores);
     return finalComputedScores;
   }
@@ -407,18 +398,14 @@ public class BM25SynonymReranker implements Reranker {
         if(shouldLog){
           System.out.println("Are synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
         }
-     //   System.out.println("found synonym for "+tfSStats.getTerm());
+        //   System.out.println("found synonym for "+tfSStats.getTerm());
         TFStats expandedTFStat = next.getTfSStats();
         IDFStats expandedIDFStat = next.getIdfStats();
         List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( tfSStats.getTerm() );
 
-      //  System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
+        //  System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()
-            .filter( expansionTerm -> {
-              String expansionTerm1 = expansionTerm.getExpansionTerm();
-              String term = next.getTerm();
-              return RerankerContext.findStemWord(expansionTerm1).equalsIgnoreCase( RerankerContext.findStemWord(term ));
-            } ).findFirst();
+            .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( next.getTerm() ) ).findFirst();
         if(first.isPresent()){
           expandedTFStat.setAssignedweight( first.get().getWeight() );
           expandedIDFStat.setAssignedweight( first.get().getWeight() );
@@ -488,7 +475,7 @@ public class BM25SynonymReranker implements Reranker {
     Explanation[] details = null;
 
     for(Explanation explanation: termSpecificExplanation_){
-     // LOG.error( "Explanation is >>>"+explanation );
+      // LOG.error( "Explanation is >>>"+explanation );
       if(explanation.getDescription().indexOf( "boost" ) !=-1){
         boost=explanation.getValue().floatValue();
       }
