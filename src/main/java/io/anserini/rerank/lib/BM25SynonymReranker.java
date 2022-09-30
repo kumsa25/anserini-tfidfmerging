@@ -104,6 +104,9 @@ public class BM25SynonymReranker implements Reranker {
 
 
         float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
+        if(weight==10.464700 && queryText.toLowerCase().indexOf( "airb" ) !=-1 ){
+          System.out.println("Sanjeev found the doc id >>>"+actualDocId);
+        }
 
         computedScores.put(id,weight);
 
