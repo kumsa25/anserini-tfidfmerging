@@ -544,8 +544,9 @@ public class BM25SynonymReranker implements Reranker {
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
         termScoreDetailsList.add(termScoreDetails);
       }
-      docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);
+
     }
+    docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);
     return docIdvsAlltermsScoreDetails;
   }
 
