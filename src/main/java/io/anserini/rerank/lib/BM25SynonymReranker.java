@@ -405,13 +405,18 @@ public class BM25SynonymReranker implements Reranker {
 
       //  System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()
-            .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( next.getTerm() ) ).findFirst();
+            .filter( expansionTerm -> {
+              String expansionTerm1 = expansionTerm.getExpansionTerm();
+              String term = next.getTerm();
+              return RerankerContext.findStemWord(expansionTerm1).equalsIgnoreCase( RerankerContext.findStemWord(term ));
+            } ).findFirst();
         if(first.isPresent()){
           expandedTFStat.setAssignedweight( first.get().getWeight() );
           expandedIDFStat.setAssignedweight( first.get().getWeight() );
+          expandedTFSStatsList.add( expandedTFStat );
+          expandedIDFStatsList.add( expandedIDFStat );
         }
-        expandedTFSStatsList.add( expandedTFStat );
-        expandedIDFStatsList.add( expandedIDFStat );
+
       }else{
         if(shouldLog){
           System.out.println("are not  synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
