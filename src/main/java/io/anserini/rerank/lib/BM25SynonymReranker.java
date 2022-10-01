@@ -57,6 +57,8 @@ import java.util.stream.Collectors;
 
 public class BM25SynonymReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger( BM25SynonymReranker.class);
+  public static final String DOC_ID_DEBUG = "WSJ861210-0110";
+  public static final String QUERY_DEBUG = "south";
 
   private final Analyzer analyzer;
   private final String field;
@@ -90,7 +92,8 @@ public class BM25SynonymReranker implements Reranker {
         //  System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
         boolean shdLog=false;
-        if(queryText.toLowerCase().indexOf( "airb" ) !=-1 &&  actualDocId.equalsIgnoreCase( "WSJ871218-0126"  )){
+        if(queryText.toLowerCase().indexOf( QUERY_DEBUG) !=-1 &&  actualDocId.equalsIgnoreCase( DOC_ID_DEBUG )){
+          System.out.println("Queery test >>>"+queryText);
 
           shdLog=true;
           System.out.println("Original Query explanation stats is >>"+allDocsSStats);
@@ -185,7 +188,7 @@ public class BM25SynonymReranker implements Reranker {
         int docid=doc.doc;
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
-        if(queryText.toLowerCase().indexOf( "airb" ) !=-1 && actualDocId.equalsIgnoreCase( "WSJ871218-0126" )){
+        if(queryText.toLowerCase().indexOf( QUERY_DEBUG ) !=-1 && actualDocId.equalsIgnoreCase( DOC_ID_DEBUG )){
           shdLog=true;
         }
 
@@ -211,7 +214,7 @@ public class BM25SynonymReranker implements Reranker {
           //  System.out.println("After expansion >>>"+computedScores);
 
           if(shdLog){
-            if(actualDocId.equalsIgnoreCase( "WSJ871218-0126" )){
+            if(actualDocId.equalsIgnoreCase( DOC_ID_DEBUG)){
               System.out.println("explanation for WSJ871218-0126 is "+explain);
               System.out.println("synonyms map >>>>"+allStats);
             }
@@ -238,7 +241,7 @@ public class BM25SynonymReranker implements Reranker {
     StringBuffer buffer= new StringBuffer();
     for(String token: queryTokens){
       boolean log=false;
-      if("airbus subsidies".toLowerCase().indexOf( token.toLowerCase() ) !=-1){
+      if( QUERY_DEBUG.toLowerCase().indexOf( token.toLowerCase() ) !=-1){
         log=true;
       }
       List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(token);
@@ -359,7 +362,7 @@ public class BM25SynonymReranker implements Reranker {
 
   public float createWeight(float boost, String docId,Map<String, List<TermScoreDetails>> originalScoredDocsStats,List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_){
     boolean shouldLog=false;
-    if(context_.getQueryText().equalsIgnoreCase("Airbus Subsidies") && docId.equalsIgnoreCase( "WSJ871218-0126" )){
+    if(context_.getQueryText().equalsIgnoreCase(QUERY_DEBUG) && docId.equalsIgnoreCase( DOC_ID_DEBUG )){
       shouldLog=true;
     }
     List<TermScoreDetails> termScoreDetailsList = originalScoredDocsStats.get(docId);
@@ -398,7 +401,7 @@ public class BM25SynonymReranker implements Reranker {
       expandedScoredDocsStats= new ArrayList<>();
     }
     boolean shouldLog=false;
-    if(context_.getQueryText().equals("Airbus Subsidies") && docId.equalsIgnoreCase( "WSJ871218-0126" )){
+    if(context_.getQueryText().equals(QUERY_DEBUG) && docId.equalsIgnoreCase( "WSJ871218-0126" )){
       shouldLog=true;
     }
     Iterator<TermScoreDetails> iterator = expandedScoredDocsStats.iterator();
