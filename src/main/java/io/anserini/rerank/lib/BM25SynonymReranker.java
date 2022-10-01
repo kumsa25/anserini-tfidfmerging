@@ -82,11 +82,17 @@ public class BM25SynonymReranker implements Reranker {
     String queryText = context.getQueryText();
     Map<String, List<TermScoreDetails>> allDocsSStats= new HashMap<>();
     Map<Integer,Float> computedScores=new HashMap<>();
+    float[] scores = docs.scores;
     int[] ids = docs.ids;
+    int _index=0;
     for (int id : ids) {
       try {
         Document doc = searcher.doc( id );
+
         String actualDocId = doc.get( "id" );
+        if(context.getQueryText().equalsIgnoreCase( QUERY_DEBUG ) && actualDocId.equalsIgnoreCase(DOC_ID_DEBUG )){
+          System.out.println("Original BM 25 >>"+actualDocId+":::"+scores[_index++]);
+        }
         Object queryId = context.getQueryId();
         docIdVsDocument.putIfAbsent( queryText+":"+actualDocId, doc);
         //  System.out.println("Query is >>>"+queryText);
@@ -402,7 +408,7 @@ public class BM25SynonymReranker implements Reranker {
       totalScore+=termWeight;
     }
     if(context_.getQueryText().equalsIgnoreCase(QUERY_DEBUG)){
-      System.out.println("Final Weight of query >>>"+docId+totalScore);
+      System.out.println("Final Weight of query >>>"+docId+"::"+totalScore);
     }
     return totalScore;
   }
