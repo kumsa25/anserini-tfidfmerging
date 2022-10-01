@@ -373,7 +373,7 @@ public class BM25SynonymReranker implements Reranker {
 
   public float createWeight(float boost, String docId,Map<String, List<TermScoreDetails>> originalScoredDocsStats,List<TermScoreDetails> expandedScoredDocsStats,RerankerContext context_){
     boolean shouldLog=false;
-    if(context_.getQueryText().equalsIgnoreCase(QUERY_DEBUG) && docId.equalsIgnoreCase( DOC_ID_DEBUG )){
+    if(context_.getQueryText().equalsIgnoreCase(QUERY_DEBUG)){
       shouldLog=true;
     }
     List<TermScoreDetails> termScoreDetailsList = originalScoredDocsStats.get(docId);
@@ -401,7 +401,7 @@ public class BM25SynonymReranker implements Reranker {
       }
       totalScore+=termWeight;
     }
-    if(context_.getQueryText().equalsIgnoreCase(QUERY_DEBUG)){
+    if(shouldLog){
       System.out.println("Final Weight of query >>>"+docId+totalScore);
     }
     return totalScore;
