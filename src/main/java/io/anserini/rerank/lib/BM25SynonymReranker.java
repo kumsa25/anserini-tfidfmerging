@@ -102,9 +102,9 @@ public class BM25SynonymReranker implements Reranker {
 
 
 
-        float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
+        /*float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
 
-        computedScores.put(id,weight);
+        computedScores.put(id,weight);*/
 
       } catch (IOException e) {
         e.printStackTrace();
@@ -302,8 +302,9 @@ public class BM25SynonymReranker implements Reranker {
         float weight=0;
         for(TermScoreDetails termScoreDetails: synonymsTermScoredDetails){
           float tfValue = termScoreDetails.getTfSStats().getTfValue();
-          float idf=termScoreDetails.getIdfStats().getIdfValue();
-          weight+=tfValue*idf;
+          IDFStats idfStats = termScoreDetails.getIdfStats();
+          float idf= idfStats.getIdfValue();
+          weight+=idfStats.getBoost()*tfValue*idf;
         }
         finalComputedScores.put( docid, weight );
 
@@ -409,9 +410,10 @@ public class BM25SynonymReranker implements Reranker {
         if(first.isPresent()){
           expandedTFStat.setAssignedweight( first.get().getWeight() );
           expandedIDFStat.setAssignedweight( first.get().getWeight() );
+          expandedTFSStatsList.add( expandedTFStat );
+          expandedIDFStatsList.add( expandedIDFStat );
         }
-        expandedTFSStatsList.add( expandedTFStat );
-        expandedIDFStatsList.add( expandedIDFStat );
+
       }else{
         if(shouldLog){
           System.out.println("are not  synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
@@ -423,7 +425,7 @@ public class BM25SynonymReranker implements Reranker {
     float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,shouldLog);
 
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,shouldLog);
-    float v = boost * finalTFValue * finalIDFValue;
+    float v = idfStats.getBoost() * finalTFValue * finalIDFValue;
     if(shouldLog){
       System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
       System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
@@ -540,8 +542,9 @@ public class BM25SynonymReranker implements Reranker {
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
         termScoreDetailsList.add(termScoreDetails);
       }
-      docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);
+
     }
+    docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);
     return docIdvsAlltermsScoreDetails;
   }
 
