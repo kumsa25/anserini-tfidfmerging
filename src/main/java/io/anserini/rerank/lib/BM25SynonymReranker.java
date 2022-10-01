@@ -81,21 +81,12 @@ public class BM25SynonymReranker implements Reranker {
     Map<String, List<TermScoreDetails>> allDocsSStats= new HashMap<>();
     Map<Integer,Float> computedScores=new HashMap<>();
     int[] ids = docs.ids;
-    int _index=0;
     for (int id : ids) {
       try {
         Document doc = searcher.doc( id );
-        float score = docs.scores[_index++];
-
-
         String actualDocId = doc.get( "id" );
-        if(queryText.toLowerCase().indexOf( "airb" ) !=-1){
-          System.out.println("Printing original scores >>>"+score+":::"+actualDocId);
-        }
         Object queryId = context.getQueryId();
-
-        //docIdVsDocument.putIfAbsent( queryText+":"+actualDocId, doc);
-        docIdVsDocument.putIfAbsent( actualDocId, doc);
+        docIdVsDocument.putIfAbsent( queryText+":"+actualDocId, doc);
         //  System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
         boolean shdLog=false;
@@ -112,9 +103,6 @@ public class BM25SynonymReranker implements Reranker {
 
 
         float weight=createWeight(1,actualDocId,allDocsSStats,shdLog);
-        if(weight==10.464700 && queryText.toLowerCase().indexOf( "airb" ) !=-1 ){
-          System.out.println("Sanjeev found the doc id >>>"+actualDocId);
-        }
 
         computedScores.put(id,weight);
 
@@ -150,9 +138,6 @@ public class BM25SynonymReranker implements Reranker {
         .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
     //  System.out.println("reverseSortedMap>>>>"+reverseSortedMap);
-    if(queryText.toLowerCase().indexOf( "airb" ) !=-1){
-      System.out.println("Printing scores >>>"+stringFloatMap);
-    }
 
     ScoredDocuments scoredDocs= new ScoredDocuments();
     scoredDocs.ids = new int[reverseSortedMap.size()];
@@ -167,8 +152,7 @@ public class BM25SynonymReranker implements Reranker {
     int index=0;
     while(iterator.hasNext()){
       String docid = iterator.next();
-      //Document doc = docIdVsDocument.get(context.getQueryText()+":"+ docid );
-      Document doc = docIdVsDocument.get(docid );
+      Document doc = docIdVsDocument.get(context.getQueryText()+":"+ docid );
       scoredDocs.documents[index++]=doc;
     }
     //   docIdVsDocument.clear();
@@ -208,8 +192,7 @@ public class BM25SynonymReranker implements Reranker {
           System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
         }
 
-        //docIdVsDocument.putIfAbsent(context.getQueryText()+":"+ actualDocId, doc1);
-        docIdVsDocument.putIfAbsent(actualDocId, doc1);
+        docIdVsDocument.putIfAbsent(context.getQueryText()+":"+ actualDocId, doc1);
         //  System.out.println("actualDoc >>"+actualDocId);
         try {
           Explanation explain = searcher.explain(query, docid);
@@ -426,10 +409,9 @@ public class BM25SynonymReranker implements Reranker {
         if(first.isPresent()){
           expandedTFStat.setAssignedweight( first.get().getWeight() );
           expandedIDFStat.setAssignedweight( first.get().getWeight() );
-          expandedTFSStatsList.add( expandedTFStat );
-          expandedIDFStatsList.add( expandedIDFStat );
         }
-
+        expandedTFSStatsList.add( expandedTFStat );
+        expandedIDFStatsList.add( expandedIDFStat );
       }else{
         if(shouldLog){
           System.out.println("are not  synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
@@ -549,12 +531,6 @@ public class BM25SynonymReranker implements Reranker {
       Explanation[] eachTermScoreExplanation = eachTermExpInThatDoc.getDetails();
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();
-        if(context_.getQueryText().equalsIgnoreCase("Airbus Subsidies")){
-          System.out.println("Score is >>>"+eachTerrmscore+":::"+actaulDocId);
-          if(eachTerrmscore.floatValue()==10.464700){
-            System.out.println("FOund the required doc >>>"+actaulDocId);
-          }
-        }
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
         Explanation idfExplanation=termSpecificExplanation[0];
         IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation,shdlog);
@@ -564,9 +540,8 @@ public class BM25SynonymReranker implements Reranker {
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
         termScoreDetailsList.add(termScoreDetails);
       }
-
+      docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);
     }
-    docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);
     return docIdvsAlltermsScoreDetails;
   }
 
