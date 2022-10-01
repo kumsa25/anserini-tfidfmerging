@@ -168,6 +168,9 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
+    if(queryText.equalsIgnoreCase( "South African Sanctions" )){
+      System.out.println("Found the matching query >>>"+expandedQueryTerms);
+    }
 
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
 
@@ -189,6 +192,7 @@ public class BM25SynonymReranker implements Reranker {
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
         if(queryText.toLowerCase().indexOf( QUERY_DEBUG ) !=-1 && actualDocId.equalsIgnoreCase( DOC_ID_DEBUG )){
+          System.out.println("Expanded Queery terms >>>"+expandedQueryTerms);
           shdLog=true;
         }
 
