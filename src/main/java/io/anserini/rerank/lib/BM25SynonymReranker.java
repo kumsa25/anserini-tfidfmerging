@@ -90,11 +90,11 @@ public class BM25SynonymReranker implements Reranker {
         Document doc = searcher.doc( id );
 
         String actualDocId = doc.get( "id" );
-        if(context.getQueryText().equalsIgnoreCase( QUERY_DEBUG ) && actualDocId.equalsIgnoreCase(DOC_ID_DEBUG )){
+        if(context.getQueryText().equalsIgnoreCase( QUERY_DEBUG )){
           System.out.println("Original BM 25 >>"+actualDocId+":::"+scores[_index++]);
         }
         Object queryId = context.getQueryId();
-        docIdVsDocument.putIfAbsent( queryText+":"+actualDocId, doc);
+        docIdVsDocument.putIfAbsent( queryText+":"+actualDocId+":"+queryId, doc);
         //  System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
         boolean shdLog=false;
@@ -162,7 +162,8 @@ public class BM25SynonymReranker implements Reranker {
     int index=0;
     while(iterator.hasNext()){
       String docid = iterator.next();
-      Document doc = docIdVsDocument.get(context.getQueryText()+":"+ docid );
+      Object queryId = context.getQueryId();
+      Document doc = docIdVsDocument.get(context.getQueryText()+":"+ docid+":"+queryId );
       scoredDocs.documents[index++]=doc;
     }
     //   docIdVsDocument.clear();
@@ -205,7 +206,9 @@ public class BM25SynonymReranker implements Reranker {
           System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
         }
 
-        docIdVsDocument.putIfAbsent(context.getQueryText()+":"+ actualDocId, doc1);
+        Object queryId = context.getQueryId();
+
+        docIdVsDocument.putIfAbsent(context.getQueryText()+":"+ actualDocId+":"+queryId, doc1);
         //  System.out.println("actualDoc >>"+actualDocId);
         try {
           Explanation explain = searcher.explain(query, docid);
