@@ -175,7 +175,7 @@ public class RerankerContext<K> {
   public static boolean isSynonyms(String original, String expanded){
     //TODO revisit this
     if(original.equalsIgnoreCase( expanded )){
-      return true;
+      return false;
     }
     boolean shouldLog=false;
     if(original.equals( "airbu" )){

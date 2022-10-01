@@ -250,13 +250,26 @@ public class BM25SynonymReranker implements Reranker {
       }
       for(WeightedExpansionTerm weightedExpansionTerm: expansionTerms){
 
-        buffer.append(weightedExpansionTerm.getExpansionTerm());
+        String expansionTerm = weightedExpansionTerm.getExpansionTerm();
+        String uniqueTerms= getUniqueTerms(expansionTerm,buffer);
+        buffer.append( uniqueTerms );
         buffer.append(" ");
       }
     }
 
     return buffer.toString();
 
+  }
+
+  private String getUniqueTerms( String expansionTerm, StringBuffer buffer )
+  {
+    String[] s = expansionTerm.split( " " );
+    Set<String> uniqueterms= new HashSet<>();
+    for(String str : s){
+      uniqueterms.add( str );
+    }
+    return uniqueterms.stream().filter( str->buffer.indexOf( str )==-1 ).map(RerankerContext::findStemWord).
+        collect( Collectors.joining(" ") );
   }
 
   private List<String> findSynonyms(String queryText) {
