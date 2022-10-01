@@ -58,7 +58,7 @@ import java.util.stream.Collectors;
 public class BM25SynonymReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger( BM25SynonymReranker.class);
   public static final String DOC_ID_DEBUG = "WSJ861210-0110";
-  public static final String QUERY_DEBUG = "south";
+  public static final String QUERY_DEBUG = "South African Sanctions";
 
   private final Analyzer analyzer;
   private final String field;
@@ -168,7 +168,7 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
-    if(queryText.equalsIgnoreCase( "South African Sanctions" )){
+    if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
       System.out.println("Found the matching query >>>"+expandedQueryTerms);
     }
 
@@ -177,7 +177,6 @@ public class BM25SynonymReranker implements Reranker {
     try {
       TopDocs topDocs = searcher.search(query, context.getSearchArgs().hits);
 
-      ScoredDocuments scoredDocuments=ScoredDocuments.fromTopDocs( topDocs,context.getIndexSearcher() );
       ScoreDoc[] docs = topDocs.scoreDocs;
       if(docs.length==0){
         //  System.out.println("NO MATCH after expansion "+queryText);
@@ -206,11 +205,19 @@ public class BM25SynonymReranker implements Reranker {
           Explanation explain = searcher.explain(query, docid);
 
           Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
+          if(shdLog){
+            System.out.println("ALL STATS >>"+allStats);
+          }
           // System.out.println("allStats for synonyms match >>>"+allStats);
           //  System.out.println("All stats >>>"+allStats);
           //   System.out.println("explain >>>" + docid + "::actualDOc::"+actualDocId+"::" + explain);
+          if(shdLog && synonymsScoredDocsStats.containsKey( actualDocId )){
+            System.out.println("Why the key already exists >>>>");
+          }
           synonymsScoredDocsStats.putAll(allStats);
-
+          if(shdLog){
+            System.out.println("synonymsScoredDocsStats>>>"+synonymsScoredDocsStats);
+          }
 
 
           float weight=createWeight(1,actualDocId,synonymsScoredDocsStats,shdLog);
