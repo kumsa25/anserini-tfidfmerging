@@ -137,6 +137,9 @@ public class BM25SynonymReranker implements Reranker {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
+      System.out.println("FINAL MAP ::::"+stringFloatMap);
+    }
 
     LinkedHashMap<String, Float> reverseSortedMap = new LinkedHashMap<>();
 
