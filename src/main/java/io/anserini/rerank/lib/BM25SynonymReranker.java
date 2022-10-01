@@ -190,7 +190,7 @@ public class BM25SynonymReranker implements Reranker {
         int docid=doc.doc;
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
-        if(queryText.toLowerCase().indexOf( QUERY_DEBUG ) !=-1 && actualDocId.equalsIgnoreCase( DOC_ID_DEBUG )){
+        if(queryText.toLowerCase().indexOf( QUERY_DEBUG ) !=-1){
           System.out.println("Expanded Queery terms >>>"+expandedQueryTerms);
           shdLog=true;
         }
@@ -206,7 +206,7 @@ public class BM25SynonymReranker implements Reranker {
 
           Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
           if(shdLog){
-            System.out.println("ALL STATS >>"+allStats);
+            System.out.println("ALL STATS >>"+actualDocId+"::"+allStats);
           }
           // System.out.println("allStats for synonyms match >>>"+allStats);
           //  System.out.println("All stats >>>"+allStats);
@@ -216,7 +216,7 @@ public class BM25SynonymReranker implements Reranker {
           }
           synonymsScoredDocsStats.putAll(allStats);
           if(shdLog){
-            System.out.println("synonymsScoredDocsStats>>>"+synonymsScoredDocsStats);
+            System.out.println("synonymsScoredDocsStats>>>"+actualDocId+"::"+synonymsScoredDocsStats);
           }
 
 
