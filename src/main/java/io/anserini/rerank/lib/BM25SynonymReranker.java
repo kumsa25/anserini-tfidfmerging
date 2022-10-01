@@ -81,10 +81,17 @@ public class BM25SynonymReranker implements Reranker {
     Map<String, List<TermScoreDetails>> allDocsSStats= new HashMap<>();
     Map<Integer,Float> computedScores=new HashMap<>();
     int[] ids = docs.ids;
+    int _index=0;
     for (int id : ids) {
       try {
         Document doc = searcher.doc( id );
+        float score = docs.scores[_index++];
+
+
         String actualDocId = doc.get( "id" );
+        if(queryText.toLowerCase().indexOf( "airb" ) !=-1){
+          System.out.println("Printing original scores >>>"+score+":::"+actualDocId);
+        }
         Object queryId = context.getQueryId();
 
         //docIdVsDocument.putIfAbsent( queryText+":"+actualDocId, doc);
