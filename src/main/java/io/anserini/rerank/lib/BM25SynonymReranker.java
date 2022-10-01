@@ -142,7 +142,7 @@ public class BM25SynonymReranker implements Reranker {
         .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
     //  System.out.println("reverseSortedMap>>>>"+reverseSortedMap);
-    if(queryText.toLowerCase().indexOf( "airb" ){
+    if(queryText.toLowerCase().indexOf( "airb" ) !=-1){
       System.out.println("Printing scores >>>"+stringFloatMap);
     }
 
