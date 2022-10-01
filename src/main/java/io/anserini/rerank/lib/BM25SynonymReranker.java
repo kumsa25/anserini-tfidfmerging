@@ -401,8 +401,8 @@ public class BM25SynonymReranker implements Reranker {
       }
       totalScore+=termWeight;
     }
-    if(shouldLog){
-      System.out.println("Final Weight of query >>>"+totalScore);
+    if(context_.getQueryText().equalsIgnoreCase(QUERY_DEBUG)){
+      System.out.println("Final Weight of query >>>"+docId+totalScore);
     }
     return totalScore;
   }
