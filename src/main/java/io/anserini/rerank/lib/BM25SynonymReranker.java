@@ -336,14 +336,26 @@ public class BM25SynonymReranker implements Reranker {
         float weight = createWeight( 1, docid, originalScoredDocsStats, synonymsTermScoredDetails, context_ );
         finalComputedScores.put( docid, weight );
       }else{
+        boolean log=false;
+        if(context_.getQueryText().equalsIgnoreCase( QUERY_DEBUG )){
+          System.out.println(" NEW DOC ID FOUND >>>>"+docid);
+          log=true;
+        }
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
         // System.out.println("synonym word found in the different doc id>>>>>"+docid);
 
         float weight=0;
         for(TermScoreDetails termScoreDetails: synonymsTermScoredDetails){
-          float tfValue = termScoreDetails.getTfSStats().getTfValue();
+          TFStats tfSStats = termScoreDetails.getTfSStats();
+          float tfValue = tfSStats.getTfValue();
+
           IDFStats idfStats = termScoreDetails.getIdfStats();
           float idf= idfStats.getIdfValue();
+          if(log){
+            System.out.println(" NEW DOC  tf stats::"+docid+"::"+tfSStats);
+            System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
+            System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
+          }
           weight+=idfStats.getBoost()*tfValue*idf;
         }
         finalComputedScores.put( docid, weight );
