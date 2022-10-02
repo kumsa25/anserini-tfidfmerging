@@ -47,7 +47,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,6 +63,7 @@ public class BM25SynonymReranker implements Reranker {
   private final String field;
   private final boolean outputQuery;
   private Map<String,Document> docIdVsDocument= new ConcurrentHashMap<>();
+  private Map<String,Float> synonymsWeigh= new ConcurrentHashMap<>();
 
   public BM25SynonymReranker(Analyzer analyzer, String field, boolean outputQuery) {
     this.analyzer = analyzer;
@@ -277,7 +277,8 @@ public class BM25SynonymReranker implements Reranker {
       for(WeightedExpansionTerm weightedExpansionTerm: expansionTerms){
 
         String expansionTerm = weightedExpansionTerm.getExpansionTerm();
-        String uniqueTerms= getUniqueTerms(expansionTerm,buffer);
+        String uniqueTerms= getUniqueTerms(weightedExpansionTerm,buffer,context);
+
         buffer.append( uniqueTerms );
         buffer.append(" ");
       }
@@ -287,12 +288,14 @@ public class BM25SynonymReranker implements Reranker {
 
   }
 
-  private String getUniqueTerms( String expansionTerm, StringBuffer buffer )
+  private String getUniqueTerms( WeightedExpansionTerm expansionTerm, StringBuffer buffer,RerankerContext context )
   {
-    String[] s = expansionTerm.split( " " );
+    String[] s = expansionTerm.getExpansionTerm().split( " " );
     Set<String> uniqueterms= new HashSet<>();
     for(String str : s){
       uniqueterms.add( str );
+      String key=context.getQueryText()+":"+context.getQueryId()+":"+str;
+      synonymsWeigh.put( key, expansionTerm.getWeight());
     }
     return uniqueterms.stream().filter( str->buffer.indexOf( str )==-1 ).map(RerankerContext::findStemWord).
         collect( Collectors.joining(" ") );
@@ -358,7 +361,7 @@ public class BM25SynonymReranker implements Reranker {
             System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
             System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
           }
-          weight+=idfStats.getBoost()*tfValue*idf;
+          weight+=idfStats.getBoost()*tfValue*idf*getWeight(tfSStats.getTerm(),context_);
         }
         String key=context_.getQueryText()+":"+ docid+":"+context_.getQueryId();
         finalComputedScores.put( key, weight );
@@ -373,7 +376,16 @@ public class BM25SynonymReranker implements Reranker {
     return finalComputedScores;
   }
 
+  private float getWeight( String term, RerankerContext context )
+  {
+    String key=context.getQueryText()+":"+context.getQueryId()+":"+term;
 
+    Float aFloat = synonymsWeigh.get( key );
+    if(aFloat !=null){
+      System.out.println("Weight not found in the synonyms map");
+    }
+    return aFloat !=null ? aFloat.floatValue() : 0;
+  }
 
   public float createWeight( float boost, String docId, Map<String, List<TermScoreDetails>> allStats, boolean shdLog_ ){
     List<TermScoreDetails> termScoreDetailsList = allStats.get(docId);
