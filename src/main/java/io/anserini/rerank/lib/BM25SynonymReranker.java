@@ -389,7 +389,10 @@ public class BM25SynonymReranker implements Reranker {
     }
 
     Float aFloat = synonymsWeigh.get( key );
-    if(aFloat !=null){
+    if(term.indexOf( "narro" ) !=-1 ){
+      System.out.println("Going to find in the map >>>"+key+":::"+aFloat);
+    }
+    if(aFloat ==null){
       System.out.println("Weight not found in the synonyms map::"+term+"::");
     }
     return aFloat !=null ? aFloat.floatValue() : 0;
