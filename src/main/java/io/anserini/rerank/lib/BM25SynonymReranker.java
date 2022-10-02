@@ -294,7 +294,7 @@ public class BM25SynonymReranker implements Reranker {
     Set<String> uniqueterms= new HashSet<>();
     for(String str : s){
       uniqueterms.add( str );
-      String key=context.getQueryText()+":"+context.getQueryId()+":"+str;
+      String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord( str );
       synonymsWeigh.put( key, expansionTerm.getWeight());
     }
     return uniqueterms.stream().filter( str->buffer.indexOf( str )==-1 ).map(RerankerContext::findStemWord).
@@ -378,11 +378,11 @@ public class BM25SynonymReranker implements Reranker {
 
   private float getWeight( String term, RerankerContext context )
   {
-    String key=context.getQueryText()+":"+context.getQueryId()+":"+term;
+    String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord(term);
 
     Float aFloat = synonymsWeigh.get( key );
     if(aFloat !=null){
-      System.out.println("Weight not found in the synonyms map");
+      System.out.println("Weight not found in the synonyms map"+term+"::"+synonymsWeigh);
     }
     return aFloat !=null ? aFloat.floatValue() : 0;
   }
