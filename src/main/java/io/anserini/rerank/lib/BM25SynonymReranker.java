@@ -56,8 +56,8 @@ import java.util.stream.Collectors;
 
 public class BM25SynonymReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger( BM25SynonymReranker.class);
-  public static final String DOC_ID_DEBUG = "WSJ861210-0110";
-  public static final String QUERY_DEBUG = "South African Sanctions";
+  public static final String DOC_ID_DEBUG = "WSJ870810-0010";
+  public static final String QUERY_DEBUG = "Leveraged Buyouts";
 
   private final Analyzer analyzer;
   private final String field;
@@ -385,15 +385,15 @@ public class BM25SynonymReranker implements Reranker {
 
     String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord(term);
     if(term.indexOf( "narro" ) !=-1 ){
-      System.out.println("Going to find in the map >>>"+key);
+    //  System.out.println("Going to find in the map >>>"+key);
     }
 
     Float aFloat = synonymsWeigh.get( key );
     if(term.indexOf( "narro" ) !=-1 ){
-      System.out.println("Going to find in the map >>>"+key+":::"+aFloat);
+    //  System.out.println("Going to find in the map >>>"+key+":::"+aFloat);
     }
     if(aFloat ==null){
-      System.out.println("Weight not found in the synonyms map::"+term+"::");
+     // System.out.println("Weight not found in the synonyms map::"+term+"::");
     }
     return aFloat !=null ? aFloat.floatValue() : 0;
   }
