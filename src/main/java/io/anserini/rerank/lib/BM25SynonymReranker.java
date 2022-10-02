@@ -297,7 +297,7 @@ public class BM25SynonymReranker implements Reranker {
 
       String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord( str );
       if(str.indexOf( "narro" ) !=-1 ){
-        System.out.println("Going to find in the map >>>"+key);
+        System.out.println("Going to put narro in the map >>>"+key);
       }
       synonymsWeigh.put( key, expansionTerm.getWeight());
     }
