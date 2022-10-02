@@ -296,8 +296,8 @@ public class BM25SynonymReranker implements Reranker {
       uniqueterms.add( str );
 
       String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord( str );
-      if(str.indexOf( "bridg" ) !=-1 ){
-        System.out.println("added bridge in synonyms map >>>"+key);
+      if(str.indexOf( "narro" ) !=-1 ){
+        System.out.println("Going to find in the map >>>"+key);
       }
       synonymsWeigh.put( key, expansionTerm.getWeight());
     }
@@ -384,7 +384,7 @@ public class BM25SynonymReranker implements Reranker {
   {
 
     String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord(term);
-    if(term.indexOf( "bridg" ) !=-1 ){
+    if(term.indexOf( "narro" ) !=-1 ){
       System.out.println("Going to find in the map >>>"+key);
     }
 
