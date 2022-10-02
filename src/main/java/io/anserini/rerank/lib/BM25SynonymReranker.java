@@ -166,7 +166,7 @@ public class BM25SynonymReranker implements Reranker {
     while(iterator.hasNext()){
       String docid = iterator.next();
       Object queryId = context.getQueryId();
-      Document doc = docIdVsDocument.get(context.getQueryText()+":"+ docid+":"+queryId );
+      Document doc = docIdVsDocument.get(docid );
       scoredDocs.documents[index++]=doc;
     }
     //   docIdVsDocument.clear();
@@ -334,7 +334,9 @@ public class BM25SynonymReranker implements Reranker {
         }
 
         float weight = createWeight( 1, docid, originalScoredDocsStats, synonymsTermScoredDetails, context_ );
-        finalComputedScores.put( docid, weight );
+        String key=context_.getQueryText()+":"+ docid+":"+context_.getQueryId();
+        finalComputedScores.put( key, weight );
+
       }else{
         boolean log=false;
         if(context_.getQueryText().equalsIgnoreCase( QUERY_DEBUG )){
@@ -358,7 +360,9 @@ public class BM25SynonymReranker implements Reranker {
           }
           weight+=idfStats.getBoost()*tfValue*idf;
         }
-        finalComputedScores.put( docid, weight );
+        String key=context_.getQueryText()+":"+ docid+":"+context_.getQueryId();
+        finalComputedScores.put( key, weight );
+
 
       }
 
