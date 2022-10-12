@@ -28,6 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -183,6 +184,7 @@ public class BM25SynonymReranker implements Reranker {
     }
 
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
+
 
     try {
       TopDocs topDocs = searcher.search(query, context.getSearchArgs().hits);
@@ -506,6 +508,11 @@ public class BM25SynonymReranker implements Reranker {
     }
     TFIDFCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
     float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,shouldLog);
+    float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
+    List<String> docIds= getDocIds(idfStats,context_);
+    for(IDFStats stats : expandedIDFStatsList){
+      getDocIds( stats,context_ );
+    }
 
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,shouldLog);
     float v = idfStats.getBoost() * finalTFValue * finalIDFValue;
@@ -517,6 +524,37 @@ public class BM25SynonymReranker implements Reranker {
 
     return v;
   }
+
+  private List<String> getDocIds( IDFStats idfStats ,RerankerContext context)
+  {
+    float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, idfStats.getTerm());
+    List<String> docIds= new ArrayList<>();
+    TopDocs topDocs = null;
+    try
+    {
+      IndexSearcher searcher = context.getIndexSearcher();
+      topDocs = searcher.search( query, (int) numOfDocsContainingTerm );
+      ScoreDoc[] docs = topDocs.scoreDocs;
+      for( ScoreDoc doc : docs )
+      {
+        boolean shdLog = false;
+
+        int docid = doc.doc;
+        Document doc1 = searcher.doc( docid );
+        String actualDocId = doc1.get( "id" );
+        docIds.add( actualDocId );
+      }
+    }
+    catch( IOException e_ )
+    {
+      e_.printStackTrace();
+    }
+    idfStats.setActualDocIds(docIds);
+    return docIds;
+
+
+    }
 
   private boolean isSynonym(String orig, String expanded) {
     return RerankerContext.isSynonyms(orig,expanded);
@@ -613,6 +651,21 @@ public class BM25SynonymReranker implements Reranker {
       int colonIndex=description.indexOf(":");
       String textAfterColon=description.substring(colonIndex+1);
       String term=textAfterColon.split(" ")[0];
+      String remainingText=textAfterColon.split(" ")[1];
+      int inIndex=remainingText.indexOf( "in" );
+      int lastInIndex=inIndex+2;
+
+      int bracketIndexAfterIn=remainingText.indexOf( ")",lastInIndex );
+      String docId=remainingText.substring( lastInIndex,bracketIndexAfterIn-1).trim();
+      try
+      {
+        String actualDocId=context_.getIndexSearcher().doc( Integer.parseInt( docId ) ).get( "id" );
+      }
+      catch( IOException e_ )
+      {
+        e_.printStackTrace();
+      }
+
       Explanation[] eachTermScoreExplanation = eachTermExpInThatDoc.getDetails();
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();

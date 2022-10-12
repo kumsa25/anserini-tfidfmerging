@@ -2,6 +2,7 @@ package io.anserini.rerank.lib;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -9,6 +10,13 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class IDFStats {
     private static Map<String, Set<String>> termVsDocIds= new HashMap<>();
     private  float boost=1;
+
+    public List<String> getAllActualDocIds()
+    {
+        return allActualDocIds;
+    }
+
+    private List<String>allActualDocIds;
 
     public String getTerm()
     {
@@ -85,5 +93,8 @@ public class IDFStats {
         return boost;
     }
 
-
+    public void setActualDocIds( List<String> docIds)
+    {
+        this.allActualDocIds=docIds;
+    }
 }

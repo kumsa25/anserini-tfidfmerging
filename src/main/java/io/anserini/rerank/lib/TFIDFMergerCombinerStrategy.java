@@ -55,20 +55,16 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     public float aggregateIDF(IDFStats original, List<IDFStats> synonymsIDFStats,boolean shdLog) {
         float count=original.getNumOfDocsContainingTerm();
         Set<String> allDocs=new HashSet<>();
-        Set<String> originalDocIds=IDFStats.getDocId(original);
+        allDocs.addAll( original.getAllActualDocIds() );
 
-        if(originalDocIds !=null && !originalDocIds.isEmpty())
-        {
-            allDocs.addAll( originalDocIds );
-        }
         for(IDFStats idfStats: synonymsIDFStats){
-            Set<String> synonymsDocIds = IDFStats.getDocId(idfStats);
+            List<String> synonymsDocIds = idfStats.getAllActualDocIds();
             allDocs.addAll(synonymsDocIds);
         }
         //TDO revisit this optimization
 
         if(shdLog){
-            System.out.println("original Matching docs before and after >>"+original.getTerm()+"::"+originalDocIds.size()+":::"+allDocs.size());
+            System.out.println("original Matching docs before and after >>"+original.getTerm()+"::"+original.getAllActualDocIds().size()+":::"+allDocs.size());
         }
         float corpusSize=original.getTotal_number_of_documents_with_field();
         float docIdsSize=allDocs.size();
