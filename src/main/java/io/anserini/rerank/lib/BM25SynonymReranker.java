@@ -651,21 +651,6 @@ public class BM25SynonymReranker implements Reranker {
       int colonIndex=description.indexOf(":");
       String textAfterColon=description.substring(colonIndex+1);
       String term=textAfterColon.split(" ")[0];
-      String remainingText=textAfterColon.split(" ")[1];
-      int inIndex=remainingText.indexOf( "in" );
-      int lastInIndex=inIndex+2;
-
-      int bracketIndexAfterIn=remainingText.indexOf( ")",lastInIndex );
-      String docId=remainingText.substring( lastInIndex,bracketIndexAfterIn-1).trim();
-      try
-      {
-        String actualDocId=context_.getIndexSearcher().doc( Integer.parseInt( docId ) ).get( "id" );
-      }
-      catch( IOException e_ )
-      {
-        e_.printStackTrace();
-      }
-
       Explanation[] eachTermScoreExplanation = eachTermExpInThatDoc.getDetails();
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();
