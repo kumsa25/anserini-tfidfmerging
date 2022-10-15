@@ -553,6 +553,8 @@ public class BM25SynonymReranker implements Reranker {
         termToUse=token;
         System.out.println("found term >>"+token+"::"+idfStats.getTerm());
         break;
+      }else{
+        System.out.println("Could not find the term in original query "+idfStats.getTerm()+":::"+queryTokens+"::"+context.getQueryText());
       }
     }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
