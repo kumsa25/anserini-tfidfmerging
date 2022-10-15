@@ -530,6 +530,7 @@ public class BM25SynonymReranker implements Reranker {
   private List<String> getDocIds( IDFStats idfStats ,RerankerContext context)
   {
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
+    System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm);
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, idfStats.getTerm());
     List<String> docIds= new ArrayList<>();
     TopDocs topDocs = null;
@@ -553,6 +554,7 @@ public class BM25SynonymReranker implements Reranker {
       e_.printStackTrace();
     }
     idfStats.setActualDocIds(docIds);
+    System.out.println("FINISHED docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm);
     return docIds;
 
 
