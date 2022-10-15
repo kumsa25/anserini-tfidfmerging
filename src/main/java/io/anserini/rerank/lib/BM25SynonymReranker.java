@@ -191,7 +191,9 @@ public class BM25SynonymReranker implements Reranker {
 
       ScoreDoc[] docs = topDocs.scoreDocs;
       if(docs.length==0){
-        //  System.out.println("NO MATCH after expansion "+queryText);
+        System.out.println("NO MATCH after expansion "+queryText);
+      }else{
+        System.out.println("Matching after expansion"+docs.length);
       }
 
       Map<String, List<TermScoreDetails>> synonymsScoredDocsStats= new HashMap<>();
