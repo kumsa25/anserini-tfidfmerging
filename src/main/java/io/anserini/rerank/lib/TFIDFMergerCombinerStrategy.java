@@ -57,8 +57,12 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         Set<String> allDocs=new HashSet<>();
 
         List<String> allActualDocIds = original.getAllActualDocIds();
-        System.out.println("inside tfidfmerger ::"+original+":::"+allActualDocIds);
+        //System.out.println("inside tfidfmerger ::"+original+":::"+allActualDocIds);
         allDocs.addAll( allActualDocIds );
+
+        if(allDocs.size() !=count){
+            System.out.println("Document count did not match Expected and actual are ::"+count+"::"+allDocs.size());
+        }
 
         for(IDFStats idfStats: synonymsIDFStats){
             List<String> synonymsDocIds = idfStats.getAllActualDocIds();

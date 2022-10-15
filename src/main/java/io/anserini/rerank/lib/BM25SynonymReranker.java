@@ -534,13 +534,13 @@ public class BM25SynonymReranker implements Reranker {
   {
     String key=context.getQueryText()+":"+idfStats.getTerm();
     if(docIdsSet.containsKey( key )){
-      System.out.println("Already contains key, returning");
+     // System.out.println("Already contains key, returning");
       List<String> strings = docIdsSet.get( key );
       idfStats.setActualDocIds( strings );
       return;
     }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
-    System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
+   // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, idfStats.getTerm());
     List<String> docIds= new ArrayList<>();
     TopDocs topDocs = null;
@@ -564,9 +564,9 @@ public class BM25SynonymReranker implements Reranker {
       e_.printStackTrace();
     }
     idfStats.setActualDocIds(docIds);
-    System.out.println("doc Ids set in ::"+idfStats+"::"+docIds);
+   // System.out.println("doc Ids set in ::"+idfStats+"::"+docIds);
     docIdsSet.put( key,docIds );
-    System.out.println("FINISHED docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm);
+    //System.out.println("FINISHED docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm);
     return ;
 
 
