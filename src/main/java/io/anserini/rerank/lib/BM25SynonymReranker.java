@@ -66,7 +66,7 @@ public class BM25SynonymReranker implements Reranker {
   private final boolean outputQuery;
   private Map<String,Document> docIdVsDocument= new ConcurrentHashMap<>();
   private Map<String,Float> synonymsWeigh= new ConcurrentHashMap<>();
-  private Set<String> docIdsSet= new ConcurrentSkipListSet<>();
+  private Map<String,List<String>> docIdsSet= new ConcurrentHashMap<>();
 
   public BM25SynonymReranker(Analyzer analyzer, String field, boolean outputQuery) {
     this.analyzer = analyzer;
@@ -533,8 +533,10 @@ public class BM25SynonymReranker implements Reranker {
   private void getDocIds( IDFStats idfStats ,RerankerContext context)
   {
     String key=context.getQueryText()+":"+idfStats.getTerm();
-    if(docIdsSet.contains( key )){
+    if(docIdsSet.containsKey( key )){
       System.out.println("Already contains key, returning");
+      List<String> strings = docIdsSet.get( key );
+      idfStats.setActualDocIds( strings );
       return;
     }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
@@ -563,7 +565,7 @@ public class BM25SynonymReranker implements Reranker {
     }
     idfStats.setActualDocIds(docIds);
     System.out.println("doc Ids set in ::"+idfStats+"::"+docIds);
-    docIdsSet.add( key );
+    docIdsSet.put( key,docIds );
     System.out.println("FINISHED docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm);
     return ;
 
