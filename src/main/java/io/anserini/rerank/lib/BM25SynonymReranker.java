@@ -549,7 +549,7 @@ public class BM25SynonymReranker implements Reranker {
     //System.out.println("query tokens >>"+queryTokens);
     String termToUse=idfStats.getTerm();
     for(String token: queryTokens){
-      if(token.startsWith( idfStats.getTerm() ) || idfStats.getTerm().equalsIgnoreCase( RerankerContext.findStemWord( token ))){
+      if(token.toLowerCase().startsWith( idfStats.getTerm().toLowerCase() ) || idfStats.getTerm().equalsIgnoreCase( RerankerContext.findStemWord( token ))){
         termToUse=token;
      //   System.out.println("found term >>"+token+"::"+idfStats.getTerm());
         break;
