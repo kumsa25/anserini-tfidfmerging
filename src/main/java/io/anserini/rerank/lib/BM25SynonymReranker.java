@@ -53,6 +53,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
 
 public class BM25SynonymReranker implements Reranker {
@@ -65,6 +66,7 @@ public class BM25SynonymReranker implements Reranker {
   private final boolean outputQuery;
   private Map<String,Document> docIdVsDocument= new ConcurrentHashMap<>();
   private Map<String,Float> synonymsWeigh= new ConcurrentHashMap<>();
+  private Set<String> docIdsSet= new ConcurrentSkipListSet<>();
 
   public BM25SynonymReranker(Analyzer analyzer, String field, boolean outputQuery) {
     this.analyzer = analyzer;
@@ -511,7 +513,7 @@ public class BM25SynonymReranker implements Reranker {
     TFIDFCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
     float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,shouldLog);
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
-    List<String> docIds= getDocIds(idfStats,context_);
+    getDocIds(idfStats,context_);
     for(IDFStats stats : expandedIDFStatsList){
       System.out.println("GOing to call doc id for synonyms");
       getDocIds( stats,context_ );
@@ -528,8 +530,13 @@ public class BM25SynonymReranker implements Reranker {
     return v;
   }
 
-  private List<String> getDocIds( IDFStats idfStats ,RerankerContext context)
+  private void getDocIds( IDFStats idfStats ,RerankerContext context)
   {
+    String key=context.getQueryText()+":"+idfStats.getTerm();
+    if(docIdsSet.contains( key )){
+      System.out.println("Already contains key, returning");
+      return;
+    }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
     System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, idfStats.getTerm());
@@ -555,8 +562,9 @@ public class BM25SynonymReranker implements Reranker {
       e_.printStackTrace();
     }
     idfStats.setActualDocIds(docIds);
+    docIdsSet.add( key );
     System.out.println("FINISHED docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm);
-    return docIds;
+    return ;
 
 
     }
