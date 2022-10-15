@@ -55,7 +55,10 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     public float aggregateIDF(IDFStats original, List<IDFStats> synonymsIDFStats,boolean shdLog) {
         float count=original.getNumOfDocsContainingTerm();
         Set<String> allDocs=new HashSet<>();
-        allDocs.addAll( original.getAllActualDocIds() );
+
+        List<String> allActualDocIds = original.getAllActualDocIds();
+        System.out.println("inside tfidfmerger ::"+original+":::"+allActualDocIds);
+        allDocs.addAll( allActualDocIds );
 
         for(IDFStats idfStats: synonymsIDFStats){
             List<String> synonymsDocIds = idfStats.getAllActualDocIds();

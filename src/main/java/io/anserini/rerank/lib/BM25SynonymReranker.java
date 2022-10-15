@@ -562,6 +562,7 @@ public class BM25SynonymReranker implements Reranker {
       e_.printStackTrace();
     }
     idfStats.setActualDocIds(docIds);
+    System.out.println("doc Ids set in ::"+idfStats+"::"+docIds);
     docIdsSet.add( key );
     System.out.println("FINISHED docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm);
     return ;
