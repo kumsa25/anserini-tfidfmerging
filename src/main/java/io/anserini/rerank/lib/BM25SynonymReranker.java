@@ -28,17 +28,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.LeafReaderContext;
+import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BoostQuery;
+import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -539,16 +545,26 @@ public class BM25SynonymReranker implements Reranker {
       idfStats.setActualDocIds( strings );
       return;
     }
+    List<String> queryTokens = context.getQueryTokens();
+    String termToUse=idfStats.getTerm();
+    for(String token: queryTokens){
+      if(token.startsWith( idfStats.getTerm() ) || idfStats.getTerm().equalsIgnoreCase( RerankerContext.findStemWord( token ))){
+        termToUse=token;
+        System.out.println("found term >>"+token+"::"+idfStats.getTerm());
+        break;
+      }
+    }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
    // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, idfStats.getTerm());
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, termToUse);
     List<String> docIds= new ArrayList<>();
     TopDocs topDocs = null;
     try
     {
       IndexSearcher searcher = context.getIndexSearcher();
 
-      topDocs = searcher.search( query, (int) numOfDocsContainingTerm*50 );
+
+      topDocs = searcher.search( query, (int) numOfDocsContainingTerm );
 
       ScoreDoc[] docs = topDocs.scoreDocs;
       System.out.println("Inside get Docs >>"+numOfDocsContainingTerm+":::"+docs.length+":::"+topDocs.totalHits+"::"+idfStats.getTerm());
@@ -687,6 +703,7 @@ public class BM25SynonymReranker implements Reranker {
     docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);
     return docIdvsAlltermsScoreDetails;
   }
+
 
   @Override
   public String tag() {
