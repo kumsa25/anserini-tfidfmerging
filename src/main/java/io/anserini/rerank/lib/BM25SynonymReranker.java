@@ -545,7 +545,8 @@ public class BM25SynonymReranker implements Reranker {
       idfStats.setActualDocIds( strings );
       return;
     }
-    List<String> queryTokens = context.getQueryTokens();
+    List<String> queryTokens = Arrays.stream( context.getQueryText().split( " " ) ).collect( Collectors.toList());
+    System.out.println("query tokens >>"+queryTokens);
     String termToUse=idfStats.getTerm();
     for(String token: queryTokens){
       if(token.startsWith( idfStats.getTerm() ) || idfStats.getTerm().equalsIgnoreCase( RerankerContext.findStemWord( token ))){
