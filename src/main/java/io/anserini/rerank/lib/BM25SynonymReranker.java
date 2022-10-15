@@ -547,7 +547,8 @@ public class BM25SynonymReranker implements Reranker {
     try
     {
       IndexSearcher searcher = context.getIndexSearcher();
-      topDocs = searcher.search( query, (int) numOfDocsContainingTerm );
+
+      topDocs = searcher.search( query, (int) numOfDocsContainingTerm*50 );
 
       ScoreDoc[] docs = topDocs.scoreDocs;
       System.out.println("Inside get Docs >>"+numOfDocsContainingTerm+":::"+docs.length+":::"+topDocs.totalHits+"::"+idfStats.getTerm());
