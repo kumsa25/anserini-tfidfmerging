@@ -551,10 +551,10 @@ public class BM25SynonymReranker implements Reranker {
     for(String token: queryTokens){
       if(token.startsWith( idfStats.getTerm() ) || idfStats.getTerm().equalsIgnoreCase( RerankerContext.findStemWord( token ))){
         termToUse=token;
-        System.out.println("found term >>"+token+"::"+idfStats.getTerm());
+     //   System.out.println("found term >>"+token+"::"+idfStats.getTerm());
         break;
       }else{
-        System.out.println("Could not find the term in original query "+idfStats.getTerm()+":::"+queryTokens+"::"+context.getQueryText());
+       // System.out.println("Could not find the term in original query "+idfStats.getTerm()+":::"+queryTokens+"::"+context.getQueryText());
       }
     }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
@@ -570,7 +570,10 @@ public class BM25SynonymReranker implements Reranker {
       topDocs = searcher.search( query, (int) numOfDocsContainingTerm );
 
       ScoreDoc[] docs = topDocs.scoreDocs;
-      System.out.println("Inside get Docs >>"+numOfDocsContainingTerm+":::"+docs.length+":::"+topDocs.totalHits+"::"+idfStats.getTerm());
+      //System.out.println("Inside get Docs >>"+numOfDocsContainingTerm+":::"+docs.length+":::"+idfStats.getTerm()+":::"+context.getQueryText());
+      if(numOfDocsContainingTerm !=docs.length){
+        System.out.println("Matching docss did not match "+numOfDocsContainingTerm+"::"+docs.length+"::"+idfStats.getTerm()+":::"+context.getQueryText());
+      }
       for( ScoreDoc doc : docs )
       {
         boolean shdLog = false;
