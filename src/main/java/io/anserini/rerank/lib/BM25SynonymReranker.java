@@ -521,7 +521,7 @@ public class BM25SynonymReranker implements Reranker {
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
     getDocIds(idfStats,context_);
     for(IDFStats stats : expandedIDFStatsList){
-      System.out.println("GOing to call doc id for synonyms");
+     // System.out.println("GOing to call doc id for synonyms");
       getDocIds( stats,context_ );
     }
 
