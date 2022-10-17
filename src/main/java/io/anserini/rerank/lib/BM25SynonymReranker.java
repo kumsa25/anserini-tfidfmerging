@@ -560,11 +560,11 @@ public class BM25SynonymReranker implements Reranker {
       }
     }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
-    if(idfStats.getTerm().toLowerCase().equalsIgnoreCase( "prove") && context.getQueryText().equalsIgnoreCase( "Data on Proven Reserves of Oil & Natural Gas Producers" )) {
+    /*if(idfStats.getTerm().toLowerCase().equalsIgnoreCase( "prove") && context.getQueryText().equalsIgnoreCase( "Data on Proven Reserves of Oil & Natural Gas Producers" )) {
       System.out.println("found word prove >>>"+idfStats.getTerm()+":::::"+termToUse);
       termToUse=idfStats.getTerm();
 
-    }
+    }*/
    // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, termToUse);
     List<String> docIds= new ArrayList<>();
@@ -578,8 +578,21 @@ public class BM25SynonymReranker implements Reranker {
 
       ScoreDoc[] docs = topDocs.scoreDocs;
       //System.out.println("Inside get Docs >>"+numOfDocsContainingTerm+":::"+docs.length+":::"+idfStats.getTerm()+":::"+context.getQueryText());
-      if(numOfDocsContainingTerm !=docs.length){
-        System.out.println("Matching docss did not match "+numOfDocsContainingTerm+"::"+docs.length+"::"+idfStats.getTerm()+":::"+context.getQueryText()+"::::"+topDocs.totalHits);
+      if(numOfDocsContainingTerm !=docs.length)
+      {
+        System.out.println(
+            "Matching docs initially  did not match " + numOfDocsContainingTerm + "::" + docs.length + "::" + idfStats.getTerm() + ":::" + context.getQueryText() + "::::"
+                + topDocs.totalHits );
+        query = new BagOfWordsQueryGenerator().buildQuery( IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, idfStats.getTerm() );
+        topDocs = searcher.search( query, (int) numOfDocsContainingTerm );
+
+        docs = topDocs.scoreDocs;
+        if( numOfDocsContainingTerm == docs.length )
+        {
+          System.out.println(
+              "Matching docs finally matched using stem query " + numOfDocsContainingTerm + "::" + docs.length + "::" + idfStats.getTerm() + ":::" + context.getQueryText() + "::::"
+                  + topDocs.totalHits );
+        }
       }
       for( ScoreDoc doc : docs )
       {
@@ -676,10 +689,10 @@ public class BM25SynonymReranker implements Reranker {
 
 
 
-    if(term.equals( "prove" )){
+    /*if(term.equals( "prove" )){
       System.out.println("Explanation >>"+idfExplanation);
       //System.out.println("Debugging for term :::"+term+"::"+numbOfDocsWithThatTerm+":::"+totalnumbOfDocsWithField+":::boost::"+boost);
-    }
+    }*/
     return new IDFStats(term,idfValue,numbOfDocsWithThatTerm,totalnumbOfDocsWithField,boost);
 
   }
@@ -702,9 +715,9 @@ public class BM25SynonymReranker implements Reranker {
       int colonIndex=description.indexOf(":");
       String textAfterColon=description.substring(colonIndex+1);
       String term=textAfterColon.split(" ")[0];
-      if(term.equalsIgnoreCase( "prove" )){
+      /*if(term.equalsIgnoreCase( "prove" )){
         System.out.println(">>>>>>"+eachTermExpInThatDoc);
-      }
+      }*/
       Explanation[] eachTermScoreExplanation = eachTermExpInThatDoc.getDetails();
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();
