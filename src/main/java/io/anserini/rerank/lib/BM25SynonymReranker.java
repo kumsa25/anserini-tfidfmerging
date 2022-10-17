@@ -545,6 +545,8 @@ public class BM25SynonymReranker implements Reranker {
       idfStats.setActualDocIds( strings );
       return;
     }
+   // prove:::Data on Proven Reserves of Oil & Natural Gas Producers
+
     List<String> queryTokens = Arrays.stream( context.getQueryText().split( " " ) ).collect( Collectors.toList());
     //System.out.println("query tokens >>"+queryTokens);
     String termToUse=idfStats.getTerm();
@@ -558,6 +560,10 @@ public class BM25SynonymReranker implements Reranker {
       }
     }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
+    if(idfStats.getTerm().toLowerCase().equalsIgnoreCase( "prove") && context.getQueryText().equalsIgnoreCase( "Data on Proven Reserves of Oil & Natural Gas Producers" )) {
+      System.out.println("found word prove >>>"+idfStats.getTerm()+":::::"+termToUse);
+
+    }
    // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, termToUse);
     List<String> docIds= new ArrayList<>();
