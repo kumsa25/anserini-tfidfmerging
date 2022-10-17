@@ -676,6 +676,7 @@ public class BM25SynonymReranker implements Reranker {
 
 
     if(term.equals( "prove" )){
+      System.out.println("Explanation >>"+idfExplanation);
       System.out.println("Debugging for term :::"+term+"::"+numbOfDocsWithThatTerm+":::"+totalnumbOfDocsWithField+":::boost::"+boost);
     }
     return new IDFStats(term,idfValue,numbOfDocsWithThatTerm,totalnumbOfDocsWithField,boost);
