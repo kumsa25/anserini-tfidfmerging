@@ -562,6 +562,7 @@ public class BM25SynonymReranker implements Reranker {
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
     if(idfStats.getTerm().toLowerCase().equalsIgnoreCase( "prove") && context.getQueryText().equalsIgnoreCase( "Data on Proven Reserves of Oil & Natural Gas Producers" )) {
       System.out.println("found word prove >>>"+idfStats.getTerm()+":::::"+termToUse);
+      termToUse=idfStats.getTerm();
 
     }
    // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
