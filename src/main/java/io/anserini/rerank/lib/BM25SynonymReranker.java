@@ -701,6 +701,9 @@ public class BM25SynonymReranker implements Reranker {
       int colonIndex=description.indexOf(":");
       String textAfterColon=description.substring(colonIndex+1);
       String term=textAfterColon.split(" ")[0];
+      if(term.equalsIgnoreCase( "prove" )){
+        System.out.println(">>>>>>"+eachTermExpInThatDoc);
+      }
       Explanation[] eachTermScoreExplanation = eachTermExpInThatDoc.getDetails();
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();
