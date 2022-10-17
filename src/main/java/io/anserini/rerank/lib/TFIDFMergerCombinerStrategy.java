@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     @Override
-    public float aggregateTF(TFStats original, List<TFStats> synonymsTFStats,boolean shdLog) {
+    public float aggregateTF(TFStats original, List<TFStats> synonymsTFStats,boolean shdLog,RerankerContext context) {
         float tfTotal=original.getTfValue();
         float freqTotal=original.getFreq();
         for(TFStats synonymsTF: synonymsTFStats){
@@ -52,7 +52,8 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     }
 
     @Override
-    public float aggregateIDF(IDFStats original, List<IDFStats> synonymsIDFStats,boolean shdLog) {
+    public float aggregateIDF(IDFStats original, List<IDFStats> synonymsIDFStats,boolean shdLog,RerankerContext context) {
+
         float count=original.getNumOfDocsContainingTerm();
         Set<String> allDocs=new HashSet<>();
 
@@ -62,6 +63,10 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
         if(allDocs.size() !=count){
             System.out.println("Document count did not match Expected and actual are ::"+count+"::"+allDocs.size());
+        }
+        if(context.getSearchArgs().originalidf==true){
+            //   System.out.println("reranking is false. So, returning without reranking using queryExpansion");
+            return original.getIdfValue();
         }
 
         for(IDFStats idfStats: synonymsIDFStats){
@@ -84,26 +89,20 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
            // System.out.println("Corpus >>>"+corpusSize);
         }
 
-        /*if(originalDocIds.size()==allDocs.size()){
-            return original.getIdfValue();
-        }else{
-           // System.out.println("size different >>>"+originalDocIds.size()+"::"+allDocs.size()+"::idf::"+original.getIdfValue()+"::"+v);
-        }
 
-        return v;*/
-        return original.getIdfValue();
+        return v;
 
     }
 
     @Override
-    public float aggregateTF( TFStats original, List<TFStats> synonymsTFStats)
+    public float aggregateTF( TFStats original, List<TFStats> synonymsTFStats,RerankerContext context)
     {
-        return aggregateTF( original,synonymsTFStats,false );
+        return aggregateTF( original,synonymsTFStats,false,context );
     }
 
     @Override
-    public float aggregateIDF( IDFStats original, List<IDFStats> synonymsIDFStats)
+    public float aggregateIDF( IDFStats original, List<IDFStats> synonymsIDFStats,RerankerContext context)
     {
-        return aggregateIDF( original,synonymsIDFStats,false );
+        return aggregateIDF( original,synonymsIDFStats,false,context );
     }
 }

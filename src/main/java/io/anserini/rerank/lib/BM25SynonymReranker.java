@@ -517,7 +517,7 @@ public class BM25SynonymReranker implements Reranker {
 
     }
     TFIDFCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
-    float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,shouldLog);
+    float finalTFValue = tfidfCombinerStrategy.aggregateTF(tfSStats, expandedTFSStatsList,shouldLog,context_);
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
     getDocIds(idfStats,context_);
     for(IDFStats stats : expandedIDFStatsList){
@@ -525,7 +525,7 @@ public class BM25SynonymReranker implements Reranker {
       getDocIds( stats,context_ );
     }
 
-    float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,shouldLog);
+    float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,shouldLog,context_);
     float v = idfStats.getBoost() * finalTFValue * finalIDFValue;
     if(shouldLog){
       System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);

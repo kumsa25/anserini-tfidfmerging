@@ -436,6 +436,11 @@ public class SearchArgs {
       usage = "no_rerank: print original and expanded queries")
   public boolean no_rerank=false;
 
+  @Option(name = "-originalidf",
+      usage = "originalidf: print original and expanded queries")
+  public boolean originalidf=false;
+
+
   // These are convenience methods to support a fluent, method-chaining style of programming.
   public SearchArgs impact() {
     this.impact = true;
