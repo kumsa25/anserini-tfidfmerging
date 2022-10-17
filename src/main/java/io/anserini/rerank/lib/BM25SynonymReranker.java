@@ -578,7 +578,7 @@ public class BM25SynonymReranker implements Reranker {
       ScoreDoc[] docs = topDocs.scoreDocs;
       //System.out.println("Inside get Docs >>"+numOfDocsContainingTerm+":::"+docs.length+":::"+idfStats.getTerm()+":::"+context.getQueryText());
       if(numOfDocsContainingTerm !=docs.length){
-        System.out.println("Matching docss did not match "+numOfDocsContainingTerm+"::"+docs.length+"::"+idfStats.getTerm()+":::"+context.getQueryText());
+        System.out.println("Matching docss did not match "+numOfDocsContainingTerm+"::"+docs.length+"::"+idfStats.getTerm()+":::"+context.getQueryText()+"::::"+topDocs.totalHits);
       }
       for( ScoreDoc doc : docs )
       {
