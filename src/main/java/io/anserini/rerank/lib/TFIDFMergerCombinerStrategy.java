@@ -16,7 +16,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
             float assignedweight = synonymsTF.getAssignedweight();
             if(assignedweight==0){
-                assignedweight=RerankerContext.calculateWeight(original.getTerm(),synonymsTF);
+                assignedweight=context.calculateWeight(original.getTerm(),synonymsTF);
                 if(assignedweight==0)
                 {
                     if(shdLog)

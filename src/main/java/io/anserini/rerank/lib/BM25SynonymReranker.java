@@ -486,7 +486,7 @@ public class BM25SynonymReranker implements Reranker {
     List<IDFStats> expandedIDFStatsList= new ArrayList<>();
     while (iterator.hasNext()){
       TermScoreDetails next = iterator.next();
-      if(isSynonym(tfSStats.getTerm(),next.getTerm())) {
+      if(isSynonym(tfSStats.getTerm(),next.getTerm(),context_)) {
         if(shouldLog){
           System.out.println("Are synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
         }
@@ -617,8 +617,8 @@ public class BM25SynonymReranker implements Reranker {
 
     }
 
-  private boolean isSynonym(String orig, String expanded) {
-    return RerankerContext.isSynonyms(orig,expanded);
+  private boolean isSynonym( String orig, String expanded, RerankerContext context ) {
+    return context.isSynonyms(orig,expanded);
   }
 
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats) {
