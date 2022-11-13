@@ -182,6 +182,7 @@ public class RerankerContext<K> {
   public List<WeightedExpansionTerm> getExpansionTerms(String word){
     Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
     if(stringListMap==null){
+      System.out.println("Did not find any expansion terms for the queryId>>"+queryId);
       return Collections.EMPTY_LIST;
     }
 
