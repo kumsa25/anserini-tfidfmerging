@@ -36,7 +36,7 @@ public class RerankerContext<K> {
   private final List<String> queryTokens;
   private final Query filter;
   private final SearchArgs searchArgs;
-  private static Map<String,Map<String,List<WeightedExpansionTerm>>> expansionWords= new HashMap<>(); // Simple text
+  private static Map<String,List<WeightedExpansionTerm>> expansionWords= new HashMap<>(); // Simple text
 
 
   public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
@@ -57,18 +57,12 @@ public class RerankerContext<K> {
       Iterator<Object> iterator = keys.iterator();
       while (iterator.hasNext()) {
         String word = (String) iterator.next();
-        String[] keyWithQueryId=word.split( "-" );
-        String id=keyWithQueryId[0];
-
         String propertyvalue = properties.getProperty(word);
         //String[] split = propertyvalue.split(":");
         String expansions = propertyvalue.trim();
         int current = 0;
         int lastIndex = expansions.lastIndexOf(")");
         List<WeightedExpansionTerm> weightedExpansionTerms = new ArrayList<>();
-        word=keyWithQueryId[1];
-
-        Map expansionWordsForTerms= new HashMap<>();
         while (current < lastIndex) {
           current = expansions.indexOf("(",current);
           ;
@@ -80,26 +74,18 @@ public class RerankerContext<K> {
           weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), expansionWord));
           current = closeIndex + 1;
         }
-        expansionWordsForTerms.put(word, weightedExpansionTerms);
-        Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( id );
-        if(stringListMap==null){
-          expansionWords.put( id,expansionWordsForTerms );
-        }else
-        {
-          stringListMap.putAll( expansionWordsForTerms );
-        }
+        expansionWords.put(word, weightedExpansionTerms);
+
 
       }
     }
   }
 
-  public  float calculateWeight( String original, TFStats synonymsTF_ )
+  public static float calculateWeight( String original, TFStats synonymsTF_ )
   {
     String root=findRootWord( original );
-
     if(root !=null){
-      Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
-      List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( root );
+      List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( root );
       String rootSynonym=findRootWord( synonymsTF_.getTerm() );
       for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
         String expansionTerm = weightedExpansionTerm.getExpansionTerm();
@@ -115,15 +101,13 @@ public class RerankerContext<K> {
     return findSynRootWord( original,synonymsTF_.getTerm() );
   }
 
-  private  float findSynRootWord( String original_, String synonym )
+  private static float findSynRootWord( String original_, String synonym )
   {
     Set<String> strings = expansionWords.keySet();
-    Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
-
     for(String  str:strings){
       String stem=findStemWord(str);
       if(stem.equalsIgnoreCase( original_ )){
-        List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( str );
+        List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( str );
         for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
           String expansionTerm = weightedExpansionTerm.getExpansionTerm();
           String stem1=findStemWord( expansionTerm );
@@ -180,32 +164,24 @@ public class RerankerContext<K> {
   }
 
   public List<WeightedExpansionTerm> getExpansionTerms(String word){
-    Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
-    if(stringListMap==null){
-      System.out.println("Did not find any expansion terms for the queryId>>"+queryId);
-      return Collections.EMPTY_LIST;
-    }
-
-    List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( word );
+    List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get( word );
     if(weightedExpansionTerms==null){
       String root=findRootWord( word );
-      weightedExpansionTerms = stringListMap.get( root );
+      weightedExpansionTerms = expansionWords.get( root );
     }
     return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
   }
 
-  public  boolean isSynonyms(String original, String expanded){
+  public static boolean isSynonyms(String original, String expanded){
     //TODO revisit this
     if(original.equalsIgnoreCase( expanded )){
       return false;
     }
     boolean shouldLog=false;
     if(original.equals( "airbu" )){
-      //  shouldLog=true;
+    //  shouldLog=true;
     }
-    Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
-
-    List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(original);
+    List<WeightedExpansionTerm> weightedExpansionTerms = expansionWords.get(original);
     if(shouldLog){
       System.out.println("weightedExpansionTerms >>>"+weightedExpansionTerms);
     }
@@ -218,7 +194,7 @@ public class RerankerContext<K> {
       {
         return false;
       }
-      weightedExpansionTerms = stringListMap.get(rootWord);
+      weightedExpansionTerms = expansionWords.get(rootWord);
     }
     for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
       if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(expanded)){

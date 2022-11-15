@@ -16,7 +16,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
             float assignedweight = synonymsTF.getAssignedweight();
             if(assignedweight==0){
-                assignedweight=context.calculateWeight(original.getTerm(),synonymsTF);
+                assignedweight=RerankerContext.calculateWeight(original.getTerm(),synonymsTF);
                 if(assignedweight==0)
                 {
                     if(shdLog)
@@ -65,7 +65,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             System.out.println("Document count did not match Expected and actual are ::"+count+"::"+allDocs.size());
         }
         if(context.getSearchArgs().originalidf==true){
-          //  System.out.println("originalidf is true. So, returning original idf");
+            System.out.println("originalidf is true. So, returning original idf");
             return original.getIdfValue();
         }
 
