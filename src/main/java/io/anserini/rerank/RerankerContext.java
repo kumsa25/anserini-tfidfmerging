@@ -187,7 +187,9 @@ public class RerankerContext<K> {
     }
 
     List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( word );
+
     if(weightedExpansionTerms==null){
+      System.out.println("Found Map as null "+word+":::"+stringListMap);
       String root=findRootWord( word );
       weightedExpansionTerms = stringListMap.get( root );
     }

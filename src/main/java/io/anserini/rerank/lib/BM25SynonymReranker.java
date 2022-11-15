@@ -286,8 +286,8 @@ public class BM25SynonymReranker implements Reranker {
         log=true;
       }
       List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(token);
-      if(log){
-       // System.out.println("expansionTerms >>>"+token+"::::"+token);
+      if(expansionTerms.isEmpty()){
+       System.out.println("expansionTerms >>>"+token+"::::"+token);
       }
       if(expansionTerms==null || expansionTerms.isEmpty()){
         continue;
