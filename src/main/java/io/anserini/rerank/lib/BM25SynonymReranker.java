@@ -100,7 +100,7 @@ public class BM25SynonymReranker implements Reranker {
 
         String actualDocId = doc.get( "id" );
         if(context.getQueryText().equalsIgnoreCase( QUERY_DEBUG )){
-          //System.out.println("Original BM 25 >>"+actualDocId+":::"+scores[_index++]);
+       //   System.out.println("Original BM 25 >>"+actualDocId+":::"+scores[_index++]);
         }
         Object queryId = context.getQueryId();
         docIdVsDocument.putIfAbsent( queryText+":"+actualDocId+":"+queryId, doc);
@@ -108,10 +108,10 @@ public class BM25SynonymReranker implements Reranker {
         Explanation explain = searcher.explain(query, id);
         boolean shdLog=false;
         if(queryText.toLowerCase().indexOf( QUERY_DEBUG) !=-1 &&  actualDocId.equalsIgnoreCase( DOC_ID_DEBUG )){
-        //  System.out.println("Queery test >>>"+queryText);
+//          System.out.println("Queery test >>>"+queryText);
 
           shdLog=true;
-          //System.out.println("Original Query explanation stats is >>"+allDocsSStats);
+        //  System.out.println("Original Query explanation stats is >>"+allDocsSStats);
         }
         Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
         //   System.out.println("All stats >>>"+allStats);
@@ -130,7 +130,7 @@ public class BM25SynonymReranker implements Reranker {
 
     }
     /*for (int i=0; i<docs.documents.length; i++) {
-      System.out.println("doc>>"+i+"::"+docs.scores[i]);
+ //     System.out.println("doc>>"+i+"::"+docs.scores[i]);
     }
     System.out.println("Computed Scores >>"+computedScores);
     System.out.println("ALL DOCS stats >>"+allDocsSStats);*/
@@ -147,7 +147,7 @@ public class BM25SynonymReranker implements Reranker {
       e.printStackTrace();
     }
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
-      //System.out.println("FINAL MAP ::::"+stringFloatMap);
+    //  System.out.println("FINAL MAP ::::"+stringFloatMap);
     }
 
     LinkedHashMap<String, Float> reverseSortedMap = new LinkedHashMap<>();
@@ -187,11 +187,12 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
-    if(expandedQueryTerms.trim().length()==0){
+    if (expandedQueryTerms.trim().length()==0){
       System.out.println("expandedQueryTerms  is empty:::"+queryText);
     }
-   // System.out.println("Query text is >>"+queryText);
+    // System.out.println("Query text is >>"+queryText);
     System.out.println("expanded terms >>>"+expandedQueryTerms+":::"+queryText+":::"+context.getQueryId());
+
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
      // System.out.println("Found the matching query >>>"+expandedQueryTerms);
     }
@@ -218,12 +219,12 @@ public class BM25SynonymReranker implements Reranker {
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
         if(queryText.toLowerCase().indexOf( QUERY_DEBUG ) !=-1){
-         // System.out.println("Expanded Queery terms >>>"+expandedQueryTerms);
+        //  System.out.println("Expanded Queery terms >>>"+expandedQueryTerms);
           shdLog=true;
         }
 
         if(shdLog){
-          System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
+        //  System.out.println("Expanded query term "+queryText+"::::"+expandedQueryTerms);
         }
 
         Object queryId = context.getQueryId();
@@ -235,7 +236,7 @@ public class BM25SynonymReranker implements Reranker {
 
           Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
           if(shdLog){
-            System.out.println("ALL STATS >>"+actualDocId+"::"+allStats);
+        //    System.out.println("ALL STATS >>"+actualDocId+"::"+allStats);
           }
           // System.out.println("allStats for synonyms match >>>"+allStats);
           //  System.out.println("All stats >>>"+allStats);
@@ -245,7 +246,7 @@ public class BM25SynonymReranker implements Reranker {
           }
           synonymsScoredDocsStats.putAll(allStats);
           if(shdLog){
-            System.out.println("synonymsScoredDocsStats>>>"+actualDocId+"::"+synonymsScoredDocsStats);
+          //  System.out.println("synonymsScoredDocsStats>>>"+actualDocId+"::"+synonymsScoredDocsStats);
           }
 
 
@@ -255,8 +256,8 @@ public class BM25SynonymReranker implements Reranker {
 
           if(shdLog){
             if(actualDocId.equalsIgnoreCase( DOC_ID_DEBUG)){
-             // System.out.println("explanation for WSJ871218-0126 is "+explain);
-           //   System.out.println("synonyms map >>>>"+allStats);
+          //    System.out.println("explanation for WSJ871218-0126 is "+explain);
+          //    System.out.println("synonyms map >>>>"+allStats);
             }
           }
 
@@ -314,7 +315,7 @@ public class BM25SynonymReranker implements Reranker {
 
       String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord( str );
       if(str.indexOf( "narro" ) !=-1 ){
-       // System.out.println("Going to put narro in the map >>>"+key);
+      //  System.out.println("Going to put narro in the map >>>"+key);
       }
       synonymsWeigh.put( key, expansionTerm.getWeight());
     }
@@ -378,9 +379,9 @@ public class BM25SynonymReranker implements Reranker {
           IDFStats idfStats = termScoreDetails.getIdfStats();
           float idf= idfStats.getIdfValue();
           if(log){
-            System.out.println(" NEW DOC  tf stats::"+docid+"::"+tfSStats);
-            System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
-            System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
+          //  System.out.println(" NEW DOC  tf stats::"+docid+"::"+tfSStats);
+            //System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
+            //System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
           }
           weight+=idfStats.getBoost()*tfValue*idf*getWeight(tfSStats.getTerm(),context_);
         }
@@ -421,7 +422,7 @@ public class BM25SynonymReranker implements Reranker {
     Iterator<TermScoreDetails> iterator = termScoreDetailsList.iterator();
     float totalScore=0;
     if(shdLog_){
-      System.out.println("Computing Weight for  docid ::"+docId);
+     // System.out.println("Computing Weight for  docid ::"+docId);
     }
     while(iterator.hasNext()){
       TermScoreDetails termScoreDetails = iterator.next();
@@ -446,7 +447,7 @@ public class BM25SynonymReranker implements Reranker {
     }
     List<TermScoreDetails> termScoreDetailsList = originalScoredDocsStats.get(docId);
     if(shouldLog){
-      //System.out.println("Doc id >>>"+docId+"::::"+termScoreDetailsList);
+     // System.out.println("Doc id >>>"+docId+"::::"+termScoreDetailsList);
     }
     Iterator<TermScoreDetails> iterator = termScoreDetailsList.iterator();
     float totalScore=0;
@@ -458,19 +459,19 @@ public class BM25SynonymReranker implements Reranker {
       IDFStats idfStats = termScoreDetails.getIdfStats();
       if(shouldLog){
        // System.out.println("before merge::"+docId+":::"+tfSStats+"::::"+idfStats);
-       // System.out.println(" before merge docId >>"+docId+"::::"+expandedScoredDocsStats);
+     //   System.out.println(" before merge docId >>"+docId+"::::"+expandedScoredDocsStats);
       }
 
       float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_,docId);
       if(shouldLog){
-        System.out.println("::"+docId+":::"+tfSStats+"::::"+idfStats);
-        System.out.println("docId >>"+docId+"::::"+expandedScoredDocsStats);
-        System.out.println("Weight afterr expansion>>"+tfSStats.getTerm()+":::"+termScoreDetails);
+      //  System.out.println("::"+docId+":::"+tfSStats+"::::"+idfStats);
+     //   System.out.println("docId >>"+docId+"::::"+expandedScoredDocsStats);
+     //   System.out.println("Weight afterr expansion>>"+tfSStats.getTerm()+":::"+termScoreDetails);
       }
       totalScore+=termWeight;
     }
     if(context_.getQueryText().equalsIgnoreCase(QUERY_DEBUG)){
-      //System.out.println("Final Weight of query >>>"+docId+"::"+totalScore);
+     // System.out.println("Final Weight of query >>>"+docId+"::"+totalScore);
     }
     return totalScore;
   }
@@ -491,9 +492,9 @@ public class BM25SynonymReranker implements Reranker {
     List<IDFStats> expandedIDFStatsList= new ArrayList<>();
     while (iterator.hasNext()){
       TermScoreDetails next = iterator.next();
-      if(isSynonym(tfSStats.getTerm(),next.getTerm())) {
+      if(isSynonym(tfSStats.getTerm(),next.getTerm(),context_)) {
         if(shouldLog){
-          System.out.println("Are synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
+        //  System.out.println("Are synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
         }
         //   System.out.println("found synonym for "+tfSStats.getTerm());
         TFStats expandedTFStat = next.getTfSStats();
@@ -516,7 +517,7 @@ public class BM25SynonymReranker implements Reranker {
 
       }else{
         if(shouldLog){
-          System.out.println("are not  synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
+     //     System.out.println("are not  synonyms"+tfSStats.getTerm()+"::::"+next.getTerm());
         }
       }
 
@@ -533,9 +534,9 @@ public class BM25SynonymReranker implements Reranker {
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,shouldLog,context_);
     float v = idfStats.getBoost() * finalTFValue * finalIDFValue;
     if(shouldLog){
-      System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
-      System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
-      System.out.println("final Weight after expanssion "+tfSStats.getTerm()+":::"+v);
+    //  System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
+    //  System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
+    //  System.out.println("final Weight after expanssion "+tfSStats.getTerm()+":::"+v);
     }
 
     return v;
@@ -622,8 +623,8 @@ public class BM25SynonymReranker implements Reranker {
 
     }
 
-  private boolean isSynonym(String orig, String expanded) {
-    return RerankerContext.isSynonyms(orig,expanded);
+  private boolean isSynonym( String orig, String expanded, RerankerContext context ) {
+    return context.isSynonyms(orig,expanded);
   }
 
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats) {
