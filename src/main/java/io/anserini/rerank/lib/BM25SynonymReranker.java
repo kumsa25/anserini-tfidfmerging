@@ -310,7 +310,7 @@ public class BM25SynonymReranker implements Reranker {
 
       String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord( str );
       if(str.indexOf( "narro" ) !=-1 ){
-        System.out.println("Going to put narro in the map >>>"+key);
+       // System.out.println("Going to put narro in the map >>>"+key);
       }
       synonymsWeigh.put( key, expansionTerm.getWeight());
     }
@@ -466,7 +466,7 @@ public class BM25SynonymReranker implements Reranker {
       totalScore+=termWeight;
     }
     if(context_.getQueryText().equalsIgnoreCase(QUERY_DEBUG)){
-      System.out.println("Final Weight of query >>>"+docId+"::"+totalScore);
+      //System.out.println("Final Weight of query >>>"+docId+"::"+totalScore);
     }
     return totalScore;
   }
