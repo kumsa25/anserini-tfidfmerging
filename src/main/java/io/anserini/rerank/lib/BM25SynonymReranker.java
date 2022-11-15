@@ -190,7 +190,8 @@ public class BM25SynonymReranker implements Reranker {
     if(queryText.trim().length()==0){
       System.out.println("quwry text is empty");
     }
-    System.out.println("expanded terms >>"+expandedQueryTerms+":::"+queryText+":::"+context.getQueryId());
+    System.out.println("Query text is >>"+queryText);
+    System.out.println("expanded terms >>>"+expandedQueryTerms+":::"+queryText+":::"+context.getQueryId());
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
      // System.out.println("Found the matching query >>>"+expandedQueryTerms);
     }
