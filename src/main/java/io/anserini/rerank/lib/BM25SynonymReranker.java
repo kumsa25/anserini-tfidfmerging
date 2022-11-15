@@ -442,7 +442,7 @@ public class BM25SynonymReranker implements Reranker {
     }
     List<TermScoreDetails> termScoreDetailsList = originalScoredDocsStats.get(docId);
     if(shouldLog){
-      System.out.println("Doc id >>>"+docId+"::::"+termScoreDetailsList);
+      //System.out.println("Doc id >>>"+docId+"::::"+termScoreDetailsList);
     }
     Iterator<TermScoreDetails> iterator = termScoreDetailsList.iterator();
     float totalScore=0;
@@ -453,8 +453,8 @@ public class BM25SynonymReranker implements Reranker {
 
       IDFStats idfStats = termScoreDetails.getIdfStats();
       if(shouldLog){
-        System.out.println("before merge::"+docId+":::"+tfSStats+"::::"+idfStats);
-        System.out.println(" before merge docId >>"+docId+"::::"+expandedScoredDocsStats);
+       // System.out.println("before merge::"+docId+":::"+tfSStats+"::::"+idfStats);
+       // System.out.println(" before merge docId >>"+docId+"::::"+expandedScoredDocsStats);
       }
 
       float termWeight=createTermWeight(boost,tfSStats,idfStats,expandedScoredDocsStats,context_,docId);
