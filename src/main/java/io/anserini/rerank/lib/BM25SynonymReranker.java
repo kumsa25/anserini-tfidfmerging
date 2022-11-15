@@ -285,7 +285,7 @@ public class BM25SynonymReranker implements Reranker {
       if( QUERY_DEBUG.toLowerCase().indexOf( token.toLowerCase() ) !=-1){
         log=true;
       }
-      List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(token);
+      List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(token.toLowerCase());
       if(expansionTerms.isEmpty()){
        System.out.println("expansionTerms >>>"+token+"::::"+token);
       }
@@ -499,7 +499,7 @@ public class BM25SynonymReranker implements Reranker {
         //   System.out.println("found synonym for "+tfSStats.getTerm());
         TFStats expandedTFStat = next.getTfSStats();
         IDFStats expandedIDFStat = next.getIdfStats();
-        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( tfSStats.getTerm() );
+        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( tfSStats.getTerm().toLowerCase() );
 
         //  System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()

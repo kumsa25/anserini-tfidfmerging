@@ -80,7 +80,7 @@ public class RerankerContext<K> {
           weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), expansionWord));
           current = closeIndex + 1;
         }
-        expansionWordsForTerms.put(word, weightedExpansionTerms);
+        expansionWordsForTerms.put(word.toLowerCase(), weightedExpansionTerms);
         Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( id );
         if(stringListMap==null){
           expansionWords.put( id,expansionWordsForTerms );

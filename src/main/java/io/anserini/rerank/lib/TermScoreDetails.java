@@ -69,7 +69,7 @@ public class TermScoreDetails {
 
     public void addSynonymsTFStats(TFStats synonymTFSStat, RerankerContext context_ ){
         synonymsTFStats.add(synonymTFSStat);
-        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( term );
+        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( term.toLowerCase() );
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()
             .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( synonymTFSStat.getTerm() ) ).findFirst();
         if(first.isPresent()){
@@ -78,7 +78,7 @@ public class TermScoreDetails {
     }
     public void addSynonymsIDFStats(IDFStats synonymIDFStat,RerankerContext context_){
         synonymsIDFStats.add(synonymIDFStat);
-        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( term );
+        List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( term.toLowerCase() );
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()
             .filter( expansionTerm -> expansionTerm.getExpansionTerm().equalsIgnoreCase( synonymIDFStat.getTerm() ) ).findFirst();
         if(first.isPresent()){
