@@ -108,7 +108,7 @@ public class BM25SynonymReranker implements Reranker {
         Explanation explain = searcher.explain(query, id);
         boolean shdLog=false;
         if(queryText.toLowerCase().indexOf( QUERY_DEBUG) !=-1 &&  actualDocId.equalsIgnoreCase( DOC_ID_DEBUG )){
-          System.out.println("Queery test >>>"+queryText);
+        //  System.out.println("Queery test >>>"+queryText);
 
           shdLog=true;
           System.out.println("Original Query explanation stats is >>"+allDocsSStats);
@@ -189,7 +189,7 @@ public class BM25SynonymReranker implements Reranker {
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
     System.out.println("expanded terms >>"+expandedQueryTerms+":::"+queryText+":::"+context.getQueryId());
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
-      System.out.println("Found the matching query >>>"+expandedQueryTerms);
+     // System.out.println("Found the matching query >>>"+expandedQueryTerms);
     }
 
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
@@ -214,7 +214,7 @@ public class BM25SynonymReranker implements Reranker {
         Document doc1 = searcher.doc( docid );
         String actualDocId= doc1.get( "id" );
         if(queryText.toLowerCase().indexOf( QUERY_DEBUG ) !=-1){
-          System.out.println("Expanded Queery terms >>>"+expandedQueryTerms);
+         // System.out.println("Expanded Queery terms >>>"+expandedQueryTerms);
           shdLog=true;
         }
 
@@ -360,7 +360,7 @@ public class BM25SynonymReranker implements Reranker {
       }else{
         boolean log=false;
         if(context_.getQueryText().equalsIgnoreCase( QUERY_DEBUG )){
-          System.out.println(" NEW DOC ID FOUND >>>>"+docid);
+        //  System.out.println(" NEW DOC ID FOUND >>>>"+docid);
           log=true;
         }
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
@@ -481,7 +481,7 @@ public class BM25SynonymReranker implements Reranker {
     }
     Iterator<TermScoreDetails> iterator = expandedScoredDocsStats.iterator();
     if(shouldLog){
-      System.out.println("expandedScoredDocsStats >>>"+expandedScoredDocsStats);
+     // System.out.println("expandedScoredDocsStats >>>"+expandedScoredDocsStats);
     }
     List<TFStats> expandedTFSStatsList= new ArrayList<>();
     List<IDFStats> expandedIDFStatsList= new ArrayList<>();
