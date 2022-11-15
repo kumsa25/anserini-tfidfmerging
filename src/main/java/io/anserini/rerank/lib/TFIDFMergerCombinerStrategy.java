@@ -65,7 +65,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             System.out.println("Document count did not match Expected and actual are ::"+count+"::"+allDocs.size());
         }
         if(context.getSearchArgs().originalidf==true){
-            System.out.println("originalidf is true. So, returning original idf");
+       //     System.out.println("originalidf is true. So, returning original idf");
             return original.getIdfValue();
         }
 

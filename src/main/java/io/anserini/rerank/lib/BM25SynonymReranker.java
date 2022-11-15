@@ -100,7 +100,7 @@ public class BM25SynonymReranker implements Reranker {
 
         String actualDocId = doc.get( "id" );
         if(context.getQueryText().equalsIgnoreCase( QUERY_DEBUG )){
-          System.out.println("Original BM 25 >>"+actualDocId+":::"+scores[_index++]);
+          //System.out.println("Original BM 25 >>"+actualDocId+":::"+scores[_index++]);
         }
         Object queryId = context.getQueryId();
         docIdVsDocument.putIfAbsent( queryText+":"+actualDocId+":"+queryId, doc);
@@ -147,7 +147,7 @@ public class BM25SynonymReranker implements Reranker {
       e.printStackTrace();
     }
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
-      System.out.println("FINAL MAP ::::"+stringFloatMap);
+      //System.out.println("FINAL MAP ::::"+stringFloatMap);
     }
 
     LinkedHashMap<String, Float> reverseSortedMap = new LinkedHashMap<>();
@@ -187,6 +187,7 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
+    System.out.println("expanded terms >>"+expandedQueryTerms+":::"+queryText+":::"+context.getQueryId());
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
       System.out.println("Found the matching query >>>"+expandedQueryTerms);
     }
