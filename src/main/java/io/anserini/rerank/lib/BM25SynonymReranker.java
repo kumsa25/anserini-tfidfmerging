@@ -187,6 +187,9 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
+    if(queryText.trim().length()==0){
+      System.out.println("quwry text is empty");
+    }
     System.out.println("expanded terms >>"+expandedQueryTerms+":::"+queryText+":::"+context.getQueryId());
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
      // System.out.println("Found the matching query >>>"+expandedQueryTerms);
