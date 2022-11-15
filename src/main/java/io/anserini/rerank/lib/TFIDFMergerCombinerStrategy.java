@@ -25,9 +25,9 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
                     }
                 }
             }
-            if(shdLog){
-                System.out.println("Weight is >>>"+original.getTerm()+"::"+synonymsTF.getTerm()+"::::"+assignedweight);
-            }
+           // if(shdLog){
+                System.out.println("Weight is >>>"+original.getTerm()+"::"+synonymsTF.getTerm()+"::::"+assignedweight+":::queryid::"+context.getQueryId());
+            //}
             //System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
             freqTotal+= synonymsTF.getFreq()* assignedweight;
 
