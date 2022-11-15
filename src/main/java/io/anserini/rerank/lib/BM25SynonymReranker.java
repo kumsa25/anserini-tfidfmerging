@@ -111,7 +111,7 @@ public class BM25SynonymReranker implements Reranker {
         //  System.out.println("Queery test >>>"+queryText);
 
           shdLog=true;
-          System.out.println("Original Query explanation stats is >>"+allDocsSStats);
+          //System.out.println("Original Query explanation stats is >>"+allDocsSStats);
         }
         Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
         //   System.out.println("All stats >>>"+allStats);
@@ -255,8 +255,8 @@ public class BM25SynonymReranker implements Reranker {
 
           if(shdLog){
             if(actualDocId.equalsIgnoreCase( DOC_ID_DEBUG)){
-              System.out.println("explanation for WSJ871218-0126 is "+explain);
-              System.out.println("synonyms map >>>>"+allStats);
+             // System.out.println("explanation for WSJ871218-0126 is "+explain);
+           //   System.out.println("synonyms map >>>>"+allStats);
             }
           }
 
