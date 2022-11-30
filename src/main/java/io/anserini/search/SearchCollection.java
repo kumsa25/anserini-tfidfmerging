@@ -803,8 +803,13 @@ public final class SearchCollection implements Closeable {
 
       // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
       // multiple fields with the associated boosts.
-      query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString) :
-          generator.buildQuery(args.fieldsMap, analyzer, queryString);
+      if(args.bm25Weighted){
+        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,qid.toString(),args) :
+                generator.buildQuery(args.fieldsMap, analyzer, queryString,qid.toString(),args);
+      }else {
+        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,args) :
+                generator.buildQuery(args.fieldsMap, analyzer, queryString,args);
+      }
     }
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
@@ -817,6 +822,7 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
+
     RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     ScoredDocuments scoredFbDocs; 
     if ( isRerank && args.rf_qrels != null) {

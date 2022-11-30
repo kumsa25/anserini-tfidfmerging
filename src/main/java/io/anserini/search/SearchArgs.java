@@ -364,6 +364,14 @@ public class SearchArgs {
   public boolean bm25syn = false;
 
 
+  @Option(name = "-bm25Weighted", usage = "use bm25PRF Synonyms expansion model")
+  public boolean bm25Weighted = false;
+
+  @Option(name = "-ignoreBoost", usage = "use bm25PRF Synonyms expansion model")
+  public boolean bm25IgnoreBoost= false;
+
+  @Option(name = "-considerWeightAndBoost", usage = "use bm25PRF Synonyms expansion model")
+  public boolean bm25considerWeightAndBoost= false;
 
   @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class,
       usage = "bm25PRF parameter: number of expansion terms")

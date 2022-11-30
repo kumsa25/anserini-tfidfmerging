@@ -26,8 +26,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RerankerContext<K> {
+  public static final String QUERYID_AND_TERM_SEPERATOR = "-";
   private final IndexSearcher searcher;
   private final Query query;
   private final K queryId;
@@ -37,6 +39,7 @@ public class RerankerContext<K> {
   private final Query filter;
   private final SearchArgs searchArgs;
   private static Map<String,Map<String,List<WeightedExpansionTerm>>> expansionWords= new HashMap<>(); // Simple text
+  private static Map<String, Float> weightedBM25Terms= new ConcurrentHashMap<>();
 
 
   public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
@@ -51,46 +54,76 @@ public class RerankerContext<K> {
     this.searchArgs = searchArgs;
     String expWordsWithWeightsFile = searchArgs.expwords;
     if (expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
-      Properties properties = new Properties();
-      properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
-      Set<Object> keys = properties.keySet();
-      Iterator<Object> iterator = keys.iterator();
-      while (iterator.hasNext()) {
-        String word = (String) iterator.next();
-        String[] keyWithQueryId=word.split( "-" );
-        String id=keyWithQueryId[0];
-
-        String propertyvalue = properties.getProperty(word);
-        //String[] split = propertyvalue.split(":");
-        String expansions = propertyvalue.trim();
-        int current = 0;
-        int lastIndex = expansions.lastIndexOf(")");
-        List<WeightedExpansionTerm> weightedExpansionTerms = new ArrayList<>();
-        word=keyWithQueryId[1];
-
-        Map expansionWordsForTerms= new HashMap<>();
-        while (current < lastIndex) {
-          current = expansions.indexOf("(",current);
-          ;
-          int closeIndex = expansions.indexOf(")", current);
-          String content = expansions.substring(current + 1, closeIndex);
-          String[] split1 = content.split(",");
-          String expansionWord = split1[0];
-          String weight = split1[1];
-          weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), expansionWord));
-          current = closeIndex + 1;
-        }
-        expansionWordsForTerms.put(word.toLowerCase(), weightedExpansionTerms);
-        Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( id );
-        if(stringListMap==null){
-          expansionWords.put( id,expansionWordsForTerms );
-        }else
-        {
-          stringListMap.putAll( expansionWordsForTerms );
-        }
-
+      if(searchArgs.bm25syn) {
+        buildDictionaryForExpansion(expWordsWithWeightsFile);
+      }
+      if(searchArgs.bm25syn) {
+        buildWeightedTerm(expWordsWithWeightsFile);
       }
     }
+  }
+
+
+  private static void buildWeightedTerm(String expWordsWithWeightsFile) throws IOException {
+    Properties properties = new Properties();
+    properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
+    Set<Object> keys = properties.keySet();
+    Iterator<Object> iterator = keys.iterator();
+    while (iterator.hasNext()) {
+      String termWithQID = (String) iterator.next();
+      String weight = properties.getProperty(termWithQID).trim();
+      weightedBM25Terms.put(termWithQID.toLowerCase(),Float.parseFloat(weight));
+
+    }
+  }
+
+  private static void buildDictionaryForExpansion(String expWordsWithWeightsFile) throws IOException {
+    Properties properties = new Properties();
+    properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
+    Set<Object> keys = properties.keySet();
+    Iterator<Object> iterator = keys.iterator();
+    while (iterator.hasNext()) {
+      String word = (String) iterator.next();
+      String[] keyWithQueryId=word.split(QUERYID_AND_TERM_SEPERATOR);
+      String id=keyWithQueryId[0];
+
+      String propertyvalue = properties.getProperty(word);
+      //String[] split = propertyvalue.split(":");
+      String expansions = propertyvalue.trim();
+      int current = 0;
+      int lastIndex = expansions.lastIndexOf(")");
+      List<WeightedExpansionTerm> weightedExpansionTerms = new ArrayList<>();
+      word=keyWithQueryId[1];
+
+      Map expansionWordsForTerms= new HashMap<>();
+      while (current < lastIndex) {
+        current = expansions.indexOf("(",current);
+        ;
+        int closeIndex = expansions.indexOf(")", current);
+        String content = expansions.substring(current + 1, closeIndex);
+        String[] split1 = content.split(",");
+        String expansionWord = split1[0];
+        String weight = split1[1];
+        weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), expansionWord));
+        current = closeIndex + 1;
+      }
+      expansionWordsForTerms.put(word.toLowerCase(), weightedExpansionTerms);
+      Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( id );
+      if(stringListMap==null){
+        expansionWords.put( id,expansionWordsForTerms );
+      }else
+      {
+        stringListMap.putAll( expansionWordsForTerms );
+      }
+
+    }
+  }
+
+  public static float getWeight(String termWithQueryid) {
+    if(!weightedBM25Terms.containsKey(termWithQueryid)){
+      return 1;
+    }
+    return weightedBM25Terms.get(termWithQueryid);
   }
 
   public  float calculateWeight( String original, TFStats synonymsTF_ )

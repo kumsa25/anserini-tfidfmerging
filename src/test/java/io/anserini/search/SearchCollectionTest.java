@@ -153,6 +153,27 @@ public class SearchCollectionTest {
   }
 
   @Test
+  public void testSearchLucene91() throws Exception {
+    SearchCollection.main(
+            new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_trec_collection2/",
+                    "-topics", "src/test/resources/sample_topics/Trec",
+                    "-topicreader", "Trec", "-output", "run.test", "-bm25","-bm25syn","-bm25Weighted","-ignoreBoost"});
+    check("run.test", new String[]{
+            "1 Q0 DOC222 1 0.343192 Anserini",
+            "1 Q0 TREC_DOC_1 2 0.333445 Anserini",
+            "1 Q0 WSJ_1 3 0.068654 Anserini"});
+    new File("run.test").delete();
+
+    SearchCollection.main(
+            new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_json_collection_tokenized/",
+                    "-topics", "src/test/resources/sample_topics/json_topics1.tsv",
+                    "-topicreader", "TsvInt", "-output", "run.test", "-pretokenized", "-impact"});
+    check("run.test", new String[]{
+            "1 Q0 2000001 1 4.000000 Anserini",});
+    new File("run.test").delete();
+  }
+
+  @Test
   public void testBM25TF(){
     float k= (float) 0.9;
     float b= (float) 0.4;
@@ -182,7 +203,7 @@ public class SearchCollectionTest {
 
 
   }
-  @Test
+  /*@Test
   public void testSearchLucene_sk() throws Exception {
     double logValue=Math.log(8.0/7);
     System.out.println("log >>>"+logValue);
@@ -234,8 +255,8 @@ public class SearchCollectionTest {
                     "-topicreader", "TsvInt", "-output", "run.test", "-pretokenized", "-impact", "-bm25syn","-expwords","/Users/kumsa25/dictionary.txt"});
     check("run.test", new String[]{
             "1 Q0 2000001 1 4.000000 Anserini",});
-    new File("run.test").delete();*/
-  }
+    new File("run.test").delete();
+  }*/
 
 
   protected void check(String output, String[] ref) throws IOException {

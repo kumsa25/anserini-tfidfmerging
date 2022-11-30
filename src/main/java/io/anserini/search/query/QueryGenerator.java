@@ -16,6 +16,7 @@
 
 package io.anserini.search.query;
 
+import io.anserini.search.SearchArgs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.Query;
 
@@ -24,7 +25,28 @@ import java.util.Map;
 public abstract class QueryGenerator {
   public abstract Query buildQuery(String field, Analyzer analyzer, String queryText);
 
+
+  public  Query buildQuery(String field, Analyzer analyzer, String queryText, SearchArgs args){
+    return buildQuery(field, analyzer, queryText);
+  }
+
+  /*
+    Added by Sanjeev
+     */
+  public  Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args){
+    return buildQuery(field, analyzer, queryText);
+  }
+
+
   public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText) {
+    throw new UnsupportedOperationException("The query generator does not support multi-field searches.");
+  }
+
+  public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText,SearchArgs args) {
+    throw new UnsupportedOperationException("The query generator does not support multi-field searches.");
+  }
+
+  public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText,String queryid,SearchArgs args) {
     throw new UnsupportedOperationException("The query generator does not support multi-field searches.");
   }
 }

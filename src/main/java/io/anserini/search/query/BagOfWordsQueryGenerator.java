@@ -17,6 +17,8 @@
 package io.anserini.search.query;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.rerank.RerankerContext;
+import io.anserini.search.SearchArgs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
@@ -48,6 +50,48 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   }
 
   @Override
+  public Query buildQuery(String field, Analyzer analyzer, String queryText,SearchArgs args) {
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
+    Map<String, Long> collect = tokens.stream()
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (String t : collect.keySet()) {
+      float boost = collect.get(t);
+      if(args.bm25IgnoreBoost){
+        boost=1;
+      }
+      builder.add(new BoostQuery(new TermQuery(new Term(field, t)), boost),
+              BooleanClause.Occur.SHOULD);
+    }
+    return builder.build();
+  }
+
+
+  @Override
+  public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
+    List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
+    Map<String, Long> collect = tokens.stream()
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (String t : collect.keySet()) {
+      float weight=RerankerContext.getWeight(queryid+RerankerContext.QUERYID_AND_TERM_SEPERATOR+t);
+      float boost = collect.get(t);
+      if(args.bm25considerWeightAndBoost) {
+        boost = boost * weight;
+      }
+      if(args.bm25IgnoreBoost) {
+        boost = weight;
+      }
+      builder.add(new BoostQuery(new TermQuery(new Term(field, t)), boost),
+              BooleanClause.Occur.SHOULD);
+    }
+    return builder.build();
+  }
+
+
+
+
+  @Override
   public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText) {
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (Map.Entry<String, Float> entry : fields.entrySet()) {
@@ -55,6 +99,47 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       float boost = entry.getValue();
 
       Query clause = buildQuery(field, analyzer, queryText);
+
+      builder.add(new BoostQuery(clause, boost), BooleanClause.Occur.SHOULD);
+    }
+    return builder.build();
+  }
+
+  @Override
+  public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText,SearchArgs args) {
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (Map.Entry<String, Float> entry : fields.entrySet()) {
+      String field = entry.getKey();
+      float boost = entry.getValue();
+      if(args.bm25IgnoreBoost){
+        boost=1;
+      }
+
+      Query clause = buildQuery(field, analyzer, queryText);
+
+      builder.add(new BoostQuery(clause, boost), BooleanClause.Occur.SHOULD);
+    }
+    return builder.build();
+  }
+
+  @Override
+  public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText,String queryid,SearchArgs args) {
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    for (Map.Entry<String, Float> entry : fields.entrySet()) {
+      String field = entry.getKey();
+
+      float boost = entry.getValue();
+
+      float weight=RerankerContext.getWeight(queryid+RerankerContext.QUERYID_AND_TERM_SEPERATOR+field);
+      if(args.bm25considerWeightAndBoost) {
+        boost = boost * weight;
+      }
+      if(args.bm25IgnoreBoost) {
+        boost = weight;
+      }
+
+      Query clause = buildQuery(field, analyzer, queryText);
+
       builder.add(new BoostQuery(clause, boost), BooleanClause.Occur.SHOULD);
     }
     return builder.build();
