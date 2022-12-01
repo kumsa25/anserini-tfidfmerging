@@ -30,6 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RerankerContext<K> {
   public static final String QUERYID_AND_TERM_SEPERATOR = "-";
+  private static volatile boolean done=false;
   private final IndexSearcher searcher;
   private final Query query;
   private final K queryId;
@@ -56,8 +57,8 @@ public class RerankerContext<K> {
     if (expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
       if(searchArgs.bm25syn) {
         buildDictionaryForExpansion(expWordsWithWeightsFile);
-      }
-      if(searchArgs.bm25syn) {
+      }else
+      if(searchArgs.bm25) {
         buildWeightedTerm(expWordsWithWeightsFile);
       }
     }
@@ -119,8 +120,18 @@ public class RerankerContext<K> {
     }
   }
 
-  public static float getWeight(String termWithQueryid) {
-    if(!weightedBM25Terms.containsKey(termWithQueryid)){
+  public static float getWeight(String termWithQueryid,SearchArgs args) {
+    String expWordsWithWeightsFile = args.expwords;
+    if (!done && expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
+      try {
+        buildWeightedTerm(expWordsWithWeightsFile);
+        done=true;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
+      if(!weightedBM25Terms.containsKey(termWithQueryid)){
       return 1;
     }
     return weightedBM25Terms.get(termWithQueryid);
