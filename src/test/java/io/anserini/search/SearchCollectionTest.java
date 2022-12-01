@@ -157,7 +157,7 @@ public class SearchCollectionTest {
     SearchCollection.main(
             new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene8-index.sample_docs_trec_collection2/",
                     "-topics", "src/test/resources/sample_topics/Trec",
-                    "-topicreader", "Trec", "-output", "run.test", "-bm25","-bm25Weighted","-ignoreBoost", "-expwords","/Users/sk671103/dictionary.txt"});
+                    "-topicreader", "Trec", "-output", "run.test", "-bm25","-bm25syn","-bm25Weighted","-ignoreBoost", "-expwords","/Users/sk671103/dictionary.txt"});
     check("run.test", new String[]{
             "1 Q0 DOC222 1 0.343192 Anserini",
             "1 Q0 TREC_DOC_1 2 0.333445 Anserini",

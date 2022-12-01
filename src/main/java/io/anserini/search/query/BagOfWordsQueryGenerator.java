@@ -74,9 +74,12 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (String t : collect.keySet()) {
-      float weight=RerankerContext.getWeight(queryid+RerankerContext.QUERYID_AND_TERM_SEPERATOR+t,args);
+      float weight=1;
+      if(!args.bm25syn && args.bm25Weighted) {
+        weight = RerankerContext.getWeight(queryid + RerankerContext.QUERYID_AND_TERM_SEPERATOR + t, args);
+      }
       float boost = collect.get(t);
-      if(args.bm25considerWeightAndBoost) {
+      if(!args.bm25syn && args.bm25considerWeightAndBoost) {
         boost = boost * weight;
       }
       if(args.bm25IgnoreBoost) {

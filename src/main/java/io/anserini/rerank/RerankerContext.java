@@ -57,9 +57,6 @@ public class RerankerContext<K> {
     if (expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
       if(searchArgs.bm25syn) {
         buildDictionaryForExpansion(expWordsWithWeightsFile);
-      }else
-      if(searchArgs.bm25) {
-        buildWeightedTerm(expWordsWithWeightsFile);
       }
     }
   }
@@ -74,6 +71,12 @@ public class RerankerContext<K> {
       String termWithQID = (String) iterator.next();
       String weight = properties.getProperty(termWithQID).trim();
       weightedBM25Terms.put(termWithQID.toLowerCase(),Float.parseFloat(weight));
+      int sepIndex = termWithQID.indexOf(RerankerContext.QUERYID_AND_TERM_SEPERATOR);
+      String justQueryId=termWithQID.substring(0, sepIndex);
+      String justQuery=termWithQID.substring(sepIndex+1);
+      String stemWord=findStemWord(justQuery);
+
+      weightedBM25Terms.put(justQueryId+RerankerContext.QUERYID_AND_TERM_SEPERATOR+stemWord,Float.parseFloat(weight));
 
     }
   }
