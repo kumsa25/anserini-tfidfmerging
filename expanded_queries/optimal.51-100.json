@@ -1,0 +1,752 @@
+{
+    "51": {
+        "query": "Airbus Subsidies",
+        "expansion_terms": [
+            "pelmec",
+            "fpbldg",
+            "availa",
+            "homeworker",
+            "homeworkers",
+            "nonsignificant",
+            "nedlloyd",
+            "excavations",
+            "sloping",
+            "leaseback"
+        ]
+    },
+    "52": {
+        "query": "South African Sanctions",
+        "expansion_terms": [
+            "respa",
+            "ampule",
+            "abuscreen",
+            "expl",
+            "vial",
+            "esec",
+            "syva",
+            "phenobarbital",
+            "pogo",
+            "nonsignificant"
+        ]
+    },
+    "53": {
+        "query": "Leveraged Buyouts",
+        "expansion_terms": [
+            "cdsl",
+            "multijurisdictional",
+            "leaseback",
+            "buydown",
+            "lbos",
+            "revco",
+            "kohlberg",
+            "kravis",
+            "kroger",
+            "buyback"
+        ]
+    },
+    "54": {
+        "query": "Satellite Launch Contracts",
+        "expansion_terms": [
+            "lifeboats",
+            "lifeboat",
+            "liferafts",
+            "liferaft",
+            "payload",
+            "solas",
+            "icbm",
+            "lifesaving",
+            "bumpers",
+            "davit"
+        ]
+    },
+    "55": {
+        "query": "Insider Trading",
+        "expansion_terms": [
+            "narcosis",
+            "rollcall",
+            "usms",
+            "grieve",
+            "yeas",
+            "nays",
+            "stel",
+            "tlvs",
+            "colorless",
+            "cosponsor"
+        ]
+    },
+    "56": {
+        "query": "Prime (Lending) Rate Moves, Predictions",
+        "expansion_terms": [
+            "respa",
+            "basle",
+            "coinsured",
+            "aisi",
+            "ingot",
+            "nonbank",
+            "buydown",
+            "leaseback",
+            "lender",
+            "foundries"
+        ]
+    },
+    "57": {
+        "query": "MCI",
+        "expansion_terms": [
+            "lecs",
+            "sysco",
+            "optometrists",
+            "turnover",
+            "algoma",
+            "comsat",
+            "chauffeur",
+            "intl",
+            "bells",
+            "telesis"
+        ]
+    },
+    "58": {
+        "query": "Rail Strikes",
+        "expansion_terms": [
+            "clericals",
+            "trumka",
+            "pittston",
+            "picket",
+            "wildcat",
+            "walkouts",
+            "pickets",
+            "walkout",
+            "strikers",
+            "amendatory"
+        ]
+    },
+    "59": {
+        "query": "Weather Related Fatalities",
+        "expansion_terms": [
+            "atrs",
+            "mswlfs",
+            "lifejacket",
+            "thunderstorms",
+            "lifejackets",
+            "mswlf",
+            "hoberg",
+            "lafeyette",
+            "davit",
+            "narcosis"
+        ]
+    },
+    "60": {
+        "query": "Merit-Pay vs. Seniority",
+        "expansion_terms": [
+            "annuitant",
+            "cwep",
+            "hsro",
+            "clericals",
+            "fpbldg",
+            "homeworker",
+            "ssns",
+            "grieve",
+            "narcosis",
+            "rdlf"
+        ]
+    },
+    "61": {
+        "query": "Israeli Role in Iran-Contra Affair",
+        "expansion_terms": [
+            "arens",
+            "obeid",
+            "safra",
+            "shamir",
+            "yitzhak",
+            "likud",
+            "moshe",
+            "rabin",
+            "israelis",
+            "arafat"
+        ]
+    },
+    "62": {
+        "query": "Military Coups D'etat",
+        "expansion_terms": [
+            "namphy",
+            "pinochet",
+            "alfonsin",
+            "coup",
+            "haiti",
+            "aquino",
+            "revolt",
+            "noriega",
+            "marcos",
+            "panama"
+        ]
+    },
+    "63": {
+        "query": "Machine Translation",
+        "expansion_terms": [
+            "dppx",
+            "availa",
+            "lasermaker",
+            "truetype",
+            "designstudio",
+            "amoeba",
+            "hyphenation",
+            "toolbook",
+            "bestinfo",
+            "typeface"
+        ]
+    },
+    "64": {
+        "query": "Hostage-Taking",
+        "expansion_terms": [
+            "hamadi",
+            "hijackers",
+            "hijacking",
+            "captors",
+            "kidnappers",
+            "substantiation",
+            "kidnapped",
+            "swapo",
+            "captives",
+            "jihad"
+        ]
+    },
+    "65": {
+        "query": "Information Retrieval Systems",
+        "expansion_terms": [
+            "acfr",
+            "foid",
+            "quadbase",
+            "sqlbase",
+            "ingot",
+            "targon",
+            "declassification",
+            "referential",
+            "intermedia",
+            "query"
+        ]
+    },
+    "66": {
+        "query": "Natural Language Processing",
+        "expansion_terms": [
+            "designstudio",
+            "lasermaker",
+            "foxpro",
+            "penta",
+            "targon",
+            "tegra",
+            "eddy",
+            "intermedia",
+            "varityper",
+            "omnis"
+        ]
+    },
+    "67": {
+        "query": "Politically Motivated Civil Disturbances",
+        "expansion_terms": [
+            "nsep",
+            "narcosis",
+            "grieve",
+            "usms",
+            "kwangju",
+            "yonsei",
+            "yonhap",
+            "stel",
+            "firebombs",
+            "tlvs"
+        ]
+    },
+    "68": {
+        "query": "Health Hazards from Fine-Diameter Fibers",
+        "expansion_terms": [
+            "dinocap",
+            "aroclor",
+            "mswlfs",
+            "postconsumer",
+            "cullet",
+            "fpbldg",
+            "mclg",
+            "mswlf",
+            "hoberg",
+            "debriding"
+        ]
+    },
+    "69": {
+        "query": "Attempts to Revive the SALT II Treaty",
+        "expansion_terms": [
+            "anda",
+            "mclg",
+            "anorectal",
+            "hoberg",
+            "narcosis",
+            "usms",
+            "pqls",
+            "stel",
+            "bioequivalence",
+            "nonsignificant"
+        ]
+    },
+    "70": {
+        "query": "Surrogate Motherhood",
+        "expansion_terms": [
+            "cwep",
+            "embryos",
+            "employability",
+            "safra",
+            "afdc",
+            "decisionmaker",
+            "rehnquist",
+            "paternity",
+            "blackmun",
+            "supplementation"
+        ]
+    },
+    "71": {
+        "query": "Border Incursions",
+        "expansion_terms": [
+            "amani",
+            "rollcall",
+            "jalalabad",
+            "narcosis",
+            "usms",
+            "kandahar",
+            "khost",
+            "mswlf",
+            "yeas",
+            "nays"
+        ]
+    },
+    "72": {
+        "query": "Demographic Shifts in the U.S.",
+        "expansion_terms": [
+            "mswlfs",
+            "mswlf",
+            "luha",
+            "fccu",
+            "municipio",
+            "guaifenesin",
+            "schoolwide",
+            "monofills",
+            "femc",
+            "homesteader"
+        ]
+    },
+    "73": {
+        "query": "Demographic Shifts across National Boundaries",
+        "expansion_terms": [
+            "luha",
+            "guaifenesin",
+            "schoolwide",
+            "mswlfs",
+            "mswlf",
+            "homesteader",
+            "narcosis",
+            "afue",
+            "crna",
+            "capa"
+        ]
+    },
+    "74": {
+        "query": "Conflicting Policy",
+        "expansion_terms": [
+            "mswlfs",
+            "mswlf",
+            "recd",
+            "guaifenesin",
+            "isag",
+            "monofills",
+            "septage",
+            "monofill",
+            "hmta",
+            "narcosis"
+        ]
+    },
+    "75": {
+        "query": "Automation",
+        "expansion_terms": [
+            "gscc",
+            "anda",
+            "iscc",
+            "foid",
+            "narcosis",
+            "afue",
+            "rollcall",
+            "mswlf",
+            "bioequivalence",
+            "yeas"
+        ]
+    },
+    "76": {
+        "query": "U.S. Constitution - Original Intent",
+        "expansion_terms": [
+            "mcpr",
+            "hpci",
+            "maplhgr",
+            "adhrs",
+            "wetterhahn",
+            "drywell",
+            "capa",
+            "rebatable",
+            "avfs",
+            "rollcall"
+        ]
+    },
+    "77": {
+        "query": "Poaching",
+        "expansion_terms": [
+            "narcosis",
+            "rebatable",
+            "mussel",
+            "usms",
+            "shipwrecks",
+            "sablefish",
+            "dace",
+            "rockfish",
+            "refuges",
+            "tortoises"
+        ]
+    },
+    "78": {
+        "query": "Greenpeace",
+        "expansion_terms": [
+            "retread",
+            "retreading",
+            "cask",
+            "mclg",
+            "aldicarb",
+            "isag",
+            "mclgs",
+            "antarctica",
+            "acronym",
+            "sakharov"
+        ]
+    },
+    "79": {
+        "query": "FRG Political Party Positions",
+        "expansion_terms": [
+            "narcosis",
+            "capa",
+            "rollcall",
+            "yeas",
+            "nays",
+            "clericals",
+            "stel",
+            "tlvs",
+            "colorless",
+            "cosponsor"
+        ]
+    },
+    "80": {
+        "query": "1988 Presidential Candidates Platforms",
+        "expansion_terms": [
+            "hoberg",
+            "uncommitted",
+            "precincts",
+            "gephardt",
+            "haig",
+            "babbitt",
+            "amoeba",
+            "lasermaker",
+            "caucuses",
+            "primaries"
+        ]
+    },
+    "81": {
+        "query": "Financial crunch for televangelists in the wake of the PTL",
+        "expansion_terms": [
+            "swaggart",
+            "fixings",
+            "buffett",
+            "bakker",
+            "comex",
+            "falwell",
+            "thurs",
+            "schoolwide",
+            "franc",
+            "evangelist"
+        ]
+    },
+    "82": {
+        "query": "Genetic Engineering",
+        "expansion_terms": [
+            "anda",
+            "debriding",
+            "asst",
+            "bioequivalence",
+            "dace",
+            "semen",
+            "biologics",
+            "recombinant",
+            "exclusivity",
+            "flocks"
+        ]
+    },
+    "83": {
+        "query": "Measures to Protect the Atmosphere",
+        "expansion_terms": [
+            "fccu",
+            "deqe",
+            "nonelective",
+            "ppmv",
+            "narcosis",
+            "nonhighly",
+            "cyanazine",
+            "ract",
+            "nonattainment",
+            "tlvs"
+        ]
+    },
+    "84": {
+        "query": "Alternative/renewable Energy Plant & Equipment Installation",
+        "expansion_terms": [
+            "mswlfs",
+            "mswlf",
+            "postconsumer",
+            "cullet",
+            "hoberg",
+            "septage",
+            "monofill",
+            "narcosis",
+            "homeworker",
+            "monofills"
+        ]
+    },
+    "85": {
+        "query": "Official Corruption",
+        "expansion_terms": [
+            "respa",
+            "usms",
+            "sysco",
+            "optometrists",
+            "nonsignificant",
+            "captioned",
+            "buydown",
+            "leaseback",
+            "safra",
+            "tesoro"
+        ]
+    },
+    "86": {
+        "query": "Bank Failures",
+        "expansion_terms": [
+            "iscc",
+            "hmda",
+            "basle",
+            "usms",
+            "firrea",
+            "nonbank",
+            "associational",
+            "overdraft",
+            "ceba",
+            "charterer"
+        ]
+    },
+    "87": {
+        "query": "Criminal Actions Against Officers of Failed",
+        "expansion_terms": [
+            "onbase",
+            "iscc",
+            "rdlf",
+            "rollcall",
+            "gaubert",
+            "basle",
+            "yeas",
+            "nays",
+            "executory",
+            "nonfunctional"
+        ]
+    },
+    "88": {
+        "query": "Crude Oil Price Trends",
+        "expansion_terms": [
+            "narcosis",
+            "subroto",
+            "lukman",
+            "stel",
+            "tlvs",
+            "nazer",
+            "colorless",
+            "sensitization",
+            "acgih",
+            "hisham"
+        ]
+    },
+    "89": {
+        "query": "\"Downstream\" Investments by OPEC Member States",
+        "expansion_terms": [
+            "recd",
+            "anticompetitive",
+            "buffett",
+            "embarrassment",
+            "icahn",
+            "donor",
+            "pickens",
+            "petrochemical",
+            "unocal",
+            "siegel"
+        ]
+    },
+    "90": {
+        "query": "Data on Proven Reserves of Oil & Natural Gas",
+        "expansion_terms": [
+            "fccu",
+            "mswlfs",
+            "mswlf",
+            "narcosis",
+            "barite",
+            "afue",
+            "monofills",
+            "chukchi",
+            "defrost",
+            "tlvs"
+        ]
+    },
+    "91": {
+        "query": "U.S. Army Acquisition of Advanced Weapons Systems",
+        "expansion_terms": [
+            "gscc",
+            "odmds",
+            "dosar",
+            "cpar",
+            "avfs",
+            "capa",
+            "rollcall",
+            "shipwrecks",
+            "shipwreck",
+            "yeas"
+        ]
+    },
+    "92": {
+        "query": "International Military Equipment Sales",
+        "expansion_terms": [
+            "liferaft",
+            "iscc",
+            "fogei",
+            "nachi",
+            "lifejacket",
+            "fouo",
+            "femc",
+            "davit",
+            "liferafts",
+            "lifejackets"
+        ]
+    },
+    "93": {
+        "query": "What Backing Does the National Rifle Association",
+        "expansion_terms": [
+            "gscc",
+            "basle",
+            "netting",
+            "honoraria",
+            "servicer",
+            "unethical",
+            "deferrals",
+            "nominating",
+            "intl",
+            "oecd"
+        ]
+    },
+    "94": {
+        "query": "Computer-aided Crime",
+        "expansion_terms": [
+            "foid",
+            "usps",
+            "hacker",
+            "nays",
+            "yeas",
+            "felon",
+            "nara",
+            "exon",
+            "hackers",
+            "murkowski"
+        ]
+    },
+    "95": {
+        "query": "Computer-aided Crime Detection",
+        "expansion_terms": [
+            "mswlfs",
+            "mswlf",
+            "iscc",
+            "monofills",
+            "foid",
+            "fouo",
+            "dinocap",
+            "monofill",
+            "hoberg",
+            "septage"
+        ]
+    },
+    "96": {
+        "query": "Computer-Aided Medical Diagnosis",
+        "expansion_terms": [
+            "crna",
+            "crnas",
+            "clia",
+            "debriding",
+            "usms",
+            "angiography",
+            "photoshop",
+            "usps",
+            "nara",
+            "tomography"
+        ]
+    },
+    "97": {
+        "query": "Fiber Optics Applications",
+        "expansion_terms": [
+            "rewritable",
+            "fibre",
+            "isdn",
+            "amateur",
+            "backplane",
+            "trunks",
+            "fddi",
+            "arcnet",
+            "erasable",
+            "kbps"
+        ]
+    },
+    "98": {
+        "query": "Fiber Optics Equipment Manufacturers",
+        "expansion_terms": [
+            "trunks",
+            "machining",
+            "backplane",
+            "centrex",
+            "mold",
+            "cone",
+            "fibre",
+            "booth",
+            "transcontinental",
+            "connector"
+        ]
+    },
+    "99": {
+        "query": "Iran-Contra Affair",
+        "expansion_terms": [
+            "safra",
+            "rafsanjani",
+            "walsh",
+            "gesell",
+            "hakim",
+            "exon",
+            "dixon",
+            "regan",
+            "unanimous",
+            "poindexter"
+        ]
+    },
+    "100": {
+        "query": "Controlling the Transfer of High Technology",
+        "expansion_terms": [
+            "eccn",
+            "femc",
+            "narcosis",
+            "asst",
+            "rollcall",
+            "yeas",
+            "nays",
+            "clia",
+            "stel",
+            "cocom"
+        ]
+    }
+}

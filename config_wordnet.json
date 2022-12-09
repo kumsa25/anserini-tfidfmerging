@@ -1,0 +1,227 @@
+[
+    
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": "wordnet_wup",
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": "wordnet_wup",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": "wordnet_path",
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": "wordnet_path",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": 0,
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": 0.1,
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": 0.5,
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": 1,
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": 0,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": 0.1,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": 0.5,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": 1,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": "contextual_mean",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": "contextual_term",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": "contextual_mean",
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "wordnet",
+        "weight": "contextual_term",
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": "wordnet_wup",
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": "wordnet_wup",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": "wordnet_path",
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": "wordnet_path",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": 0,
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": 0.1,
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": 0.5,
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": 1,
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": 0,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": 0.1,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": 0.5,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": 1,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": "contextual_mean",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": "contextual_term",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": "contextual_mean",
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "wordnet",
+        "weight": "contextual_term",
+        "method": "bm25"
+    }
+]

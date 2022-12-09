@@ -1,0 +1,59 @@
+[
+    
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": 0,
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": 0.1,
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": 0.5,
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": 1,
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": 0,
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": 0.1,
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": 0.5,
+        "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": 1,
+        "method": "bm25"
+    }
+]
