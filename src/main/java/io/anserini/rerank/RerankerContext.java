@@ -40,7 +40,7 @@ public class RerankerContext<K> {
   private final Query filter;
   private final SearchArgs searchArgs;
   private static Map<String,Map<String,List<WeightedExpansionTerm>>> expansionWords= new HashMap<>(); // Simple text
-  private static Map<String, Float> weightedBM25Terms= new ConcurrentHashMap<>();
+  private static Map<String, List<WeightedExpansionTerm>> weightedBM25Terms= new ConcurrentHashMap<>();
 
 
   public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
@@ -70,13 +70,19 @@ public class RerankerContext<K> {
     while (iterator.hasNext()) {
       String termWithQID = (String) iterator.next();
       String weight = properties.getProperty(termWithQID).trim();
-      weightedBM25Terms.put(termWithQID.toLowerCase(),Float.parseFloat(weight));
-      int sepIndex = termWithQID.indexOf(RerankerContext.QUERYID_AND_TERM_SEPERATOR);
-      String justQueryId=termWithQID.substring(0, sepIndex);
-      String justQuery=termWithQID.substring(sepIndex+1);
-      String stemWord=findStemWord(justQuery);
+      int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);
+      String queryId=termWithQID.substring(0, endIndex);
+      String term=termWithQID.substring(endIndex+1);
+      List<WeightedExpansionTerm> weightedExpansionTerms = weightedBM25Terms.get(queryId);
+      if(weightedExpansionTerms==null){
+        weightedExpansionTerms= new ArrayList<>();
+        weightedBM25Terms.put(queryId,weightedExpansionTerms);
+      }
+      weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight),term.toLowerCase()));
+      //String stemWord = findStemWord(term);
+      //weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight),stemWord.toLowerCase()));
 
-      weightedBM25Terms.put(justQueryId+RerankerContext.QUERYID_AND_TERM_SEPERATOR+stemWord,Float.parseFloat(weight));
+
 
     }
   }
@@ -123,7 +129,7 @@ public class RerankerContext<K> {
     }
   }
 
-  public static float getWeight(String termWithQueryid,SearchArgs args) {
+  public static List<WeightedExpansionTerm> getWeight(String queryid,SearchArgs args) {
     String expWordsWithWeightsFile = args.expwords;
     if (!done && expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
       try {
@@ -134,10 +140,8 @@ public class RerankerContext<K> {
       }
     }
 
-      if(!weightedBM25Terms.containsKey(termWithQueryid)){
-      return 1;
-    }
-    return weightedBM25Terms.get(termWithQueryid);
+      return weightedBM25Terms.get(queryid);
+
   }
 
   public  float calculateWeight( String original, TFStats synonymsTF_ )

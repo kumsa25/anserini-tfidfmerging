@@ -806,6 +806,7 @@ public final class SearchCollection implements Closeable {
       if(args.bm25Weighted){
         query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,qid.toString(),args) :
                 generator.buildQuery(args.fieldsMap, analyzer, queryString,qid.toString(),args);
+        System.out.println("Query after expansion "+qid+":::"+query);
       }else {
         query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,args) :
                 generator.buildQuery(args.fieldsMap, analyzer, queryString,args);
