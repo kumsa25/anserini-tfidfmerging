@@ -140,7 +140,8 @@ public class RerankerContext<K> {
       }
     }
 
-      return weightedBM25Terms.get(queryid);
+    List<WeightedExpansionTerm> weightedExpansionTerms = weightedBM25Terms.get(queryid);
+    return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
 
   }
 
