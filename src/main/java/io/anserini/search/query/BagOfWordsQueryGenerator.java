@@ -28,8 +28,10 @@ import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -79,14 +81,14 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     for (String t : collect.keySet()) {
       float weight=1;
       if(!args.bm25syn && args.bm25Weighted) {
-        List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid, args);
+       /* List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid, args);
         for(WeightedExpansionTerm weightedExpansionTerm : expansionTermsForBM25){
           String stemWord = RerankerContext.findStemWord(weightedExpansionTerm.getExpansionTerm());
           if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(t) || weightedExpansionTerm.getExpansionTerm().toLowerCase().startsWith(t.toLowerCase()) || weightedExpansionTerm.getExpansionTerm().toLowerCase().startsWith(stemWord.toLowerCase())){
             weight=weightedExpansionTerm.getWeight();
             break;
           }
-        }
+        }*/
       }
       float boost = collect.get(t);
       if(!args.bm25syn && args.bm25considerWeightAndBoost) {
@@ -103,6 +105,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     if(!args.bm25syn && args.bm25Weighted) {
       List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid,args);
+      Set<WeightedExpansionTerm> uniqueTerms= new HashSet<>(expansionTermsForBM25);
       for(WeightedExpansionTerm weightedExpansionTerm : expansionTermsForBM25){
         String stemWord = RerankerContext.findStemWord(weightedExpansionTerm.getExpansionTerm());
 

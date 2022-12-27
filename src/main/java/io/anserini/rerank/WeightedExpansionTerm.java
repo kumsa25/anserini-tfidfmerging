@@ -1,5 +1,7 @@
 package io.anserini.rerank;
 
+import java.util.Objects;
+
 public class WeightedExpansionTerm {
     private  float weight;
     private String expansionTerm;
@@ -23,5 +25,19 @@ public class WeightedExpansionTerm {
 
     public void setExpansionTerm(String expansionTerm) {
         this.expansionTerm = expansionTerm;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WeightedExpansionTerm that = (WeightedExpansionTerm) o;
+
+        return Objects.equals(expansionTerm, that.expansionTerm);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(expansionTerm);
     }
 }
