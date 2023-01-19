@@ -1,0 +1,7 @@
+files that have been overwritten:
+
+old optimal v2 is now v3
+
+bm25s not optimal is with the ignore boost flag
+
+expanded queries for optimal is now with v3

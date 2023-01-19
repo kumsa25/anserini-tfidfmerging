@@ -1,5 +1,4 @@
-[
-    
+[   
     {
         "corpus": "disk12",
         "queries": "51-100",
@@ -29,6 +28,13 @@
         "method": "bm25"
     },
     {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": "keep_optimal",
+        "method": "bm25"
+    },
+    {
         "corpus": "covid",
         "queries": "round1",
         "source": "optimal",
@@ -55,5 +61,82 @@
         "source": "optimal",
         "weight": 1,
         "method": "bm25"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": "keep_optimal",
+        "method": "bm25"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": 0,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": 0.1,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": 0.5,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": 1,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "disk12",
+        "queries": "51-100",
+        "source": "optimal",
+        "weight": "keep_optimal",
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": 0,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": 0.1,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": 0.5,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": 1,
+        "method": "bm25s"
+    },
+    {
+        "corpus": "covid",
+        "queries": "round1",
+        "source": "optimal",
+        "weight": "keep_optimal",
+        "method": "bm25s"
     }
 ]

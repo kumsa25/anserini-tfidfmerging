@@ -105,7 +105,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     if(!args.bm25syn && args.bm25Weighted) {
       List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid,args);
-      Set<WeightedExpansionTerm> uniqueTerms= new HashSet<>(expansionTermsForBM25);
+      //Set<WeightedExpansionTerm> uniqueTerms= new HashSet<>(expansionTermsForBM25);
       for(WeightedExpansionTerm weightedExpansionTerm : expansionTermsForBM25){
         String stemWord = RerankerContext.findStemWord(weightedExpansionTerm.getExpansionTerm());
 
