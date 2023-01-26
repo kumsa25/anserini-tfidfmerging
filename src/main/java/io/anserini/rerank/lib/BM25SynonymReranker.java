@@ -154,10 +154,10 @@ public class BM25SynonymReranker implements Reranker {
 
     //Use Comparator.reverseOrder() for reverse ordering
     stringFloatMap.entrySet()
-        .stream()
-        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-        .limit( 1000 )
-        .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+            .stream()
+            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .limit( 1000 )
+            .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
     //  System.out.println("reverseSortedMap>>>>"+reverseSortedMap);
 
@@ -199,9 +199,9 @@ public class BM25SynonymReranker implements Reranker {
 
       ScoreDoc[] docs = topDocs.scoreDocs;
       if(docs.length==0){
-      //  System.out.println("NO MATCH after expansion "+queryText);
+        //  System.out.println("NO MATCH after expansion "+queryText);
       }else{
-       // System.out.println("Matching after expansion"+docs.length);
+        // System.out.println("Matching after expansion"+docs.length);
       }
 
       Map<String, List<TermScoreDetails>> synonymsScoredDocsStats= new HashMap<>();
@@ -317,7 +317,7 @@ public class BM25SynonymReranker implements Reranker {
       synonymsWeigh.put( key, expansionTerm.getWeight());
     }
     return uniqueterms.stream().filter( str->buffer.indexOf( str )==-1 ).map(RerankerContext::findStemWord).
-        collect( Collectors.joining(" ") );
+            collect( Collectors.joining(" ") );
   }
 
   private List<String> findSynonyms(String queryText) {
@@ -383,7 +383,10 @@ public class BM25SynonymReranker implements Reranker {
           weight+=idfStats.getBoost()*tfValue*idf*getWeight(tfSStats.getTerm(),context_);
         }
         String key=context_.getQueryText()+":"+ docid+":"+context_.getQueryId();
-        finalComputedScores.put( key, weight );
+        if(context_.getSearchArgs().considerNewDocs) {
+          finalComputedScores.put(key, weight);
+        }
+        //finalComputedScores.put( key, weight );
 
 
       }
@@ -400,15 +403,15 @@ public class BM25SynonymReranker implements Reranker {
 
     String key=context.getQueryText()+":"+context.getQueryId()+":"+RerankerContext.findStemWord(term);
     if(term.indexOf( "narro" ) !=-1 ){
-    //  System.out.println("Going to find in the map >>>"+key);
+      //  System.out.println("Going to find in the map >>>"+key);
     }
 
     Float aFloat = synonymsWeigh.get( key );
     if(term.indexOf( "narro" ) !=-1 ){
-    //  System.out.println("Going to find in the map >>>"+key+":::"+aFloat);
+      //  System.out.println("Going to find in the map >>>"+key+":::"+aFloat);
     }
     if(aFloat ==null){
-     // System.out.println("Weight not found in the synonyms map::"+term+"::");
+      // System.out.println("Weight not found in the synonyms map::"+term+"::");
     }
     return aFloat !=null ? aFloat.floatValue() : 0;
   }
@@ -500,11 +503,11 @@ public class BM25SynonymReranker implements Reranker {
 
         //  System.out.println("Expansion term for >>>"+tfSStats.getTerm()+"::::"+expansionTerms);
         Optional<WeightedExpansionTerm> first = expansionTerms.stream()
-            .filter( expansionTerm -> {
-              String expansionTerm1 = expansionTerm.getExpansionTerm();
-              String term = next.getTerm();
-              return context_.findStemWord(expansionTerm1).equalsIgnoreCase( context_.findStemWord(term) );
-            } ).findFirst();
+                .filter( expansionTerm -> {
+                  String expansionTerm1 = expansionTerm.getExpansionTerm();
+                  String term = next.getTerm();
+                  return context_.findStemWord(expansionTerm1).equalsIgnoreCase( context_.findStemWord(term) );
+                } ).findFirst();
         if(first.isPresent()){
           expandedTFStat.setAssignedweight( first.get().getWeight() );
           expandedIDFStat.setAssignedweight( first.get().getWeight() );
@@ -524,7 +527,7 @@ public class BM25SynonymReranker implements Reranker {
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
     getDocIds(idfStats,context_);
     for(IDFStats stats : expandedIDFStatsList){
-     // System.out.println("GOing to call doc id for synonyms");
+      // System.out.println("GOing to call doc id for synonyms");
       getDocIds( stats,context_ );
     }
 
@@ -535,6 +538,14 @@ public class BM25SynonymReranker implements Reranker {
       System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
       System.out.println("final Weight after expanssion "+tfSStats.getTerm()+":::"+v);
     }
+    if(finalTFValue !=tfSStats.getTfValue()){
+      System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
+
+    }
+    if(finalIDFValue !=idfStats.getIdfValue()){
+      System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
+
+    }
 
     return v;
   }
@@ -543,23 +554,29 @@ public class BM25SynonymReranker implements Reranker {
   {
     String key=context.getQueryText()+":"+idfStats.getTerm();
     if(docIdsSet.containsKey( key )){
-     // System.out.println("Already contains key, returning");
+      // System.out.println("Already contains key, returning");
       List<String> strings = docIdsSet.get( key );
       idfStats.setActualDocIds( strings );
       return;
     }
-   // prove:::Data on Proven Reserves of Oil & Natural Gas Producers
+    // prove:::Data on Proven Reserves of Oil & Natural Gas Producers
 
     List<String> queryTokens = Arrays.stream( context.getQueryText().split( " " ) ).collect( Collectors.toList());
     //System.out.println("query tokens >>"+queryTokens);
     String termToUse=idfStats.getTerm();
     for(String token: queryTokens){
+      if(context.getSearchArgs().stemmer.equals("none")){
+        if(idfStats.getTerm().equalsIgnoreCase( token )){
+          termToUse=token;
+          break;
+        }
+      }else
       if(token.toLowerCase().startsWith( idfStats.getTerm().toLowerCase() ) || idfStats.getTerm().equalsIgnoreCase( RerankerContext.findStemWord( token ))){
         termToUse=token;
-     //   System.out.println("found term >>"+token+"::"+idfStats.getTerm());
+        //   System.out.println("found term >>"+token+"::"+idfStats.getTerm());
         break;
       }else{
-       // System.out.println("Could not find the term in original query "+idfStats.getTerm()+":::"+queryTokens+"::"+context.getQueryText());
+        // System.out.println("Could not find the term in original query "+idfStats.getTerm()+":::"+queryTokens+"::"+context.getQueryText());
       }
     }
     float numOfDocsContainingTerm = idfStats.getNumOfDocsContainingTerm();
@@ -568,7 +585,7 @@ public class BM25SynonymReranker implements Reranker {
       termToUse=idfStats.getTerm();
 
     }*/
-   // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
+    // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
     Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, termToUse);
     List<String> docIds= new ArrayList<>();
     TopDocs topDocs = null;
@@ -584,8 +601,8 @@ public class BM25SynonymReranker implements Reranker {
       if(numOfDocsContainingTerm !=docs.length)
       {
         System.out.println(
-            "Matching docs initially  did not match " + numOfDocsContainingTerm + "::" + docs.length + "::" + idfStats.getTerm() + ":::" + context.getQueryText() + "::::"
-                + topDocs.totalHits );
+                "Matching docs initially  did not match " + numOfDocsContainingTerm + "::" + docs.length + "::" + idfStats.getTerm() + ":::" + context.getQueryText() + "::::"
+                        + topDocs.totalHits );
         query = new BagOfWordsQueryGenerator().buildQuery( IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, idfStats.getTerm() );
         topDocs = searcher.search( query, (int) numOfDocsContainingTerm );
 
@@ -593,8 +610,8 @@ public class BM25SynonymReranker implements Reranker {
         if( numOfDocsContainingTerm == docs.length )
         {
           System.out.println(
-              "Matching docs finally matched using stem query " + numOfDocsContainingTerm + "::" + docs.length + "::" + idfStats.getTerm() + ":::" + context.getQueryText() + "::::"
-                  + topDocs.totalHits );
+                  "Matching docs finally matched using stem query " + numOfDocsContainingTerm + "::" + docs.length + "::" + idfStats.getTerm() + ":::" + context.getQueryText() + "::::"
+                          + topDocs.totalHits );
         }
       }
       for( ScoreDoc doc : docs )
@@ -612,13 +629,13 @@ public class BM25SynonymReranker implements Reranker {
       e_.printStackTrace();
     }
     idfStats.setActualDocIds(docIds);
-   // System.out.println("doc Ids set in ::"+idfStats+"::"+docIds);
+    // System.out.println("doc Ids set in ::"+idfStats+"::"+docIds);
     docIdsSet.put( key,docIds );
     //System.out.println("FINISHED docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm);
     return ;
 
 
-    }
+  }
 
   private boolean isSynonym( String orig, String expanded, RerankerContext context ) {
     return context.isSynonyms(orig,expanded);

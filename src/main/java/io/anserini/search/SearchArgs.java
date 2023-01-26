@@ -62,7 +62,7 @@ public class SearchArgs {
   public Boolean inmem = false;
 
   @Option(name = "-topicfield", usage = "Which field of the query should be used, default \"title\"." +
-      " For TREC ad hoc topics, description or narrative can be used.")
+          " For TREC ad hoc topics, description or narrative can be used.")
   public String topicfield = "title";
 
   @Option(name = "-removeQuery", usage = "Remove docids that have the query id when writing final run output.")
@@ -77,19 +77,19 @@ public class SearchArgs {
   public Boolean skipexists = false;
 
   @Option(name = "-searchtweets", usage = "Whether the search is against a tweet " +
-      "index created by IndexCollection -collection TweetCollection")
+          "index created by IndexCollection -collection TweetCollection")
   public Boolean searchtweets = false;
 
   @Option(name = "-backgroundlinking", forbids = {"-sdm", "-rf.qrels"},
-      usage = "performs the background linking task as part of the TREC News Track")
+          usage = "performs the background linking task as part of the TREC News Track")
   public Boolean backgroundlinking = false;
 
   @Option(name = "-backgroundlinking.k", usage = "extract top k terms from the query document for TREC News Track Background " +
-      "Linking task. The terms are ranked by their tf-idf score from the query document")
+          "Linking task. The terms are ranked by their tf-idf score from the query document")
   public int backgroundlinking_k = 10;
 
   @Option(name = "-backgroundlinking.datefilter", usage = "Boolean switch to filter out articles published after topic article " +
-      "for the TREC News Track Background Linking task.")
+          "for the TREC News Track Background Linking task.")
   public boolean backgroundlinking_datefilter = false;
 
   @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
@@ -112,8 +112,8 @@ public class SearchArgs {
   public int hits = 1000;
 
   @Option(name = "-rerankCutoff", metaVar = "[number]", required = false, usage = "max number of hits " +
-      "for the initial round ranking. this is efficient since lots of reranking model only looks at " +
-      "the top documents from the initial round ranking.")
+          "for the initial round ranking. this is efficient since lots of reranking model only looks at " +
+          "the top documents from the initial round ranking.")
   public int rerankcutoff = 50;
 
   @Option(name = "-rf.qrels", metaVar = "[file]", usage = "qrels file used for relevance feedback")
@@ -144,12 +144,12 @@ public class SearchArgs {
   public Boolean selectMaxPassage = false;
 
   @Option(name = "-selectMaxPassage.delimiter", metaVar = "[regexp]",
-      usage = "The delimiter (as a regular regression) for splitting the segment id from the doc id.")
+          usage = "The delimiter (as a regular regression) for splitting the segment id from the doc id.")
   public String selectMaxPassage_delimiter = "\\.";
 
   @Option(name = "-selectMaxPassage.hits", metaVar = "[int]",
-      usage = "Maximum number of hits to return per topic after segment id removal. " +
-              "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
+          usage = "Maximum number of hits to return per topic after segment id removal. " +
+                  "Note that this is different from '-hits', which specifies the number of hits including the segment id. ")
   public int selectMaxPassage_hits = Integer.MAX_VALUE;
   // Note that by default here we explicitly *don't* restrict the final number of hits returned per topic.
 
@@ -158,8 +158,8 @@ public class SearchArgs {
   // ----------------------------------------------------------
 
   @Option(name = "-impact",
-      forbids = {"-bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
-      usage = "ranking model: BM25")
+          forbids = {"-bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+          usage = "ranking model: BM25")
   public boolean impact = false;
 
   // -------------------
@@ -167,8 +167,8 @@ public class SearchArgs {
   // -------------------
 
   @Option(name = "-bm25",
-      forbids = {"-impact", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
-      usage = "ranking model: BM25")
+          forbids = {"-impact", "-qld", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+          usage = "ranking model: BM25")
   public boolean bm25 = false;
 
   @Option(name = "-bm25.accurate", usage = "BM25: use accurate document lengths")
@@ -192,8 +192,8 @@ public class SearchArgs {
   // --------------------------------------------------------
 
   @Option(name = "-qld",
-      forbids = {"-impact", "-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
-      usage = "ranking model: query likelihood with Dirichlet smoothing")
+          forbids = {"-impact", "-bm25", "-qljm", "-inl2", "-spl", "-f2exp", "-f2log"},
+          usage = "ranking model: query likelihood with Dirichlet smoothing")
   public boolean qld = false;
 
   // Why this value? We want to pick a value that corresponds to what the community generally considers to be "good".
@@ -212,8 +212,8 @@ public class SearchArgs {
   // -------------------------------------------------------------
 
   @Option(name = "-qljm",
-      forbids = {"-impact", "-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
-      usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
+          forbids = {"-impact", "-bm25", "-qld", "-inl2", "-spl", "-f2exp", "-f2log"},
+          usage = "ranking model: query likelihood with Jelinek-Mercer smoothing")
   public boolean qljm = false;
 
   @Option(name = "-qljm.lambda", handler = StringArrayOptionHandler.class, usage = "qljm: lambda smoothing parameter")
@@ -224,32 +224,32 @@ public class SearchArgs {
   // -----------------------------------------
 
   @Option(name = "-inl2",
-      forbids = {"-impact", "bm25", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
-      usage = "use I(n)L2 scoring model")
+          forbids = {"-impact", "bm25", "-qld", "-qljm", "-spl", "-f2exp", "-f2log"},
+          usage = "use I(n)L2 scoring model")
   public boolean inl2 = false;
 
   @Option(name = "-inl2.c", metaVar = "[value]", usage = "I(n)L2 c parameter")
   public String[] inl2_c = new String[]{"0.1"};
 
   @Option(name = "-spl",
-      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
-      usage = "use SPL scoring model")
+          forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-f2exp", "-f2log"},
+          usage = "use SPL scoring model")
   public boolean spl = false;
 
   @Option(name = "-spl.c", metaVar = "[value]", usage = "SPL c parameter")
   public String[] spl_c = new String[]{"0.1"};
 
   @Option(name = "-f2exp",
-      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
-      usage = "use F2Exp scoring model")
+          forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2log"},
+          usage = "use F2Exp scoring model")
   public boolean f2exp = false;
 
   @Option(name = "-f2exp.s", metaVar = "[value]", usage = "F2Exp s parameter")
   public String[] f2exp_s = new String[]{"0.5"};
 
   @Option(name = "-f2log",
-      forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
-      usage = "use F2Log scoring model")
+          forbids = {"-impact", "bm25", "-qld", "-qljm", "-inl2", "-spl", "-f2exp"},
+          usage = "use F2Log scoring model")
   public boolean f2log = false;
 
   @Option(name = "-f2log.s", metaVar = "[value]", usage = "F2Log s parameter")
@@ -287,23 +287,23 @@ public class SearchArgs {
   public boolean rm3 = false;
 
   @Option(name = "-rm3.fbTerms", handler = StringArrayOptionHandler.class,
-      usage = "RM3 parameter: number of expansion terms")
+          usage = "RM3 parameter: number of expansion terms")
   public String[] rm3_fbTerms = new String[]{"10"};
 
   @Option(name = "-rm3.fbDocs", handler = StringArrayOptionHandler.class,
-      usage = "RM3 parameter: number of expansion documents")
+          usage = "RM3 parameter: number of expansion documents")
   public String[] rm3_fbDocs = new String[]{"10"};
 
   @Option(name = "-rm3.originalQueryWeight", handler = StringArrayOptionHandler.class,
-      usage = "RM3 parameter: weight to assign to the original query")
+          usage = "RM3 parameter: weight to assign to the original query")
   public String[] rm3_originalQueryWeight = new String[]{"0.5"};
 
   @Option(name = "-rm3.outputQuery",
-      usage = "RM3 parameter: flag to print original and expanded queries")
+          usage = "RM3 parameter: flag to print original and expanded queries")
   public boolean rm3_outputQuery = false;
 
   @Option(name = "-rm3.noTermFilter",
-      usage = "RM3 parameter: turn off English term filter")
+          usage = "RM3 parameter: turn off English term filter")
   public boolean rm3_noTermFilter = false;
 
   // ------------------------------
@@ -318,39 +318,39 @@ public class SearchArgs {
   public boolean rocchio = false;
 
   @Option(name = "-rocchio.topFbTerms", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: number of expansion relevant terms")
+          usage = "Rocchio parameter: number of expansion relevant terms")
   public String[] rocchio_topFbTerms = new String[]{"10"};
 
   @Option(name = "-rocchio.topFbDocs", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: number of expansion relevant documents")
+          usage = "Rocchio parameter: number of expansion relevant documents")
   public String[] rocchio_topFbDocs = new String[]{"10"};
 
   @Option(name = "-rocchio.bottomFbTerms", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: number of expansion nonrelevant terms")
+          usage = "Rocchio parameter: number of expansion nonrelevant terms")
   public String[] rocchio_bottomFbTerms = new String[]{"10"};
 
   @Option(name = "-rocchio.bottomFbDocs", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: number of expansion nonrelevant documents")
+          usage = "Rocchio parameter: number of expansion nonrelevant documents")
   public String[] rocchio_bottomFbDocs = new String[]{"10"};
 
   @Option(name = "-rocchio.alpha", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: weight to assign to the original query")
+          usage = "Rocchio parameter: weight to assign to the original query")
   public String[] rocchio_alpha = new String[]{"1"};
 
   @Option(name = "-rocchio.beta", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: weight to assign to the relevant document vectors")
+          usage = "Rocchio parameter: weight to assign to the relevant document vectors")
   public String[] rocchio_beta = new String[]{"0.75"};
 
   @Option(name = "-rocchio.gamma", handler = StringArrayOptionHandler.class,
-      usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
+          usage = "Rocchio parameter: weight to assign to the nonrelevant document vectors")
   public String[] rocchio_gamma = new String[]{"0.15"};
 
-  @Option(name = "-rocchio.useNegative", 
-      usage = "Rocchio parameter: flag to use nonrelevant document vectors")
+  @Option(name = "-rocchio.useNegative",
+          usage = "Rocchio parameter: flag to use nonrelevant document vectors")
   public boolean rocchio_useNegative = false;
 
   @Option(name = "-rocchio.outputQuery",
-      usage = "Rocchio parameter: flag to print original and expanded queries")
+          usage = "Rocchio parameter: flag to print original and expanded queries")
   public boolean rocchio_outputQuery = false;
 
   // ------------------------------
@@ -367,6 +367,11 @@ public class SearchArgs {
   @Option(name = "-uniqueExpansionTerms", usage = "use bm25PRF Synonyms expansion model")
   public boolean uniqueExpansionTerms = true;
 
+  @Option(name = "-considerNewDocs",
+          usage = "originalidf: print original and expanded queries")
+  public boolean considerNewDocs=false;
+
+
 
 
 
@@ -381,27 +386,27 @@ public class SearchArgs {
   public boolean bm25considerWeightAndBoost= false;
 
   @Option(name = "-bm25prf.fbTerms", handler = StringArrayOptionHandler.class,
-      usage = "bm25PRF parameter: number of expansion terms")
+          usage = "bm25PRF parameter: number of expansion terms")
   public String[] bm25prf_fbTerms = new String[]{"20"};
 
   @Option(name = "-bm25prf.fbDocs", handler = StringArrayOptionHandler.class,
-      usage = "bm25PRF parameter: number of documents")
+          usage = "bm25PRF parameter: number of documents")
   public String[] bm25prf_fbDocs = new String[]{"10"};
 
   @Option(name = "-bm25prf.k1", handler = StringArrayOptionHandler.class,
-      usage = "bm25PRF parameter: k1")
+          usage = "bm25PRF parameter: k1")
   public String[] bm25prf_k1 = new String[]{"0.9"};
 
   @Option(name = "-bm25prf.b", handler = StringArrayOptionHandler.class,
-      usage = "bm25PRF parameter: b")
+          usage = "bm25PRF parameter: b")
   public String[] bm25prf_b = new String[]{"0.4"};
 
   @Option(name = "-bm25prf.newTermWeight", handler = StringArrayOptionHandler.class,
-      usage = "bm25PRF parameter: weight to assign to the expansion terms")
+          usage = "bm25PRF parameter: weight to assign to the expansion terms")
   public String[] bm25prf_newTermWeight = new String[]{"0.2"};
 
   @Option(name = "-bm25prf.outputQuery",
-      usage = "bm25PRF parameter: print original and expanded queries")
+          usage = "bm25PRF parameter: print original and expanded queries")
   public boolean bm25prf_outputQuery = false;
 
   @Option(name = "-bm25synonym.outputQuery",
@@ -426,7 +431,7 @@ public class SearchArgs {
   public String[] axiom_seed = new String[]{"42"};
 
   @Option(name = "-axiom.docids", usage = "sorted docids file that for deterministic reranking. this file can be obtained " +
-      "by running CLI command `IndexUtils -index /path/to/index -dumpAllDocids GZ`")
+          "by running CLI command `IndexUtils -index /path/to/index -dumpAllDocids GZ`")
   public String axiom_docids = null;
 
   @Option(name = "-axiom.r", handler = StringArrayOptionHandler.class, usage = "parameter R in axiomatic reranking")
@@ -448,11 +453,11 @@ public class SearchArgs {
   public String qid_queries = "";
 
   @Option(name = "-no_rerank",
-      usage = "no_rerank: print original and expanded queries")
+          usage = "no_rerank: print original and expanded queries")
   public boolean no_rerank=false;
 
   @Option(name = "-originalidf",
-      usage = "originalidf: print original and expanded queries")
+          usage = "originalidf: print original and expanded queries")
   public boolean originalidf=false;
 
 

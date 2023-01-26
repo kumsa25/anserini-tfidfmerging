@@ -44,7 +44,7 @@ public class RerankerContext<K> {
 
 
   public RerankerContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
-      List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
+                         List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
     this.searcher = searcher;
     this.query = query;
     this.queryId = queryId;
@@ -193,10 +193,11 @@ public class RerankerContext<K> {
   }
 
   public static String findStemWord(String word){
-    PorterStemmer stem = new PorterStemmer();
+    /*PorterStemmer stem = new PorterStemmer();
     stem.setCurrent(word);
     stem.stem();
-    return stem.getCurrent();
+    return stem.getCurrent();*/
+    return word;
   }
 
   public IndexSearcher getIndexSearcher() {
@@ -241,8 +242,8 @@ public class RerankerContext<K> {
     List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( word.toLowerCase() );
     if(weightedExpansionTerms==null){
       if(!searchArgs.stemmer.equals("none")) {
-          String root = findRootWord(word);
-          weightedExpansionTerms = stringListMap.get(root);
+        String root = findRootWord(word);
+        weightedExpansionTerms = stringListMap.get(root);
       }
     }
     return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
@@ -277,6 +278,8 @@ public class RerankerContext<K> {
       }
     }
     if(weightedExpansionTerms==null){
+      // System.out.println("Inside isSynonyms >>>"+original+":::"+expanded);
+      //System.out.println("Stemmer >>"+searchArgs.stemmer);
       return false;
     }
     for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
@@ -298,13 +301,14 @@ public class RerankerContext<K> {
 
   private static String findRootWord(String original)
   {
-    Set<String> strings = expansionWords.keySet();
+    return original;
+    /*Set<String> strings = expansionWords.keySet();
     for(String str: strings){
       if(str.toLowerCase().startsWith( original.toLowerCase() )){
         return str;
       }
     }
-    return null;
+    return null;*/
   }
 
 
