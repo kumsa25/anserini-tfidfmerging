@@ -240,8 +240,10 @@ public class RerankerContext<K> {
 
     List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( word.toLowerCase() );
     if(weightedExpansionTerms==null){
-      String root=findRootWord( word );
-      weightedExpansionTerms = stringListMap.get( root );
+      if(!searchArgs.stemmer.equals("none")) {
+          String root = findRootWord(word);
+          weightedExpansionTerms = stringListMap.get(root);
+      }
     }
     return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
   }
@@ -266,23 +268,26 @@ public class RerankerContext<K> {
       if(shouldLog){
         System.out.println("Root word >>>"+rootWord+"::::"+expanded);
       }
-      if(rootWord==null)
+      if(rootWord==null && !searchArgs.stemmer.equals("none"))
       {
         return false;
       }
-      weightedExpansionTerms = stringListMap.get(rootWord);
+      if(!searchArgs.stemmer.equals("none")) {
+        weightedExpansionTerms = stringListMap.get(rootWord);
+      }
     }
     for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
       if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(expanded)){
         return true;
       }
-      String rootWord=findRootWord(expanded);
-      if(rootWord==null)
-      {
-        return false;
-      }
-      if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(rootWord)){
-        return true;
+      if(!searchArgs.stemmer.equals("none")) {
+        String rootWord = findRootWord(expanded);
+        if (rootWord == null) {
+          return false;
+        }
+        if (weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(rootWord)) {
+          return true;
+        }
       }
     }
     return false;

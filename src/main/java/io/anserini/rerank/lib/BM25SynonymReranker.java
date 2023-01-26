@@ -289,7 +289,10 @@ public class BM25SynonymReranker implements Reranker {
       for(WeightedExpansionTerm weightedExpansionTerm: expansionTerms){
 
         String expansionTerm = weightedExpansionTerm.getExpansionTerm();
-        String uniqueTerms= getUniqueTerms(weightedExpansionTerm,buffer,context);
+        String uniqueTerms =expansionTerm;
+        if(context.getSearchArgs().uniqueExpansionTerms) {
+          uniqueTerms = getUniqueTerms(weightedExpansionTerm, buffer, context);
+        }
 
         buffer.append( uniqueTerms );
         buffer.append(" ");

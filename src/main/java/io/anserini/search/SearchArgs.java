@@ -364,6 +364,13 @@ public class SearchArgs {
   public boolean bm25syn = false;
 
 
+  @Option(name = "-uniqueExpansionTerms", usage = "use bm25PRF Synonyms expansion model")
+  public boolean uniqueExpansionTerms = true;
+
+
+
+
+
   @Option(name = "-bm25Weighted", usage = "use bm25PRF Synonyms expansion model")
   public boolean bm25Weighted = false;
 
