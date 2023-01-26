@@ -276,6 +276,9 @@ public class RerankerContext<K> {
         weightedExpansionTerms = stringListMap.get(rootWord);
       }
     }
+    if(weightedExpansionTerms==null){
+      return false;
+    }
     for(WeightedExpansionTerm weightedExpansionTerm: weightedExpansionTerms){
       if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(expanded)){
         return true;
