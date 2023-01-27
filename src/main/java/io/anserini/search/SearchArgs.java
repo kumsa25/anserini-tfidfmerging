@@ -470,6 +470,17 @@ public class SearchArgs {
   public boolean pickLargerIDF=false;
 
 
+  @Option(name = "-pickSmallerIDF",
+          usage = "originalidf: print original and expanded queries")
+  public boolean pickSmallerIDF=false;
+
+  @Option(name = "-pickSumIDF",
+          usage = "originalidf: print original and expanded queries")
+  public boolean pickSumIDF=false;
+
+
+
+
 
   // These are convenience methods to support a fluent, method-chaining style of programming.
   public SearchArgs impact() {

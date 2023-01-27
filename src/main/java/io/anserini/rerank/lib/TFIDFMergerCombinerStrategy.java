@@ -66,10 +66,16 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         if(allDocs.size() !=count){
             System.out.println("Document count did not match Expected and actual are ::"+count+"::"+allDocs.size());
         }
+
         if(context.getSearchArgs().pickLargerIDF==true){
             //  System.out.println("originalidf is true. So, returning original idf");
 
             return getLargestIDF(original,synonymsIDFStats);
+        }
+        if(context.getSearchArgs().pickSmallerIDF==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getSmallestIDF(original,synonymsIDFStats);
         }
         if(context.getSearchArgs().originalidf==true){
           //  System.out.println("originalidf is true. So, returning original idf");
@@ -110,6 +116,24 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             }
         }
         return idfStats.getIdfValue();
+    }
+    private float getSmallestIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        for(IDFStats idf : synonymsIDFStats){
+            if(idf.getIdfValue() < idfStats.getIdfValue()){
+                idfStats=idf;
+            }
+        }
+        return idfStats.getIdfValue();
+    }
+
+    private float getSumIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        float sum=original.getIdfValue();
+        for(IDFStats idf : synonymsIDFStats){
+            sum+=idf.getIdfValue();
+        }
+        return sum;
     }
 
     @Override
