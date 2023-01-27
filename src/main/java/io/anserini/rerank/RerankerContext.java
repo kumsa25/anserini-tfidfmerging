@@ -167,6 +167,55 @@ public class RerankerContext<K> {
     return findSynRootWord( original,synonymsTF_.getTerm() );
   }
 
+  public  float overrideWeight( String original)
+  {
+    Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
+    Collection<List<WeightedExpansionTerm>> values = stringListMap.values();
+    for(List<WeightedExpansionTerm> list : values){
+      for(WeightedExpansionTerm term: list){
+        if(term.getExpansionTerm().equalsIgnoreCase(original)){
+          return term.getWeight();
+        }
+      }
+    }
+    return overrideWeight2(original,values);
+  }
+
+  public  float overrideWeight2( String original,Collection<List<WeightedExpansionTerm>> values)
+  {
+    for(List<WeightedExpansionTerm> list : values){
+      for(WeightedExpansionTerm term: list){
+        if(isEQULUsingStem(term.getExpansionTerm(),original)){
+          return term.getWeight();
+        }
+      }
+    }
+
+    //System.out.println("NO MATCH found "+queryId+":::"+original)
+    return overrideWeight3(original,values);
+  }
+
+  public  float overrideWeight3( String original,Collection<List<WeightedExpansionTerm>> values)
+  {
+    for(List<WeightedExpansionTerm> list : values){
+      for(WeightedExpansionTerm term: list){
+        if(isEQULUsingContains(term.getExpansionTerm(),original)){
+          return term.getWeight();
+        }
+      }
+    }
+
+    System.out.println("NO MATCH found "+queryId+":::"+original);
+    return 1;
+  }
+
+  public static boolean isEQULUsingContains(String word, String stemWord){
+
+    return word.indexOf(stemWord) !=-1;
+  }
+
+
+
   private  float findSynRootWord( String original_, String synonym )
   {
     Set<String> strings = expansionWords.keySet();
@@ -198,6 +247,12 @@ public class RerankerContext<K> {
     stem.stem();
     return stem.getCurrent();*/
     return word;
+  }
+  public static boolean isEQULUsingStem(String word, String stemWord){
+    PorterStemmer stem = new PorterStemmer();
+    stem.setCurrent(word);
+    stem.stem();
+    return stem.getCurrent().equalsIgnoreCase(stemWord);
   }
 
   public IndexSearcher getIndexSearcher() {

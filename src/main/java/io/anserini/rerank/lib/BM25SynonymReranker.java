@@ -179,7 +179,7 @@ public class BM25SynonymReranker implements Reranker {
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
     if(expandedQueryTerms.trim().length()==0) {
       System.out.println("Orig Query ID ::" + context.getQueryId() + "::query::" + queryText + ":::expansion::" + expandedQueryTerms);
-
+      expandedQueryTerms=context.getExpansionTerms2();
     }
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
       System.out.println("Found the matching query >>>"+expandedQueryTerms);
@@ -375,11 +375,7 @@ public class BM25SynonymReranker implements Reranker {
             //System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
            // System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
           }
-          double weight1 = getWeight(tfSStats.getTerm(), context_);
-          String Overrideweight=context_.getSearchArgs().overrideWeight;
-          System.out.println("Weight for new doc >>>"+weight1);
-          weight1=Double.parseDouble(Overrideweight);
-          System.out.println("Overriden Weight for new doc  >>>"+weight1);
+          double weight1 = context_.overrideWeight(tfSStats.getTerm());
           weight+=idfStats.getBoost()*tfValue*idf* weight1;
         }
         String key=context_.getQueryText()+":"+ docid+":"+context_.getQueryId();
@@ -415,6 +411,8 @@ public class BM25SynonymReranker implements Reranker {
     }
     return aFloat !=null ? aFloat.floatValue() : 0;
   }
+
+
 
   public float createWeight( float boost, String docId, Map<String, List<TermScoreDetails>> allStats, boolean shdLog_ ){
     List<TermScoreDetails> termScoreDetailsList = allStats.get(docId);
