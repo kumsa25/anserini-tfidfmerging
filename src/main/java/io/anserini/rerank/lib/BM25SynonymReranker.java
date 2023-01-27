@@ -187,6 +187,7 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
+    System.out.println("Orig Query ID ::"+context.getQueryId()+"::query::"+queryText+":::expansion::"+expandedQueryTerms);
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
       System.out.println("Found the matching query >>>"+expandedQueryTerms);
     }
@@ -534,16 +535,16 @@ public class BM25SynonymReranker implements Reranker {
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF(idfStats,expandedIDFStatsList,shouldLog,context_);
     float v = idfStats.getBoost() * finalTFValue * finalIDFValue;
     if(shouldLog){
-      System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
-      System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
-      System.out.println("final Weight after expanssion "+tfSStats.getTerm()+":::"+v);
+      //System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
+      //System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
+      //System.out.println("final Weight after expanssion "+tfSStats.getTerm()+":::"+v);
     }
     if(finalTFValue !=tfSStats.getTfValue()){
-      System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
+      //System.out.println("TF before and after >>>"+tfSStats.getTerm()+"::"+tfSStats.getTfValue()+"::::"+finalTFValue);
 
     }
     if(finalIDFValue !=idfStats.getIdfValue()){
-      System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
+      //System.out.println("IDF before and after >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue()+"::::"+finalIDFValue);
 
     }
 

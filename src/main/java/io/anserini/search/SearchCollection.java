@@ -810,6 +810,8 @@ public final class SearchCollection implements Closeable {
       }else {
         query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,args) :
                 generator.buildQuery(args.fieldsMap, analyzer, queryString,args);
+        System.out.println("Query is "+qid+":::"+query);
+
       }
     }
 
