@@ -363,7 +363,7 @@ public class BM25SynonymReranker implements Reranker {
       }else{
         boolean log=false;
         if(context_.getQueryText().equalsIgnoreCase( QUERY_DEBUG )){
-          System.out.println(" NEW DOC ID FOUND >>>>"+docid);
+         // System.out.println(" NEW DOC ID FOUND >>>>"+docid);
           log=true;
         }
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
@@ -377,9 +377,9 @@ public class BM25SynonymReranker implements Reranker {
           IDFStats idfStats = termScoreDetails.getIdfStats();
           float idf= idfStats.getIdfValue();
           if(log){
-            System.out.println(" NEW DOC  tf stats::"+docid+"::"+tfSStats);
-            System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
-            System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
+           // System.out.println(" NEW DOC  tf stats::"+docid+"::"+tfSStats);
+            //System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
+           // System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
           }
           weight+=idfStats.getBoost()*tfValue*idf*getWeight(tfSStats.getTerm(),context_);
         }
