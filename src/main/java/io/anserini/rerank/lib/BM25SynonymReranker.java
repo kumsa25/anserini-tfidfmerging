@@ -191,7 +191,7 @@ public class BM25SynonymReranker implements Reranker {
       System.out.println("Found the matching query >>>"+expandedQueryTerms);
     }
 
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, expandedQueryTerms,context.getSearchArgs());
 
 
     try {
