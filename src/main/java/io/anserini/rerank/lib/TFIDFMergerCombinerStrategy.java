@@ -66,8 +66,14 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         if(allDocs.size() !=count){
             System.out.println("Document count did not match Expected and actual are ::"+count+"::"+allDocs.size());
         }
+        if(context.getSearchArgs().pickLargerIDF==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getLargestIDF(original,synonymsIDFStats);
+        }
         if(context.getSearchArgs().originalidf==true){
           //  System.out.println("originalidf is true. So, returning original idf");
+
             return original.getIdfValue();
         }
 
@@ -94,6 +100,16 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
         return v;
 
+    }
+
+    private float getLargestIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        for(IDFStats idf : synonymsIDFStats){
+            if(idf.getIdfValue() > idfStats.getIdfValue()){
+                idfStats=idf;
+            }
+        }
+        return idfStats.getIdfValue();
     }
 
     @Override

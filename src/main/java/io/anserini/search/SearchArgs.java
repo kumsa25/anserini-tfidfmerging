@@ -95,6 +95,10 @@ public class SearchArgs {
   @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
   public String stemmer = "porter";
 
+  @Option(name = "-overrideWeight", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
+  public String overrideWeight = "1.0";
+
+
   @Option(name = "-keepstopwords", usage = "Boolean switch to keep stopwords in the query topics")
   public boolean keepstop = false;
 
@@ -369,7 +373,7 @@ public class SearchArgs {
 
   @Option(name = "-considerNewDocs",
           usage = "originalidf: print original and expanded queries")
-  public boolean considerNewDocs=false;
+  public boolean considerNewDocs=true;
 
 
 
@@ -459,6 +463,12 @@ public class SearchArgs {
   @Option(name = "-originalidf",
           usage = "originalidf: print original and expanded queries")
   public boolean originalidf=false;
+
+
+  @Option(name = "-pickLargerIDF",
+          usage = "originalidf: print original and expanded queries")
+  public boolean pickLargerIDF=false;
+
 
 
   // These are convenience methods to support a fluent, method-chaining style of programming.

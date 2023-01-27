@@ -249,6 +249,36 @@ public class RerankerContext<K> {
     return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
   }
 
+  public String  getExpansionTerms2(){
+    StringBuffer buffer= new StringBuffer();
+    Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
+    if(stringListMap==null){
+      System.out.println("Did not find any expansion terms for the queryId>>"+queryId);
+      return buffer.toString();
+    }
+
+    Collection<List<WeightedExpansionTerm>> weightedExpansionTerms = stringListMap.values();
+    for(List<WeightedExpansionTerm> list : weightedExpansionTerms){
+      append(list,buffer);
+    }
+    return buffer.toString();
+
+
+
+  }
+
+  public void append(List<WeightedExpansionTerm> expansionTerms, StringBuffer buffer){
+    for(WeightedExpansionTerm weightedExpansionTerm: expansionTerms){
+
+      String expansionTerm = weightedExpansionTerm.getExpansionTerm();
+      String uniqueTerms =expansionTerm;
+
+      buffer.append( uniqueTerms );
+      buffer.append(" ");
+    }
+
+  }
+
   public  boolean isSynonyms(String original, String expanded){
     //TODO revisit this
     if(original.equalsIgnoreCase( expanded )){

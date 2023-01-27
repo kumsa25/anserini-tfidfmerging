@@ -47,17 +47,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
@@ -187,7 +177,10 @@ public class BM25SynonymReranker implements Reranker {
     //Query query = toSynQuery(queryText,1);
     //TODO change it later
     String expandedQueryTerms= getExpandedQueryTerms(queryText,context);
-    System.out.println("Orig Query ID ::"+context.getQueryId()+"::query::"+queryText+":::expansion::"+expandedQueryTerms);
+    if(expandedQueryTerms.trim().length()==0) {
+      System.out.println("Orig Query ID ::" + context.getQueryId() + "::query::" + queryText + ":::expansion::" + expandedQueryTerms);
+
+    }
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
       System.out.println("Found the matching query >>>"+expandedQueryTerms);
     }
@@ -274,6 +267,7 @@ public class BM25SynonymReranker implements Reranker {
   private String getExpandedQueryTerms(String queryText, RerankerContext context) {
 
     List<String> queryTokens = Arrays.stream(queryText.split(" ")).collect(Collectors.toList());
+
     StringBuffer buffer= new StringBuffer();
     for(String token: queryTokens){
       boolean log=false;
@@ -381,7 +375,12 @@ public class BM25SynonymReranker implements Reranker {
             //System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
            // System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
           }
-          weight+=idfStats.getBoost()*tfValue*idf*getWeight(tfSStats.getTerm(),context_);
+          double weight1 = getWeight(tfSStats.getTerm(), context_);
+          String Overrideweight=context_.getSearchArgs().overrideWeight;
+          System.out.println("Weight for new doc >>>"+weight1);
+          weight1=Double.parseDouble(Overrideweight);
+          System.out.println("Overriden Weight for new doc  >>>"+weight1);
+          weight+=idfStats.getBoost()*tfValue*idf* weight1;
         }
         String key=context_.getQueryText()+":"+ docid+":"+context_.getQueryId();
         if(context_.getSearchArgs().considerNewDocs) {
