@@ -1,0 +1,60 @@
+On timan107: /shared/trec1/shared/shared-data/src/trec/disk{1,2,3,4,5,6}
+
+wordnet 3.1 download: https://wordnet.princeton.edu/download/current-version
+
+make like https://github.com/castorini/anserini/blob/master/docs/regressions-disk12.md
+
+Building anserini: mvn clean package appassembler:assemble -DskipTests -Dmaven.javadoc.skip=true
+
+# NOTE THIS IS JUST FOR DISK 1 - NEED TO COMBINE DISKS
+
+target/appassembler/bin/IndexCollection -collection TrecCollection -input /shared/trec1/shared/shared-data/src/trec/disk1 -index indexes/lucene-index.disk1/ -generator DefaultLuceneDocumentGenerator -threads 16 -storePositions -storeDocvectors -storeRaw
+
+target/appassembler/bin/IndexCollection -collection TrecCollection -input /shared/trec1/shared/shared-data/src/trec/disk2 -index indexes/lucene-index.disk2/ -generator DefaultLuceneDocumentGenerator -threads 16 -storePositions -storeDocvectors -storeRaw
+
+target/appassembler/bin/IndexCollection -collection TrecCollection -input disks12 -index indexes/lucene-index.disk12_nostem/ -generator DefaultLuceneDocumentGenerator -threads 16 -storePositions -storeDocvectors -storeRaw -stemmer none
+
+
+
+### bm25 on disk12
+
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12/ -topics tools/topics-and-qrels/topics.adhoc.51-100.txt  -topicreader Trec -output runs_original/run.disk12.bm25.adhoc.51-100.txt -bm25
+
+
+tools/eval/trec_eval.9.0.4/trec_eval -m map -m P.30 -m recall.1000 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs_original/run.disk12.bm25.adhoc.51-100.txt
+
+
+### bm25 on covid
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-abstract-2020-07-16/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml  -topicreader Covid -topicfield query -removedups -output runs_original/run.lucene-index-cord19-abstract-2020-07-16.bm25.topics.covid-round1.txt -bm25
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.30 -m map  src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs_original/run.lucene-index-cord19-abstract-2020-07-16.bm25.topics.covid-round1.txt
+
+
+
+# bm25 on disk 12
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk12/ -topics tools/topics-and-qrels/topics.adhoc.51-100.txt  -topicreader Trec -output runs_original/run.disk1.bm25.adhoc.51-100.txt -bm25
+
+
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk1.bm25syn.expand.weight1_origidf_indexp.topics.adhoc.51-100.txt
+
+-bm25syn -originalidf
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m P.30 -m map  src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk1.bm25.addtobm25.0.1.adhoc.51-100.txt
+
+# bm25 on disk 2
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk2/ -topics tools/topics-and-qrels/topics.adhoc.51-100.expanded.txt  -topicreader Trec -output runs/run.disk2.bm25.addtobm25.0.1.adhoc.51-100.txt -bm25
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m P.30 -m map  src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk2.bm25.addtobm25.0.1.adhoc.51-100.txt
+
+# bm25 on trec-cord
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-abstract-2020-07-16/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml  -topicreader Covid -topicfield query -removedups -output runs/run.lucene-index-cord19-abstract-2020-07-16.bm25.topics.covid-round1.txt -bm25
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.30 -m map  src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.lucene-index-cord19-abstract-2020-07-16.bm25.topics.covid-round1.txt
+
+
+target/appassembler/bin/SearchCollection -index indexes/lucene-index.disk1/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt  -topicreader Trec -output runs/run.disk1.bm25syn.expand.weight1_origidf_indexp.topics.adhoc.51-100.txt -bm25 -bm25syn -expwords dictionary.txt -rerankCutoff 1000 -originalidf
+
+
+tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt runs/run.disk1.bm25syn.expand.weight1_origidf_indexp.topics.adhoc.51-100.txt
+
+
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-abstract-2020-07-16/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml  -topicreader Covid -topicfield query -removedups -output runs/run.lucene-index-cord19-abstract-2020-07-16.bm25.topics.covid-round1.expand.1.origidf.txt -bm25 -bm25syn -expwords dictionary.txt -rerankCutoff 1000 -originalidf
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.30 -m map  src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.lucene-index-cord19-abstract-2020-07-16.bm25.topics.covid-round1.expand.1.origidf.txt

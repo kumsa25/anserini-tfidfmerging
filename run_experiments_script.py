@@ -1,14 +1,8 @@
 import os
 
-out_dir = "runs_automatic_optimalv3_nostem/"
+out_dir = "runs_automatic_minidf/"
 query_dir = "expanded_queries/"
 for filename in os.listdir(query_dir):
-    #try:
-    #    open("runs_automatic/run." + filename + ".scores", "r")
-    #    print("already processed")
-    #    continue
-    #except:
-    #    pass
     if filename[-4:] == ".txt":
         split_name = filename.split(".")
         disk = split_name[0] # one of disk12, covid
@@ -38,13 +32,18 @@ for filename in os.listdir(query_dir):
         else:
             continue
 
+        #if "norm_across_query" not in filename:
+        #    continue
+        
         print(filename)
-        print(stem_flag)
 
+        # -pickLargerIDF
+        # -originalidf
+        # -pickSmallerIDF
 
-        if disk in ["disk12", "disk12_nostem"] and method == "bm25s":
+        if disk in ["disk12", "disk12_nostem", "disk1"] and method == "bm25s":
             os.system(
-            "target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25syn -expwords " + query_dir + filename + " -rerankCutoff 1000 -originalidf" + stem_flag)
+            "target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25syn -expwords " + query_dir + filename + " -rerankCutoff 1000 -pickSmallerIDF" + stem_flag)
 
             os.system("tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m map -m P.30 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
 
@@ -53,8 +52,8 @@ for filename in os.listdir(query_dir):
 
             os.system("tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.30 -m map  src/main/resources/topics-and-qrels/qrels.covid-round1.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
 
-        elif disk in ["disk12", "disk12_nostem"] and method == "bm25":
-            os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -threads 1  -parallelism 1 -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25Weighted -ignoreBoost -expwords " + query_dir + filename + stem_flag)
+        elif disk in ["disk12", "disk12_nostem", "disk1"] and method == "bm25":
+            os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -threads 1  -parallelism 1 -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25Weighted -ignoreBoost -expwords " + query_dir + filename + stem_flag + " -rerankCutoff 1000")
 
             os.system("tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m P.30 -m map  src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
 
