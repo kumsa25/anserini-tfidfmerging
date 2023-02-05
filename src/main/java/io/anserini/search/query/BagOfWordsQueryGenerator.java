@@ -17,6 +17,7 @@
 package io.anserini.search.query;
 
 import io.anserini.analysis.AnalyzerUtils;
+import io.anserini.rerank.BM25QueryContext;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.WeightedExpansionTerm;
 import io.anserini.search.SearchArgs;
@@ -28,12 +29,14 @@ import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.Objects;
 
 /*
  * Bag of Terms query builder
@@ -75,20 +78,19 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
     List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
+    if(args.debugQueryID.trim().equals(queryid.trim())){
+    System.out.println("Query tokens >>"+tokens+":::"+queryid);
+  }
     Map<String, Long> collect = tokens.stream()
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
+    boolean debug = args.debugQueryID.equals("52");
+    List<WeightedTerm> weightedTerms= new ArrayList<>();
+    
     for (String t : collect.keySet()) {
       float weight=1;
-      if(!args.bm25syn && args.bm25Weighted) {
-       /* List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid, args);
-        for(WeightedExpansionTerm weightedExpansionTerm : expansionTermsForBM25){
-          String stemWord = RerankerContext.findStemWord(weightedExpansionTerm.getExpansionTerm());
-          if(weightedExpansionTerm.getExpansionTerm().equalsIgnoreCase(t) || weightedExpansionTerm.getExpansionTerm().toLowerCase().startsWith(t.toLowerCase()) || weightedExpansionTerm.getExpansionTerm().toLowerCase().startsWith(stemWord.toLowerCase())){
-            weight=weightedExpansionTerm.getWeight();
-            break;
-          }
-        }*/
+      if(!args.bm25syn && args.bm25s) {
+        addExpansionTerms(queryid,t,builder,field,args,weightedTerms);
       }
       float boost = collect.get(t);
       if(!args.bm25syn && args.bm25considerWeightAndBoost) {
@@ -97,8 +99,9 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       if(args.bm25IgnoreBoost) {
         boost = weight;
       }
-      builder.add(new BoostQuery(new TermQuery(new Term(field, t)), boost),
-              BooleanClause.Occur.SHOULD);
+      weightedTerms.add(new WeightedTerm(t,boost));
+      /*builder.add(new BoostQuery(new TermQuery(new Term(field, t)), boost),
+              BooleanClause.Occur.SHOULD);*/
 
 
 
@@ -111,14 +114,59 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
 
         boolean queryTerm = tokens.contains(weightedExpansionTerm.getExpansionTerm()) || tokens.contains(stemWord) || tokens.contains(stemWord.toLowerCase());
         if(!queryTerm) {
-          builder.add(new BoostQuery(new TermQuery(new Term(field, weightedExpansionTerm.getExpansionTerm())), weightedExpansionTerm.getWeight()),
-                  BooleanClause.Occur.SHOULD);
+          WeightedTerm weightedTerm= new WeightedTerm(weightedExpansionTerm.getExpansionTerm(),weightedExpansionTerm.getWeight());
+          weightedTerms.add(weightedTerm);
+          /*builder.add(new BoostQuery(new TermQuery(new Term(field, weightedExpansionTerm.getExpansionTerm())), weightedExpansionTerm.getWeight()),
+                  BooleanClause.Occur.SHOULD);*/
         }
 
       }
+
+    }
+    List<WeightedTerm> weightedTerms2=new ArrayList<>();
+    if(args.removeDuplicateTerms){
+      Set<WeightedTerm> finalTerms= new HashSet<>(weightedTerms);
+      weightedTerms2.addAll(finalTerms);
+    }else{
+      weightedTerms2=weightedTerms;
+    }
+    for(WeightedTerm weightedTerm : weightedTerms2){
+      builder.add(new BoostQuery(new TermQuery(new Term(field, weightedTerm.getName())), weightedTerm.getWeight()),
+              BooleanClause.Occur.SHOULD);
+
     }
 
     return builder.build();
+  }
+
+
+  public void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms){
+    BM25QueryContext.setQueryTerms(queryid,term);
+    Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms(queryid);
+    if(queryExpansionTerms==null){
+      System.out.println("NO EXPANSION for query ::"+queryid+"::"+term);
+      return ;
+    }
+    List<WeightedExpansionTerm> weightedExpansionTerms = queryExpansionTerms.get(term.toLowerCase());
+    boolean debug = queryid.equals("52");
+    if(debug){
+     // System.out.println("Adding expansion for term ::"+term);
+     // System.out.println("for expansion Mp >>"+queryExpansionTerms);
+     // System.out.println("weightedExpansionTerms for term is >>"+weightedExpansionTerms+"::"+term+":::"+queryid+"::"+queryExpansionTerms);
+    }
+    if(weightedExpansionTerms==null){
+      return ;
+    }
+    for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
+      if(debug){
+        System.out.println("Going to add expansion term "+weightedExpansionTerm.getExpansionTerm()+"::"+weightedExpansionTerm.getWeight()+"::"+term);
+      }
+      weightedTerms.add(new WeightedTerm(weightedExpansionTerm.getExpansionTerm(),weightedExpansionTerm.getWeight()) );
+
+
+      /*builder.add(new BoostQuery(new TermQuery(new Term(field, weightedExpansionTerm.getExpansionTerm())), weightedExpansionTerm.getWeight()),
+              BooleanClause.Occur.SHOULD);*/
+    }
   }
 
 
@@ -157,11 +205,18 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
 
   @Override
   public Query buildQuery(Map<String, Float> fields, Analyzer analyzer, String queryText,String queryid,SearchArgs args) {
+    boolean debug = args.debugQueryID.equals("52");
+    if(debug){
+      System.out.println("Inside buildQuery1 >>>");
+    }
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (Map.Entry<String, Float> entry : fields.entrySet()) {
       String field = entry.getKey();
 
       float boost = entry.getValue();
+      if(debug){
+        System.out.println("going to find weight");
+      }
 
       List<WeightedExpansionTerm> weightedExpansionTerms=RerankerContext.getWeight(queryid,args);
       float weight=1;
@@ -206,6 +261,38 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       builder.add(new BoostQuery(clause, boost), BooleanClause.Occur.SHOULD);
     }
     return builder.build();
+  }
+
+
+  private static class WeightedTerm{
+    private String name;
+    private float weight;
+
+    public WeightedTerm(String name, float weight){
+      this.name=name;
+      this.weight=weight;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public float getWeight() {
+      return weight;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      WeightedTerm that = (WeightedTerm) o;
+      return Float.compare(that.weight, weight) == 0 && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(name, weight);
+    }
   }
 
 }

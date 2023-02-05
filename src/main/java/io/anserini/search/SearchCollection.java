@@ -22,6 +22,7 @@ import io.anserini.analysis.TweetAnalyzer;
 import io.anserini.index.IndexArgs;
 import io.anserini.index.generator.TweetGenerator;
 import io.anserini.index.generator.WashingtonPostGenerator;
+import io.anserini.rerank.BM25QueryContext;
 import io.anserini.rerank.RerankerCascade;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.ScoredDocuments;
@@ -198,6 +199,12 @@ public final class SearchCollection implements Closeable {
         AtomicInteger cnt = new AtomicInteger();
 
         final long start = System.nanoTime();
+        String expWordsWithWeightsFile = args.expwords;
+      if (expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
+        if (args.bm25s) {
+          BM25QueryContext.buildDictionaryForExpansion(expWordsWithWeightsFile);
+        }
+      }
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
           K qid = entry.getKey();
 
@@ -650,6 +657,17 @@ public final class SearchCollection implements Closeable {
        // }
       //}
     }
+    else if (args.bm25s) {
+      String tag = String.format("bm25synonyms");
+      RerankerCascade cascade = new RerankerCascade(tag);
+      cascade.add(new BM25SReranker(analyzer, IndexArgs.CONTENTS,
+              args.bm25syn_outputQuery));
+      cascade.add(new ScoreTiesAdjusterReranker());
+      cascades.add(cascade);
+
+      // }
+      //}
+    }
     else if (args.rocchio) {
       for (String topFbTerms : args.rocchio_topFbTerms) {
         for (String topFbDocs : args.rocchio_topFbDocs) {
@@ -757,9 +775,11 @@ public final class SearchCollection implements Closeable {
     for (TaggedSimilarity taggedSimilarity : similarities) {
       for (RerankerCascade cascade : cascades) {
         final String outputPath;
+        final String debugOutputPath;
 
         if (similarities.size() == 1 && cascades.size() == 1) {
           outputPath = args.output;
+          debugOutputPath=args.output;
         } else {
           outputPath = String.format("%s_%s_%s", args.output, taggedSimilarity.getTag(), cascade.getTag());
         }
@@ -800,13 +820,16 @@ public final class SearchCollection implements Closeable {
         e.printStackTrace();
         throw new IllegalArgumentException("Unable to load QueryGenerator: " + args.topicReader);
       }
+      
 
       // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
       // multiple fields with the associated boosts.
-      if(args.bm25Weighted){
-        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,qid.toString(),args) :
+      if(args.bm25Weighted || args.bm25s){
+        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, DefaultEnglishAnalyzer.newNonStemmingInstance(), queryString,qid.toString(),args) :
                 generator.buildQuery(args.fieldsMap, analyzer, queryString,qid.toString(),args);
+        if(args.debugQueryID.trim().equals(qid.toString().trim())){     
         System.out.println("Query after expansion "+qid+":::"+query);
+      }
       }else {
         query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,args) :
                 generator.buildQuery(args.fieldsMap, analyzer, queryString,args);
@@ -825,8 +848,16 @@ public final class SearchCollection implements Closeable {
     }
 
     List<String> queryTokens = AnalyzerUtils.analyze(analyzer, queryString);
+    RerankerContext context=null;
 
-    RerankerContext context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
+    if(args.bm25syn) {
+      System.out.println("creating RerankerContext");
+       context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
+    }else if(args.bm25s){
+     // System.out.println("creating BM25QueryContext");
+      context = new BM25QueryContext(searcher, qid, query, null, queryString, queryTokens, null, args);
+
+    }
     ScoredDocuments scoredFbDocs; 
     if ( isRerank && args.rf_qrels != null) {
       if (hasRelDocs){

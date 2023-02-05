@@ -40,4 +40,12 @@ public class WeightedExpansionTerm {
     public int hashCode() {
         return Objects.hash(expansionTerm);
     }
+
+
+    @Override
+    public String toString() {
+        return "WeightedExpansionTerm{" +
+                "expansionTerm='" + expansionTerm + '\'' +
+                '}';
+    }
 }

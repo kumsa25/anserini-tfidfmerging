@@ -31,14 +31,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RerankerContext<K> {
   public static final String QUERYID_AND_TERM_SEPERATOR = "-";
   private static volatile boolean done=false;
-  private final IndexSearcher searcher;
-  private final Query query;
-  private final K queryId;
-  private final String queryDocId; // this is for News Track Background Linking task
-  private final String queryText;
-  private final List<String> queryTokens;
-  private final Query filter;
-  private final SearchArgs searchArgs;
+  private  IndexSearcher searcher;
+  private  Query query;
+  private  K queryId;
+  private  String queryDocId; // this is for News Track Background Linking task
+  private  String queryText;
+  private  List<String> queryTokens;
+  private  Query filter;
+  private  SearchArgs searchArgs;
   private static Map<String,Map<String,List<WeightedExpansionTerm>>> expansionWords= new HashMap<>(); // Simple text
   private static Map<String, List<WeightedExpansionTerm>> weightedBM25Terms= new ConcurrentHashMap<>();
 
@@ -60,6 +60,10 @@ public class RerankerContext<K> {
       }
     }
   }
+  public RerankerContext() {
+
+  }
+
 
 
   private static void buildWeightedTerm(String expWordsWithWeightsFile) throws IOException {
@@ -151,7 +155,7 @@ public class RerankerContext<K> {
 
     if(root !=null){
       Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
-      List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( root );
+      List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( root.toLowerCase() );
       String rootSynonym=findRootWord( synonymsTF_.getTerm() );
       for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
         String expansionTerm = weightedExpansionTerm.getExpansionTerm();
@@ -209,10 +213,12 @@ public class RerankerContext<K> {
     return 1;
   }
 
+
   public static boolean isEQULUsingContains(String word, String stemWord){
 
-    return word.indexOf(stemWord) !=-1;
+    return word.toLowerCase().indexOf(stemWord.toLowerCase()) !=-1 || stemWord.toLowerCase().indexOf(word.toLowerCase()) !=-1;
   }
+
 
 
 
@@ -224,7 +230,7 @@ public class RerankerContext<K> {
     for(String  str:strings){
       String stem=findStemWord(str);
       if(stem.equalsIgnoreCase( original_ )){
-        List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( str );
+        List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( str.toLowerCase());
         for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
           String expansionTerm = weightedExpansionTerm.getExpansionTerm();
           String stem1=findStemWord( expansionTerm );
@@ -237,6 +243,7 @@ public class RerankerContext<K> {
         }
       }
     }
+    System.out.println("Returning weight zero >>>>>>>>>>"+original_+":::"+synonym+"::::"+getQueryId());
     return 0;
 
   }
@@ -252,7 +259,12 @@ public class RerankerContext<K> {
     PorterStemmer stem = new PorterStemmer();
     stem.setCurrent(word);
     stem.stem();
-    return stem.getCurrent().equalsIgnoreCase(stemWord);
+    boolean first=stem.getCurrent().equalsIgnoreCase(stemWord);
+    PorterStemmer stem1 = new PorterStemmer();
+    stem1.setCurrent(stemWord);
+    stem1.stem();
+    boolean second=stem.getCurrent().equalsIgnoreCase(word);
+    return first || second;
   }
 
   public IndexSearcher getIndexSearcher() {
@@ -345,7 +357,7 @@ public class RerankerContext<K> {
     }
     Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
 
-    List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(original);
+    List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(original.toLowerCase());
     if(shouldLog){
       System.out.println("weightedExpansionTerms >>>"+weightedExpansionTerms);
     }

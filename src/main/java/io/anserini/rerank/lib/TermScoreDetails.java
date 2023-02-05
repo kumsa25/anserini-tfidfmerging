@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TermScoreDetails {
     private final String term;
@@ -16,6 +17,8 @@ public class TermScoreDetails {
     private List<TFStats> synonymsTFStats= new ArrayList<>();
     private List<IDFStats> synonymsIDFStats= new ArrayList<>();
 
+    private List<TermScoreDetails> synonyms= new CopyOnWriteArrayList<>();
+    private float weight;
 
 
     public TermScoreDetails(String term, String docid, IDFStats idfStats, TFStats tfSStats) {
@@ -76,6 +79,12 @@ public class TermScoreDetails {
             synonymTFSStat.setAssignedweight( first.get().getWeight() );
         }
     }
+
+
+    public void addSynonymsTFStats(TermScoreDetails synonymTFSStat){
+        synonyms.add(synonymTFSStat);
+
+    }
     public void addSynonymsIDFStats(IDFStats synonymIDFStat,RerankerContext context_){
         synonymsIDFStats.add(synonymIDFStat);
         List<WeightedExpansionTerm> expansionTerms = context_.getExpansionTerms( term.toLowerCase() );
@@ -84,5 +93,17 @@ public class TermScoreDetails {
         if(first.isPresent()){
             synonymIDFStat.setAssignedweight( first.get().getWeight() );
         }
+    }
+
+    public List<TermScoreDetails> getSynonymsTerms() {
+        return synonyms;
+    }
+
+    public void setWeight(float weight) {
+        this.weight=weight;
+    }
+
+    public float getWeight(){
+        return weight;
     }
 }

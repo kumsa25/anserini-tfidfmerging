@@ -28,29 +28,22 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.LeafReaderContext;
-import org.apache.lucene.index.PostingsEnum;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.Terms;
-import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BoostQuery;
-import org.apache.lucene.search.DocIdSetIterator;
 import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.util.BytesRef;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.Collectors;
+import io.anserini.analysis.DefaultEnglishAnalyzer;
 
 public class BM25SynonymReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger( BM25SynonymReranker.class);
@@ -103,7 +96,7 @@ public class BM25SynonymReranker implements Reranker {
           shdLog=true;
           System.out.println("Original Query explanation stats is >>"+allDocsSStats);
         }
-        Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
+        Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog,queryText);
         //   System.out.println("All stats >>>"+allStats);
         //   System.out.println("explain >>>" + id + "::actualDOc::"+actualDocId+"::" + explain);
         allDocsSStats.putAll(allStats);
@@ -137,7 +130,7 @@ public class BM25SynonymReranker implements Reranker {
       e.printStackTrace();
     }
     if(queryText.equalsIgnoreCase( QUERY_DEBUG )){
-      System.out.println("FINAL MAP ::::"+stringFloatMap);
+     // System.out.println("FINAL MAP ::::"+stringFloatMap);
     }
 
     LinkedHashMap<String, Float> reverseSortedMap = new LinkedHashMap<>();
@@ -222,7 +215,7 @@ public class BM25SynonymReranker implements Reranker {
         try {
           Explanation explain = searcher.explain(query, docid);
 
-          Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog);
+          Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,shdLog,queryText);
           if(shdLog){
             System.out.println("ALL STATS >>"+actualDocId+"::"+allStats);
           }
@@ -357,7 +350,7 @@ public class BM25SynonymReranker implements Reranker {
       }else{
         boolean log=false;
         if(context_.getQueryText().equalsIgnoreCase( QUERY_DEBUG )){
-         // System.out.println(" NEW DOC ID FOUND >>>>"+docid);
+          // System.out.println(" NEW DOC ID FOUND >>>>"+docid);
           log=true;
         }
         List<TermScoreDetails> synonymsTermScoredDetails = synonymsScoredDocsStats.get( docid );
@@ -371,9 +364,9 @@ public class BM25SynonymReranker implements Reranker {
           IDFStats idfStats = termScoreDetails.getIdfStats();
           float idf= idfStats.getIdfValue();
           if(log){
-           // System.out.println(" NEW DOC  tf stats::"+docid+"::"+tfSStats);
+            // System.out.println(" NEW DOC  tf stats::"+docid+"::"+tfSStats);
             //System.out.println(" NEW DOC  idf stats::"+docid+"::"+idfStats);
-           // System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
+            // System.out.println("NEW DOC BOOST"+docid+"::"+idfStats.getBoost());
           }
           double weight1 = context_.overrideWeight(tfSStats.getTerm());
           weight+=idfStats.getBoost()*tfValue*idf* weight1;
@@ -565,7 +558,9 @@ public class BM25SynonymReranker implements Reranker {
     for(String token: queryTokens){
       if(context.getSearchArgs().stemmer.equals("none")){
         if(idfStats.getTerm().equalsIgnoreCase( token )){
+         // System.out.println("TERM tO SUE >>>>"+termToUse);
           termToUse=token;
+         // System.out.println("TERM tO SUE >>>>"+termToUse);
           break;
         }
       }else
@@ -584,7 +579,7 @@ public class BM25SynonymReranker implements Reranker {
 
     }*/
     // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, termToUse);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, DefaultEnglishAnalyzer.newNonStemmingInstance(), termToUse);
     List<String> docIds= new ArrayList<>();
     TopDocs topDocs = null;
     try
@@ -610,6 +605,19 @@ public class BM25SynonymReranker implements Reranker {
           System.out.println(
                   "Matching docs finally matched using stem query " + numOfDocsContainingTerm + "::" + docs.length + "::" + idfStats.getTerm() + ":::" + context.getQueryText() + "::::"
                           + topDocs.totalHits );
+        }else{
+          query = new BagOfWordsQueryGenerator().buildQuery( IndexArgs.CONTENTS, IndexCollection.DEFAULT_ANALYZER, idfStats.getStemmedTerm() );
+          topDocs = searcher.search( query, (int) numOfDocsContainingTerm );
+
+          docs = topDocs.scoreDocs;
+
+          if( numOfDocsContainingTerm == docs.length )
+          {
+            System.out.println(
+                    "Matching docs finally matched using stem query " + numOfDocsContainingTerm + "::" + docs.length + "::" + idfStats.getTerm() + ":::" + context.getQueryText() + "::::"
+                            + topDocs.totalHits );
+          }
+
         }
       }
       for( ScoreDoc doc : docs )
@@ -715,7 +723,7 @@ public class BM25SynonymReranker implements Reranker {
 
   }
 
-  private Map<String, List<TermScoreDetails>> extractStatsFromExplanation(Explanation explanation, Query query,RerankerContext context_,String actaulDocId,boolean shdlog) {
+  private Map<String, List<TermScoreDetails>> extractStatsFromExplanation(Explanation explanation, Query query,RerankerContext context_,String actaulDocId,boolean shdlog,String queryText) {
     Number docTotalWeight = explanation.getValue();
     Map<String, List<TermScoreDetails>> docIdvsAlltermsScoreDetails= new HashMap<>();
     Explanation[] details=null;
@@ -733,6 +741,8 @@ public class BM25SynonymReranker implements Reranker {
       int colonIndex=description.indexOf(":");
       String textAfterColon=description.substring(colonIndex+1);
       String term=textAfterColon.split(" ")[0];
+      String stemmedTerm=term;
+      term=getActualTerm(queryText,term);
       /*if(term.equalsIgnoreCase( "prove" )){
         System.out.println(">>>>>>"+eachTermExpInThatDoc);
       }*/
@@ -742,6 +752,7 @@ public class BM25SynonymReranker implements Reranker {
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
         Explanation idfExplanation=termSpecificExplanation[0];
         IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation,shdlog);
+        idfStats.setStemmedTerm(stemmedTerm);
         IDFStats.setDocid(term,actaulDocId);
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
@@ -752,6 +763,21 @@ public class BM25SynonymReranker implements Reranker {
     }
     docIdvsAlltermsScoreDetails.put(actaulDocId,termScoreDetailsList);
     return docIdvsAlltermsScoreDetails;
+  }
+
+  private String getActualTerm(String queryText, String term) {
+    List<String> queryTokens = Arrays.stream(queryText.split(" ")).collect(Collectors.toList());
+    for(String str : queryTokens){
+      if(RerankerContext.isEQULUsingStem(str,term)){
+        return str;
+      }
+    }
+    for(String str : queryTokens){
+      if(RerankerContext.isEQULUsingContains(str,term)){
+        return str;
+      }
+    }
+    return term;
   }
 
 

@@ -35,6 +35,14 @@ public class SearchArgs {
   @Option(name = "-output", metaVar = "[file]", required = true, usage = "output file")
   public String output;
 
+  @Option(name = "-queryDebugOutput", metaVar = "[file]", required = false, usage = "output file")
+  public String queryDebugOutput;
+
+  @Option(name = "-debugDocID", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
+  public String debugDocID = "none";
+
+
+
   @Option(name = "-topicreader", required = true, usage = "TopicReader to use.")
   public String topicReader;
 
@@ -94,6 +102,19 @@ public class SearchArgs {
 
   @Option(name = "-stemmer", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
   public String stemmer = "porter";
+
+  @Option(name = "-debugQueryID", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
+  public String debugQueryID = "none";
+
+  @Option(name = "-removeDuplicateTerms", usage = "Boolean switch to keep stopwords in the query topics")
+  public boolean removeDuplicateTerms = true;
+
+  @Option(name = "-bm25w", usage = "use bm25PRF Synonyms expansion model")
+  public boolean bm25w = false;
+
+
+
+
 
   @Option(name = "-overrideWeight", usage = "Stemmer: one of the following porter,krovetz,none. Default porter")
   public String overrideWeight = "1.0";
@@ -367,6 +388,11 @@ public class SearchArgs {
   @Option(name = "-bm25syn", usage = "use bm25PRF Synonyms expansion model")
   public boolean bm25syn = false;
 
+  @Option(name = "-bm25s", usage = "use bm25PRF Synonyms expansion model")
+  public boolean bm25s = false;
+
+
+
 
   @Option(name = "-uniqueExpansionTerms", usage = "use bm25PRF Synonyms expansion model")
   public boolean uniqueExpansionTerms = true;
@@ -463,6 +489,12 @@ public class SearchArgs {
   @Option(name = "-originalidf",
           usage = "originalidf: print original and expanded queries")
   public boolean originalidf=false;
+
+
+  @Option(name = "-pickAvgIDF",
+          usage = "originalidf: print original and expanded queries")
+  public boolean pickAvgIDF=false;
+
 
 
   @Option(name = "-pickLargerIDF",

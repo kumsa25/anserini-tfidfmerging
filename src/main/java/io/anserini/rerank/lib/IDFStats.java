@@ -25,6 +25,18 @@ public class IDFStats {
 
     private final String term;
 
+    public String getStemmedTerm() {
+        return stemmedTerm;
+    }
+
+    public void setStemmedTerm(String stemmedTerm) {
+        this.stemmedTerm = stemmedTerm;
+    }
+
+    private String stemmedTerm;
+
+
+
     public static Set<String> getDocId(IDFStats original) {
         return termVsDocIds.get(original.term);
     }
@@ -78,6 +90,10 @@ public class IDFStats {
         this.numOfDocsContainingTerm = numOfDocsContainingTerm;
         this.total_number_of_documents_with_field = total_number_of_documents_with_field;
         this.boost=boost;
+        /*if(boost !=1){
+           // System.out.println("Resetting boost to 1");
+            boost=1;
+        }*/
     }
 
     public static void setDocid(String term,String docId){

@@ -1,5 +1,7 @@
 package io.anserini.rerank.lib;
 
+import io.anserini.rerank.BM25QueryContext;
+import io.anserini.rerank.BM25WeightedQueryContext;
 import io.anserini.rerank.RerankerContext;
 
 import java.util.Arrays;
@@ -33,7 +35,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             //System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
             freqTotal+= synonymsTF.getFreq()* assignedweight;
 
-           // System.out.println("Freq  >>"+freqTotal+":::"+original.getTerm()+"::::"+synonymsTF.getFreq());
+            // System.out.println("Freq  >>"+freqTotal+":::"+original.getTerm()+"::::"+synonymsTF.getFreq());
             //freq / (freq + k1 * (1 - b + b * dl / avgdl))
 
         }
@@ -53,6 +55,99 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         return tfTotal;
     }
 
+    public float discountTF(TFStats synonymsTF, BM25QueryContext context,float weight) {
+        float tfTotal=0;
+        float freqTotal=0;
+       // for(TFStats synonymsTF: synonymsTFStats){
+
+            float assignedweight = synonymsTF.getAssignedweight();
+            System.out.println("AssignedWeight is >>>"+assignedweight);
+            if(assignedweight==0){
+                assignedweight=weight;
+                System.out.println("AssignedWeight  after is >>>"+assignedweight);
+            }
+
+
+            //System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
+            freqTotal+= synonymsTF.getFreq()* assignedweight;
+
+            // System.out.println("Freq  >>"+freqTotal+":::"+original.getTerm()+"::::"+synonymsTF.getFreq());
+            //freq / (freq + k1 * (1 - b + b * dl / avgdl))
+
+        //}
+        float avgdl=synonymsTF.getAvgdl_average_length_of_field();
+        float dl=synonymsTF.getDl_length_of_field();
+        float b=synonymsTF.getB_length_normalization_parameter();
+        float k1=synonymsTF.getK1_term_saturation_parameter();
+        if(freqTotal==0.0){
+            return synonymsTF.getTfValue();
+        }
+        float v1 = b * dl / avgdl;
+        float v = freqTotal + (k1 * (1 - b + v1));
+        tfTotal=freqTotal / v;
+
+        return tfTotal;
+    }
+
+
+    public float aggregateTermsFre(TFStats original, List<TermScoreDetails> synonymsTFStats,BM25QueryContext context) {
+        boolean shouldDebug=context.shouldDebug();
+        float tfTotal=original.getTfValue();
+        float freqTotal=original.getFreq();
+        if(synonymsTFStats.size() > 0){
+            // System.out.println("Should debug >>>"+context.getQueryId());
+        }
+        // System.out.println("synonymsTFStats.size >>>>>"+synonymsTFStats.size());
+        for(TermScoreDetails synonymsTF: synonymsTFStats){
+
+            float assignedweight = synonymsTF.getWeight();
+
+            if(shouldDebug) {
+                // System.out.println("Inside aggregateTermsFre actual query term >>>" + original + ":::" + assignedweight+"::qid:"+context.getQueryId());
+                //  System.out.println("Inside aggregateTermsFre expansion term >>>" + original.getTerm() + "::"+synonymsTF.getTerm() + ":::synfre:" +synonymsTF.getTfSStats().getFreq() +"::freqTotal"+freqTotal+"::qid:"+context.getQueryId());
+                // System.out.println(original.getTerm()+":::"+"fre::"+original.getFreq()+":::"+freqTotal+"::"+"tf::"+original.getTfValue()+"::qid:"+context.getQueryId());
+
+
+            }
+
+
+            //System.out.println("Assigned weight >>"+assignedweight+":::"+original.getTerm());
+            freqTotal+= synonymsTF.getTfSStats().getFreq()* assignedweight;
+
+            // System.out.println("Freq  >>"+freqTotal+":::"+original.getTerm()+"::::"+synonymsTF.getFreq());
+            //freq / (freq + k1 * (1 - b + b * dl / avgdl))
+            if(shouldDebug) {
+                // System.out.println("Inside aggregateTermsFre actual query term >>>" + original + ":::" + assignedweight+"::qid:"+context.getQueryId());
+                // System.out.println("Inside aggregateTermsFre expansion term >>>" + original.getTerm() + "::"+synonymsTF.getTerm() + ":::synfre:" +synonymsTF.getTfSStats().getFreq() +"::freqTotal"+freqTotal+"::qid:"+context.getQueryId());
+                System.out.println(original.getTerm()+":::"+"fre::"+original.getFreq()+":::"+"::"+synonymsTF.getTerm() + ":::synfre:" +synonymsTF.getTfSStats().getFreq()+"::"+freqTotal+"::"+"tf::"+original.getTfValue()+"::qid:"+context.getQueryId());
+
+
+            }
+
+
+        }
+
+        float avgdl=original.getAvgdl_average_length_of_field();
+        float dl=original.getDl_length_of_field();
+        float b=original.getB_length_normalization_parameter();
+        float k1=original.getK1_term_saturation_parameter();
+        if(freqTotal==0.0){
+            return original.getTfValue();
+        }
+        float v1 = b * dl / avgdl;
+        float v = freqTotal + (k1 * (1 - b + v1));
+        tfTotal=freqTotal / v;
+
+        if(shouldDebug){
+            System.out.println("aggregated freq is >>"+original.getTerm()+":::"+freqTotal+":::orig fre::"+original.getFreq()+"::orig tf:"+original.getTfValue()+"::finalTF:"+tfTotal);
+        }
+
+        if(tfTotal !=original.getTfValue()){
+            //    System.out.println("TF DIFFERENCE >>>>>>>>"+original.getTfValue()+":::"+tfTotal+"::"+freqTotal+"::"+original.getFreq());
+        }
+        return tfTotal;
+    }
+
     @Override
     public float aggregateIDF(IDFStats original, List<IDFStats> synonymsIDFStats,boolean shdLog,RerankerContext context) {
 
@@ -64,23 +159,26 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         allDocs.addAll( allActualDocIds );
 
         if(allDocs.size() !=count){
-            System.out.println("Document count did not match Expected and actual are ::"+count+"::"+allDocs.size());
+            System.out.println("Document count did not match Expected and actual are ::"+count+"::"+allDocs.size()+"::"+context.getQueryId());
+
         }
 
-        if(context.getSearchArgs().pickLargerIDF==true){
-            //  System.out.println("originalidf is true. So, returning original idf");
 
-            return getLargestIDF(original,synonymsIDFStats);
-        }
         if(context.getSearchArgs().pickSmallerIDF==true){
             //  System.out.println("originalidf is true. So, returning original idf");
 
             return getSmallestIDF(original,synonymsIDFStats);
         }
         if(context.getSearchArgs().originalidf==true){
-          //  System.out.println("originalidf is true. So, returning original idf");
+            //  System.out.println("originalidf is true. So, returning original idf");
 
             return original.getIdfValue();
+        }
+
+        if(context.getSearchArgs().pickAvgIDF==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getAvgIDF(original,synonymsIDFStats);
         }
 
         for(IDFStats idfStats: synonymsIDFStats){
@@ -99,8 +197,8 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         double logValue=Math.log(value);
         float v = Double.valueOf( logValue ).floatValue();
         if(shdLog){
-          //  System.out.println(original.getTerm()+":::"+"IDF::"+original.getIdfValue()+":::"+"final ::"+v+"::orig size"+originalDocIds.size()+"::total size:"+allDocs.size());
-           // System.out.println("Corpus >>>"+corpusSize);
+            //  System.out.println(original.getTerm()+":::"+"IDF::"+original.getIdfValue()+":::"+"final ::"+v+"::orig size"+originalDocIds.size()+"::total size:"+allDocs.size());
+            // System.out.println("Corpus >>>"+corpusSize);
         }
 
 
@@ -108,20 +206,70 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
     }
 
-    private float getLargestIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
-        IDFStats idfStats=original;
-        for(IDFStats idf : synonymsIDFStats){
-            if(idf.getIdfValue() > idfStats.getIdfValue()){
-                idfStats=idf;
-            }
+    public float aggregateIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats, BM25QueryContext context) {
+
+
+
+
+        if(context.getSearchArgs().originalidf==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return original.getIdfValue();
         }
-        return idfStats.getIdfValue();
+        if(context.getSearchArgs().pickSmallerIDF==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getSmallestIDF1(original,synonymsIDFStats);
+        }
+        if(context.getSearchArgs().pickAvgIDF==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getAvgIDF1(original,synonymsIDFStats);
+        }
+        if(context.getSearchArgs().pickLargerIDF==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getLargestIDF1(original,synonymsIDFStats);
+        }
+
+        return original.getIdfValue();
+
+
     }
+
+
     private float getSmallestIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
         IDFStats idfStats=original;
         for(IDFStats idf : synonymsIDFStats){
             if(idf.getIdfValue() < idfStats.getIdfValue()){
                 idfStats=idf;
+            }
+        }
+        return idfStats.getIdfValue();
+    }
+    private float getSmallestIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        for(TermScoreDetails idf : synonymsIDFStats){
+            if(idf.getIdfStats().getIdfValue() < idfStats.getIdfValue()){
+                idfStats=idf.getIdfStats();
+            }
+        }
+        return idfStats.getIdfValue();
+    }
+    private float getAvgIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        float sum=idfStats.getIdfValue();
+        for(TermScoreDetails idf : synonymsIDFStats){
+            sum+=idf.getIdfStats().getIdfValue();
+        }
+        return sum/(synonymsIDFStats.size()+1);
+    }
+
+    private float getLargestIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        for(TermScoreDetails idf : synonymsIDFStats){
+            if(idf.getIdfStats().getIdfValue() > idfStats.getIdfValue()){
+                idfStats=idf.getIdfStats();
             }
         }
         return idfStats.getIdfValue();
@@ -134,6 +282,14 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             sum+=idf.getIdfValue();
         }
         return sum;
+    }
+    private float getAvgIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        float sum=original.getIdfValue();
+        for(IDFStats idf : synonymsIDFStats){
+            sum+=idf.getIdfValue();
+        }
+        return sum/(synonymsIDFStats.size()+1);
     }
 
     @Override
