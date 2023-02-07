@@ -156,7 +156,7 @@ public class SearchCollectionTest {
     SearchCollection.main(
         new String[] {"-index", "/shared/bm25s/simulations/lucene-index.simulated_corpus/",
             "-topics", "/shared/bm25s/simulations/topics.txt",
-            "-topicreader", "Trec", "-output", "run.test", "-bm25", "-bm25syn",
+            "-topicreader", "Trec", "-output", "run.test", "-bm25", "-bm25s",
             "-expwords", "/shared/bm25s/simulations/expanded_query.txt",
             "-rerankCutoff", "1000", "-stemmer", "none"});
     check("run.test", new String[]{
