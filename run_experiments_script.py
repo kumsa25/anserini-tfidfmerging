@@ -1,6 +1,6 @@
 import os
 
-out_dir = "runs_automatic_minidf/"
+out_dir = "runs_automatic_optimalv3_nostem/"
 query_dir = "expanded_queries/"
 for filename in os.listdir(query_dir):
     if filename[-4:] == ".txt":
@@ -12,6 +12,8 @@ for filename in os.listdir(query_dir):
         # bm25, optimal
         #if not("optimal." in filename and "bm25." in filename):
         #    continue
+
+        if "l.1.2." not in filename and "l.1.5." not in filename and "l.1.1." not in filename: continue
 
         # bm25, not optimal
         #if not("wordnet." in filename and "bm25." in filename):
@@ -36,6 +38,8 @@ for filename in os.listdir(query_dir):
         #    continue
         
         print(filename)
+
+    
 
         # -pickLargerIDF
         # -originalidf
