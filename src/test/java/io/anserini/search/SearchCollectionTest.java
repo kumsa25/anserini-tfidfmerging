@@ -130,7 +130,6 @@ public class SearchCollectionTest {
         "1 Q0 2000001 1 4.000000 Anserini",});
     new File("run.test").delete();
   }
-
   @Test
   public void testSearchLucene8() throws Exception {
     SearchCollection.main(
@@ -151,6 +150,30 @@ public class SearchCollectionTest {
         "1 Q0 2000001 1 4.000000 Anserini",});
     new File("run.test").delete();
   }
+
+  @Test
+  public void testSearchBM25S() throws Exception {
+    SearchCollection.main(
+        new String[] {"-index", "/shared/bm25s/simulations/lucene-index.simulated_corpus/",
+            "-topics", "/shared/bm25s/simulations/topics.txt",
+            "-topicreader", "Trec", "-output", "run.test", "-bm25", "-bm25syn",
+            "-expwords", "/shared/bm25s/simulations/expanded_query.txt",
+            "-rerankCutoff", "1000", "-stemmer", "none"});
+    check("run.test", new String[]{
+        "0 Q0 790 1 2.962220881933101 Anserini",
+        "0 Q0 2 2 2.8904564767776035 Anserini",
+        "0 Q0 983 3 2.8883360395047037 Anserini"});
+    new File("run.test").delete();
+
+    SearchCollection.main(
+        new String[] {"-index", "src/test/resources/prebuilt_indexes/lucene9-index.sample_docs_json_collection_tokenized/",
+            "-topics", "src/test/resources/sample_topics/json_topics1.tsv",
+            "-topicreader", "TsvInt", "-output", "run.test", "-pretokenized", "-impact"});
+    check("run.test", new String[]{
+        "1 Q0 2000001 1 4.000000 Anserini",});
+    new File("run.test").delete();
+  }
+
 
   @Test
   public void testSearchLucene91() throws Exception {
