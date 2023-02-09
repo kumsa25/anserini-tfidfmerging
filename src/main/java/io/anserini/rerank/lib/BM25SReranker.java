@@ -60,8 +60,8 @@ public class BM25SReranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext _context) {
-
     BM25QueryContext context=(BM25QueryContext)_context;
+
     String outputPath=context.getSearchArgs().output;
     Path path = Paths.get(outputPath);
     String debugDoc=context.getSearchArgs().debugDocID;
@@ -86,12 +86,12 @@ public class BM25SReranker implements Reranker {
         String queryId = context.getQueryId().toString();
         boolean shouldLLog=false;
         PrintWriter out =null;
-        boolean logExplanation=debugDoc !=null && actualDocId.equals(debugDoc) && context.shouldDebug();
-
+        //boolean logExplanation=debugDoc !=null && actualDocId.equals(debugDoc) && context.shouldDebug();
+        boolean logExplanation=true;
         //int debugDoc=Integer.parseInt(context.getSearchArgs().debugDocID);
         //System.out.println("Debu DOC IS >>>>>"+debugDoc+":::"+id+":::"+actualDocId);
         if(logExplanation){
-          System.out.println("GOING TO LOG >>>>>");
+          // System.out.println("GOING TO LOG >>>>>");
 
           String debugPath=outputDir+ File.separator+ queryId.toString()+".debug";
           Path path1 = Paths.get(debugPath);
@@ -104,6 +104,8 @@ public class BM25SReranker implements Reranker {
         //  System.out.println("Query is >>>"+queryText);
         Explanation explain = searcher.explain(query, id);
         if(shouldLLog){
+          out.write("Query is "+query);
+          out.write("Actual doc id"+actualDocId +"::id::"+id);
           out.write(explain.toString());
           out.write("#############"+id+"::"+actualDocId);
         }
@@ -111,12 +113,7 @@ public class BM25SReranker implements Reranker {
 
         Map<String, List<TermScoreDetails>> allStats = extractStatsFromExplanation(explain, query,context,actualDocId,queryText);
         allDocsSStats.putAll(allStats);
-        if(shouldLLog){
-          out.write(allStats.toString());
 
-          out.flush();
-          out.close();
-        }
 
 
       } catch (IOException e) {
@@ -137,7 +134,7 @@ public class BM25SReranker implements Reranker {
       e.printStackTrace();
     }
     if(context.shouldDebug()){
-      System.out.println("FINAL MAP ::::"+stringFloatMap);
+      //System.out.println("FINAL MAP ::::"+stringFloatMap);
     }
 
     LinkedHashMap<String, Float> reverseSortedMap = new LinkedHashMap<>();
@@ -173,6 +170,10 @@ public class BM25SReranker implements Reranker {
       }
       scoredDocs.documents[index++]=doc;
     }
+
+    System.out.println("FINAL sorted cle MAP ::::"+stringFloatMap);
+
+
     //   docIdVsDocument.clear();
     return scoredDocs;
   }
@@ -240,6 +241,10 @@ public class BM25SReranker implements Reranker {
           // System.out.println("Boost for query term is >>"+idfStats.getBoost());
         }
         processedTerms.add(scoreDetails);
+        System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
+        if(scoreDetails.getSynonymsTerms() !=null && !scoreDetails.getSynonymsTerms().isEmpty()){
+          System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
+        }
         processedTerms.addAll(scoreDetails.getSynonymsTerms());
         float termWeight = createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
 
@@ -248,15 +253,20 @@ public class BM25SReranker implements Reranker {
 
       for(TermScoreDetails remaining : termScoreDetails){
         if(processedTerms.contains(remaining)){
+          //System.out.println("CONTINUE");
           continue;
         }
+        //System.out.println("REMAINING ");
         if(remaining.getIdfStats().getBoost()  > 1){
           System.out.println("Boost for expansion term is >>"+remaining.getTerm()+"::"+remaining.getIdfStats().getBoost()+"::"+context_.getQueryId()+"::"+remaining.getWeight()+"::"+docId+"::"+context_.getQueryText());
         }
         float weight=0;
         if(!context_.getSearchArgs().bm25w) {
-          weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats());
+          // System.out.println("NO BM25W $$$$$$$$$$");
+          //System.out.println("ONLY MATCHED EXPANSION TERM IN  ::"+docId);
+          weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_);
         }else{
+          System.out.println("YES BM25W $$$$$$$$$$");
           weight = createTermWeight(remaining.getIdfStats().getBoost(),remaining.getTfSStats(), remaining.getIdfStats(), context_, docId);
         }
         totalScore+=weight;
@@ -346,9 +356,9 @@ public class BM25SReranker implements Reranker {
 
     float finalTFValue = tfidfCombinerStrategy.discountTF(tfSStats,context_,boost);
     if(tfSStats.getTfValue() !=finalTFValue){
-    System.out.println("called  discountTF>>>>"+tfSStats.getTfValue()+"::"+finalTFValue);
+      System.out.println("called  discountTF>>>>"+tfSStats.getTfValue()+"::"+finalTFValue);
     }
-    
+
 
 
     float finalIDFValue= idfStats.getIdfValue();
@@ -362,13 +372,20 @@ public class BM25SReranker implements Reranker {
     return v;
   }
 
-
   private boolean isSynonym( String orig, String expanded, RerankerContext context ) {
     return context.isSynonyms(orig,expanded);
   }
 
-  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats) {
-    return boost * tfSStats .getTfValue()* idfStats.getIdfValue();
+  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats,BM25QueryContext context_) {
+
+    float expansionIDF=idfStats.getIdfValue();
+    float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_);
+    if(context_.getSearchArgs().alwaysUseOriginalIdf){
+      expansionIDF=originalIDF;
+    }
+    System.out.println("originalIDF >>>"+originalIDF+"::"+expansionIDF);
+
+    return boost * tfSStats .getTfValue()* originalIDF;
   }
 
   private TFStats extractTFDetails( String term, Explanation tfExplnation, Explanation[] termSpecificExplanation_ ) {

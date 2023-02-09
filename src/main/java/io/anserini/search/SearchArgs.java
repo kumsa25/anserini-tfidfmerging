@@ -109,6 +109,12 @@ public class SearchArgs {
   @Option(name = "-removeDuplicateTerms", usage = "Boolean switch to keep stopwords in the query topics")
   public boolean removeDuplicateTerms = true;
 
+
+  @Option(name = "-alwaysUseOriginalIdf", usage = "Boolean switch to keep stopwords in the query topics")
+  public boolean alwaysUseOriginalIdf = true;
+
+  
+
   @Option(name = "-bm25w", usage = "use bm25PRF Synonyms expansion model")
   public boolean bm25w = false;
 

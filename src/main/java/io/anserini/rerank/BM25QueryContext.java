@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class BM25QueryContext<K>  extends  RerankerContext{
     public static final String QUERYID_AND_TERM_SEPERATOR = "-";
@@ -66,7 +67,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
         if (expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
             if (searchArgs.bm25s) {
                 buildDictionaryForExpansion(expWordsWithWeightsFile);
-               // System.out.println("DICTIONARY IS >>>"+expansionWords);
+                // System.out.println("DICTIONARY IS >>>"+expansionWords);
             }
         }
         populateNonStemmedVsStemmedTokens(queryId, queryText, queryTokens);
@@ -103,13 +104,16 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             String actualToken = getActualToken(term.getTerm());
             if(aQueryTerm) {
                 if(context_.shouldDebug()){
-                //System.out.println("it is a query term ::"+context_.getQueryId()+"::"+term);
-            }
+                    //System.out.println("it is a query term ::"+context_.getQueryId()+"::"+term);
+                }
                 term.setWeight(1);
                 setSynonyms(actualToken, term, termScoreDetails);
                 actuals.add(term);
             }
-            
+
+        }
+        if(actuals.size() !=termScoreDetails.size()){
+            // System.out.println("SAME SIZE QUERY AND >>>>>>");
         }
         return actuals;
     }
@@ -129,7 +133,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 // Expansion term
                 expansion.add(term);
             }*/
-            
+
 
         }
         return expansion;
@@ -147,7 +151,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
         }
         return false;
     }
-    
+
     public boolean isNotAnExpansionTerm(TermScoreDetails termScoreDetails){
         String actualToken = getActualToken(termScoreDetails.getTerm());
         return actualToken !=null;
@@ -164,7 +168,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             //Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get(queryId);
             if(shouldDebug()){
                 //System.out.println("EXPANSION WORDS setSynonyms >>>"+expansionWords);
-               // System.out.println("EXPANSION WORDS stringListMap >>>"+stringListMap);
+                // System.out.println("EXPANSION WORDS stringListMap >>>"+stringListMap);
 
             }
             if(stringListMap==null){
@@ -176,7 +180,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(actualTerm.toLowerCase());
             if(weightedExpansionTerms==null){
                 if(shouldDebug()){
-                System.out.println("weightedExpansionTerms is NULL for "+queryId+"::"+actualTerm);
+                    System.out.println("weightedExpansionTerms is NULL for "+queryId+"::"+actualTerm);
                 }
                 return;
             }
@@ -186,15 +190,15 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 boolean expansionTermFoundInSearch=isExpansionTermFoundInSearchResults(expansion,termScoreDetails);
                 if(expansionTermFoundInSearch) {
                     if(shouldDebug()){
-                       // System.out.println("Setting expansion term weight" + actualTerm + "::" + expansion + "::" + expansionTerm.getWeight());
+                        // System.out.println("Setting expansion term weight" + actualTerm + "::" + expansion + "::" + expansionTerm.getWeight());
                     }
                     term.setWeight(expansionTerm.getWeight());
                     if(!actualTermDetails.getSynonymsTerms().contains(term)){
-                        
+
                         actualTermDetails.addSynonymsTFStats(term);
                     }else{
                         if(shouldDebug()){
-                           // System.out.println("DUPLICATES ##############");
+                            // System.out.println("DUPLICATES ##############");
                         }
                     }
                 }
@@ -209,8 +213,8 @@ public class BM25QueryContext<K>  extends  RerankerContext{
         for(TermScoreDetails term: termScoreDetails){
             if(term.getTerm().equalsIgnoreCase(expansion)){
                 if(shouldDebug()){
-              //  System.out.println("Comparing >>>"+term.getTerm()+":::"+expansion);
-            }
+                    //  System.out.println("Comparing >>>"+term.getTerm()+":::"+expansion);
+                }
                 return true;
             }
         }
@@ -275,7 +279,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
     public static Map<String, List<WeightedExpansionTerm>> getQueryExpansionTerms(String queryid){
         if(queryid.equalsIgnoreCase("52")){
-          //  System.out.println("Inside getQueryExpansionTerms "+queryid+"::"+expansionWords);
+            //  System.out.println("Inside getQueryExpansionTerms "+queryid+"::"+expansionWords);
         }
         return expansionWords.get(queryid);
     }
@@ -327,13 +331,13 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             }
             Map<String, List<WeightedExpansionTerm>> stringListMap1 = expansionWords.get(id);
             if(id.equals("52")){
-             //   System.out.println("Adding in stringListMap1 >>"+expansionWordsForTerms);
+                //   System.out.println("Adding in stringListMap1 >>"+expansionWordsForTerms);
             }
             stringListMap1.putAll(expansionWordsForTerms);
             expansionWords.put(id,stringListMap1);
 
         }
-       // System.out.println("BUILT DICTIONARY >>>>>"+expansionWords);
+        // System.out.println("BUILT DICTIONARY >>>>>"+expansionWords);
     }
 
     public float getWeight(String token) {
@@ -459,5 +463,21 @@ public class BM25QueryContext<K>  extends  RerankerContext{
         return getSearchArgs().debugQueryID.trim().equals(getQueryId().toString().trim());
     }
 
+    public String findQueryTermForExpansion(String expnsionTerm) {
+        Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get(queryId.toString());
+        Set<String> strings = stringListMap.keySet();
+        Iterator<String> iterator = strings.iterator();
+        while(iterator.hasNext()){
+            String original = iterator.next();
+            List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(original);
+            List<String> collect = weightedExpansionTerms.stream().map(WeightedExpansionTerm::getExpansionTerm).collect(Collectors.toList());
+            for(String s: collect){
+                if(s.equalsIgnoreCase(expnsionTerm)){
+                    return original;
+                }
+            }
+        }
+        return null;
+    }
 
 }

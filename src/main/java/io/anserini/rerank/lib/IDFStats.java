@@ -6,9 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import io.anserini.rerank.BM25QueryContext;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 public class IDFStats {
     private static Map<String, Set<String>> termVsDocIds= new HashMap<>();
+    private static Map<String,Float> termVsIDF= new ConcurrentHashMap<>();
     private  float boost=1;
 
     public List<String> getAllActualDocIds()
@@ -83,6 +87,12 @@ public class IDFStats {
         this.idfValue=idfValue;
         this.numOfDocsContainingTerm = numOfDocsContainingTerm;
         this.total_number_of_documents_with_field = total_number_of_documents_with_field;
+        if(termVsIDF.containsKey(term.toLowerCase())){
+            if(termVsIDF.get(term.toLowerCase()) !=idfValue){
+                System.out.println("SAME TERM ALREADY EXISTS but DIFFERENT IDF");
+            }
+        }
+        termVsIDF.put(term.toLowerCase(),idfValue);
     }
     public IDFStats(String term, float idfValue, float numOfDocsContainingTerm, float total_number_of_documents_with_field,float boost) {
         this.term = term;
@@ -90,6 +100,12 @@ public class IDFStats {
         this.numOfDocsContainingTerm = numOfDocsContainingTerm;
         this.total_number_of_documents_with_field = total_number_of_documents_with_field;
         this.boost=boost;
+        if(termVsIDF.containsKey(term.toLowerCase())){
+            if(termVsIDF.get(term.toLowerCase()) !=idfValue){
+                System.out.println("SAME TERM ALREADY EXISTS but DIFFERENT IDF");
+            }
+        }
+        termVsIDF.put(term.toLowerCase(),idfValue);
         /*if(boost !=1){
            // System.out.println("Resetting boost to 1");
             boost=1;
@@ -112,5 +128,11 @@ public class IDFStats {
     public void setActualDocIds( List<String> docIds)
     {
         this.allActualDocIds=docIds;
+    }
+
+    public static float getOriginalIDF(String term, BM25QueryContext context){
+        String queryTerm = context.findQueryTermForExpansion(term);
+        System.out.println("Found original Term >>>"+queryTerm+":::"+term);
+        return termVsIDF.get(queryTerm);
     }
 }
