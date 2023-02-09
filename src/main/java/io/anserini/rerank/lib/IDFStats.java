@@ -14,6 +14,7 @@ public class IDFStats {
     private static Map<String, Set<String>> termVsDocIds= new HashMap<>();
     private static Map<String,Float> termVsIDF= new ConcurrentHashMap<>();
     private  float boost=1;
+    private static volatile float corpusSize;
 
     public List<String> getAllActualDocIds()
     {
@@ -132,7 +133,35 @@ public class IDFStats {
 
     public static float getOriginalIDF(String term, BM25QueryContext context){
         String queryTerm = context.findQueryTermForExpansion(term);
-        System.out.println("Found original Term >>>"+queryTerm+":::"+term);
-        return termVsIDF.get(queryTerm);
+        if(termVsIDF.containsKey(queryTerm)) {
+            return termVsIDF.get(queryTerm);
+        }else{
+            System.out.println("Original Query term not found "+term+"::"+queryTerm);
+            return smoothingIDF(term);
+        }
+    }
+
+    public static void setCorpusSize(float corSize) {
+        if(corpusSize ==0) {
+            corpusSize = corSize;
+        }else{
+            if(corpusSize !=corSize){
+                System.out.println("Invalid corpus size;");
+            }
+        }
+    }
+
+    public static float getCorpusSize(){
+        return corpusSize;
+    }
+
+
+    private static float smoothingIDF(String term) {
+        System.out.println("Finding smoothing IDF"+term);
+        double value=1+(IDFStats.corpusSize+0.5)/(0.5);
+        double logValue=Math.log(value);
+        float v = Double.valueOf( logValue ).floatValue();
+        termVsIDF.putIfAbsent(term,v);
+        return v;
     }
 }

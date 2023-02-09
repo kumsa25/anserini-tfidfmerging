@@ -18,6 +18,7 @@ package io.anserini.rerank.lib;
 
 import io.anserini.index.IndexArgs;
 import io.anserini.index.IndexCollection;
+import io.anserini.ltr.feature.IdfStat;
 import io.anserini.rerank.*;
 import io.anserini.search.query.BagOfWordsQueryGenerator;
 import org.apache.commons.lang3.ArrayUtils;
@@ -443,6 +444,7 @@ public class BM25SReranker implements Reranker {
     float docIdsSize=numbOfDocsWithThatTerm;
     //log(1 + (N - n + 0.5) / (n + 0.5))
     double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
+    IDFStats.setCorpusSize(corpusSize);
     double logValue=Math.log(value);
     float v = Double.valueOf( logValue ).floatValue();
 
