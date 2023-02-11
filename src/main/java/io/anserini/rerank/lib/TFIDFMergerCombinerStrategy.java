@@ -1,10 +1,8 @@
 package io.anserini.rerank.lib;
 
 import io.anserini.rerank.BM25QueryContext;
-import io.anserini.rerank.BM25WeightedQueryContext;
 import io.anserini.rerank.RerankerContext;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -231,10 +229,33 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
             return getLargestIDF1(original,synonymsIDFStats);
         }
+        if(context.getSearchArgs().idfUnion==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return UnionIDF(original,synonymsIDFStats,context);
+        }
 
         return original.getIdfValue();
 
 
+    }
+
+    private float UnionIDF(IDFStats original, List<TermScoreDetails> synonymsIDFStats, BM25QueryContext context) {
+        Set docId = context.getDocId(original);
+        Set<String> mergedSets= new HashSet<>();
+        mergedSets.addAll(docId);
+        for(TermScoreDetails termScoreDetails : synonymsIDFStats){
+            Set expansionDocs = context.getDocId(termScoreDetails.getIdfStats());
+            mergedSets.addAll(expansionDocs);
+        }
+
+        float corpusSize=original.getTotal_number_of_documents_with_field();
+        float docIdsSize=mergedSets.size();
+        //log(1 + (N - n + 0.5) / (n + 0.5))
+        double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
+        double logValue=Math.log(value);
+        float v = Double.valueOf( logValue ).floatValue();
+        return v;
     }
 
 

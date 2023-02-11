@@ -29,6 +29,10 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import io.anserini.rerank.lib.IDFStats;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+
 
 public class BM25QueryContext<K>  extends  RerankerContext{
     public static final String QUERYID_AND_TERM_SEPERATOR = "-";
@@ -50,6 +54,8 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
     private static Map<String,Map<String,Float>> expansionTermsWeight= new ConcurrentHashMap<>();
     private static Map<String,CopyOnWriteArrayList<String>> queryTerms= new ConcurrentHashMap<>();
+    private  Map<String, Set<String>> termVsDocIds= new ConcurrentHashMap<>();
+
 
 
     public BM25QueryContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
@@ -478,6 +484,19 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             }
         }
         return null;
+    }
+
+    public void setDocid(String term,String docId){
+        Set<String> docIds = termVsDocIds.get(term);
+        if(docIds==null){
+            docIds= new CopyOnWriteArraySet<>();
+        }
+        docIds.add(docId);
+        termVsDocIds.put(term,docIds);
+    }
+
+    public Set<String> getDocId(IDFStats original) {
+        return termVsDocIds.get(original.getTerm().toLowerCase());
     }
 
 }

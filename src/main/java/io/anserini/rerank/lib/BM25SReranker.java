@@ -85,10 +85,10 @@ public class BM25SReranker implements Reranker {
 
 
         String queryId = context.getQueryId().toString();
-        boolean shouldLLog=false;
+        boolean shouldLLog=actualDocId.equals("310");
         PrintWriter out =null;
-        //boolean logExplanation=debugDoc !=null && actualDocId.equals(debugDoc) && context.shouldDebug();
-        boolean logExplanation=true;
+        boolean logExplanation=debugDoc !=null && actualDocId.equals(debugDoc) && context.shouldDebug();
+        //boolean logExplanation=true;
         //int debugDoc=Integer.parseInt(context.getSearchArgs().debugDocID);
         //System.out.println("Debu DOC IS >>>>>"+debugDoc+":::"+id+":::"+actualDocId);
         if(logExplanation){
@@ -98,7 +98,7 @@ public class BM25SReranker implements Reranker {
           Path path1 = Paths.get(debugPath);
           path1.toFile().delete();
           out = new PrintWriter(Files.newBufferedWriter(path1, StandardCharsets.UTF_8));
-          shouldLLog=true;
+          //shouldLLog=true;
 
         }
         docIdVsDocument.putIfAbsent( queryText+":"+actualDocId+":"+queryId, doc);
@@ -109,6 +109,7 @@ public class BM25SReranker implements Reranker {
           out.write("Actual doc id"+actualDocId +"::id::"+id);
           out.write(explain.toString());
           out.write("#############"+id+"::"+actualDocId);
+          out.flush();
         }
 
 
@@ -242,7 +243,7 @@ public class BM25SReranker implements Reranker {
           // System.out.println("Boost for query term is >>"+idfStats.getBoost());
         }
         processedTerms.add(scoreDetails);
-        System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
+        //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         if(scoreDetails.getSynonymsTerms() !=null && !scoreDetails.getSynonymsTerms().isEmpty()){
           System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         }
@@ -386,7 +387,7 @@ public class BM25SReranker implements Reranker {
     }
     System.out.println("originalIDF >>>"+originalIDF+"::"+expansionIDF);
 
-    return boost * tfSStats .getTfValue()* originalIDF;
+    return boost * tfSStats .getTfValue()* expansionIDF;
   }
 
   private TFStats extractTFDetails( String term, Explanation tfExplnation, Explanation[] termSpecificExplanation_ ) {
@@ -511,7 +512,7 @@ public class BM25SReranker implements Reranker {
         Explanation idfExplanation=termSpecificExplanation[0];
         IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
         idfStats.setStemmedTerm(stemmedTerm);
-        IDFStats.setDocid(term,actaulDocId);
+        context_.setDocid(term.toLowerCase(),actaulDocId);
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
