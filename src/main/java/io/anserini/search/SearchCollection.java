@@ -826,13 +826,18 @@ public final class SearchCollection implements Closeable {
       // multiple fields with the associated boosts.
       if(args.bm25Weighted || args.bm25s){
         query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, DefaultEnglishAnalyzer.newNonStemmingInstance(), queryString,qid.toString(),args) :
-                generator.buildQuery(args.fieldsMap, analyzer, queryString,qid.toString(),args);
+                generator.buildQuery(args.fieldsMap, DefaultEnglishAnalyzer.newNonStemmingInstance(), queryString,qid.toString(),args);
         if(args.debugQueryID.trim().equals(qid.toString().trim())){     
         System.out.println("Query after expansion "+qid+":::"+query);
       }
       }else {
-        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,args) :
-                generator.buildQuery(args.fieldsMap, analyzer, queryString,args);
+        Analyzer analyzerToUse=analyzer;
+        if(args.stemmer.equals("none")){
+          analyzerToUse= DefaultEnglishAnalyzer.newNonStemmingInstance();
+         // System.out.println("Using NONSTEMMED Analuzer");
+        }
+        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzerToUse, queryString,args) :
+                generator.buildQuery(args.fieldsMap, analyzerToUse, queryString,args);
         System.out.println("Query is "+qid+":::"+query);
 
       }
