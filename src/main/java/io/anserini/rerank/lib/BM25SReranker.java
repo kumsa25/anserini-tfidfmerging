@@ -85,7 +85,7 @@ public class BM25SReranker implements Reranker {
 
 
         String queryId = context.getQueryId().toString();
-        boolean shouldLLog=actualDocId.equals("310");
+        boolean shouldLLog=false;
         PrintWriter out =null;
         boolean logExplanation=debugDoc !=null && actualDocId.equals(debugDoc) && context.shouldDebug();
         //boolean logExplanation=true;
