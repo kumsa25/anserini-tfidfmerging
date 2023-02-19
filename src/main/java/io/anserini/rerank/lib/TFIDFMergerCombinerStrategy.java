@@ -224,6 +224,11 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
             return getAvgIDF1(original,synonymsIDFStats);
         }
+        if(context.getSearchArgs().idfWeightedAvg==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getWeightedAvgIDF1(original,synonymsIDFStats);
+        }
         if(context.getSearchArgs().pickLargerIDF==true){
             //  System.out.println("originalidf is true. So, returning original idf");
 
@@ -282,6 +287,15 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         float sum=idfStats.getIdfValue();
         for(TermScoreDetails idf : synonymsIDFStats){
             sum+=idf.getIdfStats().getIdfValue();
+        }
+        return sum/(synonymsIDFStats.size()+1);
+    }
+
+    private float getWeightedAvgIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        float sum=idfStats.getIdfValue();
+        for(TermScoreDetails idf : synonymsIDFStats){
+            sum+=idf.getIdfStats().getIdfValue()*idf.getIdfStats().getAssignedweight();
         }
         return sum/(synonymsIDFStats.size()+1);
     }

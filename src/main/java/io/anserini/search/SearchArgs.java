@@ -121,6 +121,8 @@ public class SearchArgs {
   @Option(name = "-idfUnion", usage = "use bm25PRF Synonyms expansion model")
   public boolean idfUnion = false;
 
+  @Option(name = "-idfWeightedAvg", usage = "use bm25PRF Synonyms expansion model")
+  public boolean idfWeightedAvg = false;
 
 
 
