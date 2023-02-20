@@ -227,7 +227,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         if(context.getSearchArgs().idfWeightedAvg==true){
             //  System.out.println("originalidf is true. So, returning original idf");
 
-            return getWeightedAvgIDF1(original,synonymsIDFStats);
+            return getWeightedAvgIDF1(original,synonymsIDFStats,context);
         }
         if(context.getSearchArgs().pickLargerIDF==true){
             //  System.out.println("originalidf is true. So, returning original idf");
@@ -344,13 +344,25 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
     }
 
-    private float getWeightedAvgIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
-        IDFStats idfStats=original;
-        float sum=idfStats.getIdfValue();
-        for(TermScoreDetails idf : synonymsIDFStats){
-            sum+=idf.getIdfStats().getIdfValue()*idf.getIdfStats().getAssignedweight();
+    private float getWeightedAvgIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats,BM25QueryContext context) {
+        Set docId = context.getDocId(original);
+        int size=1;
+        int total=1;
+        Set<String> mergedSets= new HashSet<>();
+        mergedSets.addAll(docId);
+        for(TermScoreDetails termScoreDetails : synonymsIDFStats){
+            Set expansionDocs = context.getDocId(termScoreDetails.getIdfStats());
+            total+=total+(expansionDocs.size()*termScoreDetails.getIdfStats().getAssignedweight());
+            mergedSets.addAll(expansionDocs);
+            size++;
         }
-        return sum/(synonymsIDFStats.size()+1);
+        float corpusSize=original.getTotal_number_of_documents_with_field();
+        float docIdsSize= total/size;
+        //log(1 + (N - n + 0.5) / (n + 0.5))
+        double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
+        double logValue=Math.log(value);
+        float v = Double.valueOf( logValue ).floatValue();
+        return v;
     }
 
     private float getLargestIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
