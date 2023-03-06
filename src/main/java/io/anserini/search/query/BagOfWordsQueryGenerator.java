@@ -90,7 +90,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     for (String t : collect.keySet()) {
       float weight=1;
       if(!args.bm25syn && args.bm25s) {
-        addExpansionTerms(queryid,t,builder,field,args,weightedTerms);
+        addExpansionTerms(queryid,t,builder,field,args,weightedTerms,analyzer);
       }
       float boost = collect.get(t);
       if(!args.bm25syn && args.bm25considerWeightAndBoost) {
@@ -140,7 +140,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   }
 
 
-  public void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms){
+  public void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms,Analyzer analyzer){
     BM25QueryContext.setQueryTerms(queryid,term);
     Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms(queryid);
     if(queryExpansionTerms==null){
@@ -161,7 +161,11 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       if(debug){
         System.out.println("Going to add expansion term "+weightedExpansionTerm.getExpansionTerm()+"::"+weightedExpansionTerm.getWeight()+"::"+term);
       }
-      weightedTerms.add(new WeightedTerm(weightedExpansionTerm.getExpansionTerm(),weightedExpansionTerm.getWeight()) );
+      String expansionTerm = weightedExpansionTerm.getExpansionTerm();
+      List<String> analyze = AnalyzerUtils.analyze(analyzer, expansionTerm);
+      for(String analyzedTerms : analyze) {
+        weightedTerms.add(new WeightedTerm(analyzedTerms, weightedExpansionTerm.getWeight()));
+      }
 
 
       /*builder.add(new BoostQuery(new TermQuery(new Term(field, weightedExpansionTerm.getExpansionTerm())), weightedExpansionTerm.getWeight()),

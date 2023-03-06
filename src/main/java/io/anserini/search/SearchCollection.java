@@ -202,7 +202,8 @@ public final class SearchCollection implements Closeable {
         String expWordsWithWeightsFile = args.expwords;
       if (expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
         if (args.bm25s) {
-          BM25QueryContext.buildDictionaryForExpansion(expWordsWithWeightsFile);
+
+          BM25QueryContext.buildDictionaryForExpansion(expWordsWithWeightsFile,analyzer);
         }
       }
         for (Map.Entry<K, Map<String, String>> entry : topics.entrySet()) {
@@ -825,19 +826,17 @@ public final class SearchCollection implements Closeable {
       // If fieldsMap isn't null, then it means that the -fields option is specified. In this case, we search across
       // multiple fields with the associated boosts.
       if(args.bm25Weighted || args.bm25s){
-        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, DefaultEnglishAnalyzer.newNonStemmingInstance(), queryString,qid.toString(),args) :
-                generator.buildQuery(args.fieldsMap, DefaultEnglishAnalyzer.newNonStemmingInstance(), queryString,qid.toString(),args);
+        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,qid.toString(),args) :
+                generator.buildQuery(args.fieldsMap, analyzer, queryString,qid.toString(),args);
         if(args.debugQueryID.trim().equals(qid.toString().trim())){     
         System.out.println("Query after expansion "+qid+":::"+query);
       }
       }else {
-        Analyzer analyzerToUse=analyzer;
         if(args.stemmer.equals("none")){
-          analyzerToUse= DefaultEnglishAnalyzer.newNonStemmingInstance();
          // System.out.println("Using NONSTEMMED Analuzer");
         }
-        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzerToUse, queryString,args) :
-                generator.buildQuery(args.fieldsMap, analyzerToUse, queryString,args);
+        query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,args) :
+                generator.buildQuery(args.fieldsMap, analyzer, queryString,args);
         System.out.println("Query is "+qid+":::"+query);
 
       }
@@ -860,7 +859,7 @@ public final class SearchCollection implements Closeable {
        context = new RerankerContext<>(searcher, qid, query, null, queryString, queryTokens, null, args);
     }else if(args.bm25s){
      // System.out.println("creating BM25QueryContext");
-      context = new BM25QueryContext(searcher, qid, query, null, queryString, queryTokens, null, args);
+      context = new BM25QueryContext(searcher, qid, query, null, queryString, queryTokens, null, args,analyzer);
 
     }
     ScoredDocuments scoredFbDocs; 

@@ -16,8 +16,10 @@
 
 package io.anserini.rerank;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.rerank.lib.TermScoreDetails;
 import io.anserini.search.SearchArgs;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.tartarus.snowball.ext.PorterStemmer;
@@ -59,7 +61,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
 
     public BM25QueryContext(IndexSearcher searcher, K queryId, Query query, String queryDocId, String queryText,
-                            List<String> queryTokens, Query filter, SearchArgs searchArgs) throws IOException {
+                            List<String> queryTokens, Query filter, SearchArgs searchArgs, Analyzer analyzer) throws IOException {
         super();
         this.searcher = searcher;
         this.query = query;
@@ -72,7 +74,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
         String expWordsWithWeightsFile = searchArgs.expwords;
         if (expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
             if (searchArgs.bm25s) {
-                buildDictionaryForExpansion(expWordsWithWeightsFile);
+                buildDictionaryForExpansion(expWordsWithWeightsFile,analyzer);
                 // System.out.println("DICTIONARY IS >>>"+expansionWords);
             }
         }
@@ -291,7 +293,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
     }
 
 
-    public static void buildDictionaryForExpansion(String expWordsWithWeightsFile) throws IOException {
+    public static void buildDictionaryForExpansion(String expWordsWithWeightsFile,Analyzer analyzer) throws IOException {
         Properties properties = new Properties();
         properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
         Set<Object> keys = properties.keySet();
@@ -320,14 +322,20 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 String content = expansions.substring(current + 1, closeIndex);
                 String[] split1 = content.split(",");
                 String expansionWord = split1[0];
+                List<String> analyze = AnalyzerUtils.analyze(analyzer, expansionWord);
                 String weight = split1[1];
-                weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), expansionWord));
+                for(String anayzedTerm : analyze) {
+                    weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
+                }
                 current = closeIndex + 1;
                 if(expansionTermsWeight.containsKey(expansionWord.toString())){
                     throw new RuntimeException("Duplicate expansion words found for query "+id+"::"+expansionWord);
                 }
-                expansionTermsWeight.put(expansionWord.toLowerCase(),Float.parseFloat(weight));
+                for(String analyzeTerm: analyze) {
+                    expansionTermsWeight.put(analyzeTerm.toLowerCase(), Float.parseFloat(weight));
+                }
             }
+
             expansionWordsForTerms.put(word.toLowerCase(), weightedExpansionTerms);
             Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get(id);
             if (stringListMap == null) {
