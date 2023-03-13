@@ -828,9 +828,9 @@ public final class SearchCollection implements Closeable {
       if(args.bm25Weighted || args.bm25s){
         query = args.fields.length == 0 ? generator.buildQuery(IndexArgs.CONTENTS, analyzer, queryString,qid.toString(),args) :
                 generator.buildQuery(args.fieldsMap, analyzer, queryString,qid.toString(),args);
-        if(args.debugQueryID.trim().equals(qid.toString().trim())){     
+        //if(args.debugQueryID.trim().equals(qid.toString().trim())){
         System.out.println("Query after expansion "+qid+":::"+query);
-      }
+      //}
       }else {
         if(args.stemmer.equals("none")){
          // System.out.println("Using NONSTEMMED Analuzer");
