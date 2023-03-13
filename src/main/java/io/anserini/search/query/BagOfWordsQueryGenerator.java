@@ -99,7 +99,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       if(args.bm25IgnoreBoost) {
         boost = weight;
       }
-      weightedTerms.add(new WeightedTerm(t,boost));
+      weightedTerms.add(new WeightedTerm(t.toLowerCase(),boost));
       /*builder.add(new BoostQuery(new TermQuery(new Term(field, t)), boost),
               BooleanClause.Occur.SHOULD);*/
 
@@ -108,6 +108,9 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     if(!args.bm25syn && args.bm25Weighted) {
       List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid,args,analyzer);
+      if(queryid.equalsIgnoreCase("89")){
+        System.out.println("expansionTermsForBM25>>>>>"+expansionTermsForBM25);
+      }
       //Set<WeightedExpansionTerm> uniqueTerms= new HashSet<>(expansionTermsForBM25);
       for(WeightedExpansionTerm weightedExpansionTerm : expansionTermsForBM25){
 
@@ -267,12 +270,12 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     private float weight;
 
     public WeightedTerm(String name, float weight){
-      this.name=name;
+      this.name=name.toLowerCase();
       this.weight=weight;
     }
 
     public String getName() {
-      return name;
+      return name.toLowerCase();
     }
 
     public float getWeight() {
