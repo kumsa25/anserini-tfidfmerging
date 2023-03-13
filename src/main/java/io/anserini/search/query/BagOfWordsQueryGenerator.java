@@ -110,15 +110,9 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid,args,analyzer);
       //Set<WeightedExpansionTerm> uniqueTerms= new HashSet<>(expansionTermsForBM25);
       for(WeightedExpansionTerm weightedExpansionTerm : expansionTermsForBM25){
-        String stemWord = RerankerContext.findStemWord(weightedExpansionTerm.getExpansionTerm());
 
-        boolean queryTerm = tokens.contains(weightedExpansionTerm.getExpansionTerm()) || tokens.contains(stemWord) || tokens.contains(stemWord.toLowerCase());
-        if(!queryTerm) {
-          WeightedTerm weightedTerm= new WeightedTerm(weightedExpansionTerm.getExpansionTerm(),weightedExpansionTerm.getWeight());
-          weightedTerms.add(weightedTerm);
-          /*builder.add(new BoostQuery(new TermQuery(new Term(field, weightedExpansionTerm.getExpansionTerm())), weightedExpansionTerm.getWeight()),
-                  BooleanClause.Occur.SHOULD);*/
-        }
+        WeightedTerm weightedTerm= new WeightedTerm(weightedExpansionTerm.getExpansionTerm(),weightedExpansionTerm.getWeight());
+        weightedTerms.add(weightedTerm);
 
       }
 

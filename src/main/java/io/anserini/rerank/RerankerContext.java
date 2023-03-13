@@ -105,6 +105,7 @@ public class RerankerContext<K> {
       String queryId=termWithQID.substring(0, endIndex);
       String term=termWithQID.substring(endIndex+1);
       List<WeightedExpansionTerm> weightedExpansionTerms = weightedBM25Terms.get(queryId);
+      System.out.println("Expansio Terms are >>>"+queryId+":::"+weightedExpansionTerms);
       if(weightedExpansionTerms==null){
         weightedExpansionTerms= new ArrayList<>();
         weightedBM25Terms.put(queryId,weightedExpansionTerms);
@@ -115,7 +116,7 @@ public class RerankerContext<K> {
       List<String> analyze = AnalyzerUtils.analyze(analyzer, term);
       for(String anayzedTerm : analyze) {
 
-        if(weightedExpansionTerms.contains(anayzedTerm)){
+        if(weightedExpansionTerms.contains(anayzedTerm.toLowerCase())){
           throw new RuntimeException("Duplicate expansion words found for query "+queryId+"::"+term);
         }
         weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
