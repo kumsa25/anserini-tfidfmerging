@@ -16,8 +16,10 @@
 
 package io.anserini.rerank;
 
+import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.rerank.lib.TFStats;
 import io.anserini.search.SearchArgs;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.tartarus.snowball.ext.PorterStemmer;
@@ -91,6 +93,43 @@ public class RerankerContext<K> {
     }
   }
 
+  private static void buildWeightedTerm(String expWordsWithWeightsFile,Analyzer analyzer) throws IOException {
+    Properties properties = new Properties();
+    properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
+    Set<Object> keys = properties.keySet();
+    Iterator<Object> iterator = keys.iterator();
+    while (iterator.hasNext()) {
+      String termWithQID = (String) iterator.next();
+      String weight = properties.getProperty(termWithQID).trim();
+      int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);
+      String queryId=termWithQID.substring(0, endIndex);
+      String term=termWithQID.substring(endIndex+1);
+      List<WeightedExpansionTerm> weightedExpansionTerms = weightedBM25Terms.get(queryId);
+      if(weightedExpansionTerms==null){
+        weightedExpansionTerms= new ArrayList<>();
+        weightedBM25Terms.put(queryId,weightedExpansionTerms);
+      }
+
+
+
+      List<String> analyze = AnalyzerUtils.analyze(analyzer, term);
+      for(String anayzedTerm : analyze) {
+
+        if(weightedExpansionTerms.contains(anayzedTerm)){
+          throw new RuntimeException("Duplicate expansion words found for query "+queryId+"::"+term);
+        }
+        weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
+      }
+
+      //weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight),term.toLowerCase()));
+      //String stemWord = findStemWord(term);
+      //weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight),stemWord.toLowerCase()));
+
+
+
+    }
+  }
+
   private static void buildDictionaryForExpansion(String expWordsWithWeightsFile) throws IOException {
     Properties properties = new Properties();
     properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
@@ -138,6 +177,22 @@ public class RerankerContext<K> {
     if (!done && expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
       try {
         buildWeightedTerm(expWordsWithWeightsFile);
+        done=true;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
+    List<WeightedExpansionTerm> weightedExpansionTerms = weightedBM25Terms.get(queryid);
+    return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
+
+  }
+
+  public static List<WeightedExpansionTerm> getWeight(String queryid, SearchArgs args, Analyzer analyzer) {
+    String expWordsWithWeightsFile = args.expwords;
+    if (!done && expWordsWithWeightsFile != null && expWordsWithWeightsFile.trim().length() > 0) {
+      try {
+        buildWeightedTerm(expWordsWithWeightsFile,analyzer);
         done=true;
       } catch (IOException e) {
         throw new RuntimeException(e);
