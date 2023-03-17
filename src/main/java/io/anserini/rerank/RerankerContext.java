@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class RerankerContext<K> {
   public static final String QUERYID_AND_TERM_SEPERATOR = "-";
@@ -121,9 +122,14 @@ public class RerankerContext<K> {
       }
       for(String anayzedTerm : analyze) {
 
-        if(weightedExpansionTerms.contains(anayzedTerm.toLowerCase())){
-          throw new RuntimeException("Duplicate expansion words found for query "+queryId+"::"+term);
+        if(anayzedTerm.equalsIgnoreCase("market")){
+        //  System.out.println("@@@@@@"+weightedExpansionTerms+":::"+anayzedTerm);
         }
+        Set<String> words=weightedExpansionTerms.stream().map(weightedExpansionTerm -> weightedExpansionTerm.getExpansionTerm().toLowerCase()).collect(Collectors.toSet();
+
+        /*if(words.contains(anayzedTerm.toLowerCase())){
+          throw new RuntimeException("Duplicate expansion words found for query "+queryId+"::"+term);
+        }*/
         weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
       }
 
@@ -163,7 +169,7 @@ public class RerankerContext<K> {
         String[] split1 = content.split(",");
         String expansionWord = split1[0];
         String weight = split1[1];
-        weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), expansionWord));
+        weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), expansionWord.toLowerCase()));
         current = closeIndex + 1;
       }
       expansionWordsForTerms.put(word.toLowerCase(), weightedExpansionTerms);

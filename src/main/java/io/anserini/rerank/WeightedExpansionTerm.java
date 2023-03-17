@@ -32,8 +32,8 @@ public class WeightedExpansionTerm {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WeightedExpansionTerm that = (WeightedExpansionTerm) o;
+        return expansionTerm.equalsIgnoreCase(that.expansionTerm);
 
-        return Objects.equals(expansionTerm, that.expansionTerm);
     }
 
     @Override

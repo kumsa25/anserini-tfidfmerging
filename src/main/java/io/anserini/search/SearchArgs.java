@@ -107,7 +107,7 @@ public class SearchArgs {
   public String debugQueryID = "none";
 
   @Option(name = "-removeDuplicateTerms", usage = "Boolean switch to keep stopwords in the query topics")
-  public boolean removeDuplicateTerms = false;
+  public boolean removeDuplicateTerms = true;
 
 
   @Option(name = "-alwaysUseOriginalIdf", usage = "Boolean switch to keep stopwords in the query topics")

@@ -328,9 +328,9 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                     weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
                 }
                 current = closeIndex + 1;
-                if(expansionTermsWeight.containsKey(expansionWord.toString())){
+               /* if(expansionTermsWeight.containsKey(expansionWord.toString())){
                     throw new RuntimeException("Duplicate expansion words found for query "+id+"::"+expansionWord);
-                }
+                }*/
                 for(String analyzeTerm: analyze) {
                     expansionTermsWeight.put(analyzeTerm.toLowerCase(), Float.parseFloat(weight));
                 }
