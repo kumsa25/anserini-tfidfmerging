@@ -125,7 +125,7 @@ public class RerankerContext<K> {
         if(anayzedTerm.equalsIgnoreCase("market")){
         //  System.out.println("@@@@@@"+weightedExpansionTerms+":::"+anayzedTerm);
         }
-        Set<String> words=weightedExpansionTerms.stream().map(weightedExpansionTerm -> weightedExpansionTerm.getExpansionTerm().toLowerCase()).collect(Collectors.toSet();
+        Set<String> words=weightedExpansionTerms.stream().map(weightedExpansionTerm -> weightedExpansionTerm.getExpansionTerm().toLowerCase()).collect(Collectors.toSet());
 
         /*if(words.contains(anayzedTerm.toLowerCase())){
           throw new RuntimeException("Duplicate expansion words found for query "+queryId+"::"+term);
