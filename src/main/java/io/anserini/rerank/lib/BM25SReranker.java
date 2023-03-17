@@ -173,7 +173,7 @@ public class BM25SReranker implements Reranker {
       scoredDocs.documents[index++]=doc;
     }
 
-    System.out.println("FINAL sorted cle MAP ::::"+stringFloatMap);
+   // System.out.println("FINAL sorted cle MAP ::::"+stringFloatMap);
 
 
     //   docIdVsDocument.clear();
