@@ -301,7 +301,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
 
     @Override
     public int hashCode() {
-      return Objects.hash(name, weight);
+      return Objects.hash(name);
     }
 
     @Override
