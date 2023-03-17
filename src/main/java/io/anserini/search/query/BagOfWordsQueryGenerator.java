@@ -88,11 +88,8 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     List<WeightedTerm> weightedTerms= new ArrayList<>();
     
     for (String t : collect.keySet()) {
-      float weight=1;
-      if(!args.bm25syn && args.bm25s) {
-        addExpansionTerms(queryid,t,builder,field,args,weightedTerms,analyzer);
-      }
       float boost = collect.get(t);
+      float weight=1;
       if(!args.bm25syn && args.bm25considerWeightAndBoost) {
         boost = boost * weight;
       }
@@ -100,6 +97,13 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
         boost = weight;
       }
       weightedTerms.add(new WeightedTerm(t.toLowerCase(),boost));
+
+      if(!args.bm25syn && args.bm25s) {
+        addExpansionTerms(queryid,t,builder,field,args,weightedTerms,analyzer);
+      }
+
+
+
       /*builder.add(new BoostQuery(new TermQuery(new Term(field, t)), boost),
               BooleanClause.Occur.SHOULD);*/
 
@@ -292,7 +296,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       WeightedTerm that = (WeightedTerm) o;
-      return Float.compare(that.weight, weight) == 0 && Objects.equals(name, that.name);
+      return Objects.equals(name, that.name);
     }
 
     @Override
