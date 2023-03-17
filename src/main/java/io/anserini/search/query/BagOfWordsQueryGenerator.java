@@ -122,7 +122,12 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     List<WeightedTerm> weightedTerms2=new ArrayList<>();
     if(args.removeDuplicateTerms){
+      int sizeBefore=weightedTerms.size();
       Set<WeightedTerm> finalTerms= new HashSet<>(weightedTerms);
+      int sizeAfter=finalTerms.size();
+      if(sizeAfter !=sizeBefore){
+        System.out.println("Size changed "+weightedTerms+"::::"+finalTerms+":::"+queryid);
+      }
       weightedTerms2.addAll(finalTerms);
     }else{
       weightedTerms2=weightedTerms;
@@ -294,6 +299,12 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     public int hashCode() {
       return Objects.hash(name, weight);
     }
+
+    @Override
+    public String toString() {
+      return name+":"+weight;
+    }
   }
+
 
 }
