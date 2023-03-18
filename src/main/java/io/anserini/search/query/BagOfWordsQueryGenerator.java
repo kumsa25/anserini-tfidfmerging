@@ -29,14 +29,9 @@ import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.Objects;
 
 /*
  * Bag of Terms query builder
@@ -128,9 +123,11 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     if(args.removeDuplicateTerms){
       int sizeBefore=weightedTerms.size();
       Set<WeightedTerm> finalTerms= new HashSet<>(weightedTerms);
+
       int sizeAfter=finalTerms.size();
       if(sizeAfter !=sizeBefore){
-        System.out.println("Size changed "+weightedTerms+"::::"+finalTerms+":::"+queryid);
+        printChanges(weightedTerms,finalTerms,queryid);
+       // System.out.println("Size changed "+weightedTerms+"::::"+finalTerms+":::"+queryid);
       }
       weightedTerms2.addAll(finalTerms);
     }else{
@@ -143,6 +140,19 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
 
     return builder.build();
+  }
+
+  private void printChanges(List<WeightedTerm> weightedTerms, Set<WeightedTerm> finalTerms,String queryId) {
+    for(WeightedTerm orig: weightedTerms){
+      if(!finalTerms.contains(orig)){
+        System.out.println("Error !Why the original term got removed"+queryId+":::"+orig);
+      }
+    }
+    for(WeightedTerm orig: finalTerms){
+      if(!weightedTerms.contains(orig)){
+        System.out.println("The new expansion term added "+queryId+":::"+orig);
+      }
+    }
   }
 
 
