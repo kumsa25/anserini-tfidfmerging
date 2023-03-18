@@ -97,7 +97,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       weightedTerms.add(new WeightedTerm(t.toLowerCase(),boost));
 
       if(!args.bm25syn && args.bm25s) {
-        addExpansionTerms(queryid,t,builder,field,args,weightedTerms,analyzer);
+        addExpansionTerms(queryid,t,builder,field,args,weightedTerms,analyzer,tokens);
       }
 
 
@@ -159,7 +159,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   }
 
 
-  public void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms,Analyzer analyzer){
+  public void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms,Analyzer analyzer,List<String> origQueryTokens){
     List<String> analyze1 = AnalyzerUtils.analyze(term);
     for(String str : analyze1) {
       BM25QueryContext.setQueryTerms(queryid, str);
@@ -190,7 +190,8 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
         if(args.debugQueryID.trim().equals(queryid.trim())){
           System.out.println("adding $$$$$ >>"+analyzedTerms+":::"+weightedExpansionTerm.getWeight());
         }
-        weightedTerms.add(new WeightedTerm(analyzedTerms, weightedExpansionTerm.getWeight()));
+        float weight = origQueryTokens.contains(analyzedTerms)? 1 : weightedExpansionTerm.getWeight();
+        weightedTerms.add(new WeightedTerm(analyzedTerms, weight));
       }
 
 
