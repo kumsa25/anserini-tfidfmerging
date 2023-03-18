@@ -91,6 +91,9 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       if(args.bm25IgnoreBoost) {
         boost = weight;
       }
+      if(args.debugQueryID.trim().equals(queryid.trim())){
+        System.out.println("adding  >>"+t.toLowerCase()+":::"+boost);
+      }
       weightedTerms.add(new WeightedTerm(t.toLowerCase(),boost));
 
       if(!args.bm25syn && args.bm25s) {
@@ -184,6 +187,9 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       String expansionTerm = weightedExpansionTerm.getExpansionTerm();
       List<String> analyze = AnalyzerUtils.analyze(analyzer, expansionTerm);
       for(String analyzedTerms : analyze) {
+        if(args.debugQueryID.trim().equals(queryid.trim())){
+          System.out.println("adding $$$$$ >>"+analyzedTerms+":::"+weightedExpansionTerm.getWeight());
+        }
         weightedTerms.add(new WeightedTerm(analyzedTerms, weightedExpansionTerm.getWeight()));
       }
 
