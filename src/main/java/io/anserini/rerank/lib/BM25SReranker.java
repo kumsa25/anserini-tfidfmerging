@@ -201,6 +201,9 @@ public class BM25SReranker implements Reranker {
       List<TermScoreDetails> termScoreDetails = originalScoredDocsStats.get(docId);
 
       List<TermScoreDetails> queryTerms = context_.preprocess(termScoreDetails,context_);
+      if(context_.getQueryId().equals("71")){
+        System.out.println("for 71 queryTerms >>>>"+queryTerms);
+      }
 
       for(TermScoreDetails term:queryTerms){
         if(term.getIdfStats().getBoost() !=1){
@@ -208,6 +211,9 @@ public class BM25SReranker implements Reranker {
         }
       }
       List<TermScoreDetails> expansionWords = context_.filterOnlyExpansionTermsMatches(termScoreDetails, queryTerms);
+      if(context_.getQueryId().equals("71")){
+        System.out.println("for 71 expansionWords >>>>"+expansionWords);
+      }
       for(TermScoreDetails term:expansionWords){
         if(term.getIdfStats().getBoost() ==1){
           //System.out.println("ERROR WHY THE BOST IS  1 for expansion"+term.getTerm()+"::"+term.getWeight()+"::"+context_.getQuery()+"::"+context_.getQueryId());
@@ -252,7 +258,9 @@ public class BM25SReranker implements Reranker {
 
         totalScore += termWeight;
       }
-
+      if(context_.getQueryId().equals("71")){
+        System.out.println("for 71 termScoreDetails >>>>"+termScoreDetails);
+      }
       for(TermScoreDetails remaining : termScoreDetails){
         if(processedTerms.contains(remaining)){
           //System.out.println("CONTINUE");
@@ -266,6 +274,9 @@ public class BM25SReranker implements Reranker {
         if(!context_.getSearchArgs().bm25w) {
           // System.out.println("NO BM25W $$$$$$$$$$");
           //System.out.println("ONLY MATCHED EXPANSION TERM IN  ::"+docId);
+          if(context_.getQueryId().equals("71")){
+            System.out.println("for 71 remaining >>>>"+remaining);
+          }
           weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_);
         }else{
           System.out.println("YES BM25W $$$$$$$$$$");
