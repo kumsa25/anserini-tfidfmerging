@@ -157,7 +157,10 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
 
 
   public void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms,Analyzer analyzer){
-    BM25QueryContext.setQueryTerms(queryid,term);
+    List<String> analyze1 = AnalyzerUtils.analyze(term);
+    for(String str : analyze1) {
+      BM25QueryContext.setQueryTerms(queryid, str);
+    }
     Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms(queryid);
     if(queryExpansionTerms==null){
       System.out.println("NO EXPANSION for query ::"+queryid+"::"+term);
