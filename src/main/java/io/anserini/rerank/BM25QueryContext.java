@@ -336,7 +336,11 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 }
             }
 
-            expansionWordsForTerms.put(word.toLowerCase(), weightedExpansionTerms);
+            String key = word.toLowerCase();
+            List<String> analyze = AnalyzerUtils.analyze(analyzer, key);
+            for(String str : analyze) {
+                expansionWordsForTerms.put(str.toLowerCase(), weightedExpansionTerms);
+            }
             Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get(id);
             if (stringListMap == null) {
                 expansionWords.put(id, expansionWordsForTerms);
