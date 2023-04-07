@@ -9,13 +9,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     private static AtomicInteger totalCount= new AtomicInteger();
-    private static Set docIds= new CopyOnWriteArraySet();
+    private static List docIds= new CopyOnWriteArrayList();
     @Override
     public float aggregateTF(TFStats original, List<TFStats> synonymsTFStats,boolean shdLog,RerankerContext context) {
         float tfTotal=original.getTfValue();
