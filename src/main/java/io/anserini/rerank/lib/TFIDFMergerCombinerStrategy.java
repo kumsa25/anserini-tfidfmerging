@@ -111,7 +111,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             float assignedweight = synonymsTF.getWeight();
             int result=Float.compare(assignedweight,0.1f);
             if(result==0){
-                System.out.println("Assigned Weight is correct");
+               // System.out.println("Assigned Weight is correct");
             }else{
                 throw new RuntimeException("Wromg weight for synonyms >>>"+synonymsTF.getTerm()+"::"+assignedweight+"::"+context.getQueryId());
             }
@@ -156,7 +156,9 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         if(shouldDebug){
             System.out.println("aggregated freq is >>"+original.getTerm()+":::"+freqTotal+":::orig fre::"+original.getFreq()+"::orig tf:"+original.getTfValue()+"::finalTF:"+tfTotal);
         }
-
+        if(Float.compare(tfTotal,original.getTfValue()) !=0){
+            System.out.println("after merge >>>"+original.getTfValue()+":::"+tfTotal+":::"+original.getTerm()+":::"+synonymsTFStats.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet()));
+        }
         if(tfTotal !=original.getTfValue()){
             //    System.out.println("TF DIFFERENCE >>>>>>>>"+original.getTfValue()+":::"+tfTotal+"::"+freqTotal+"::"+original.getFreq());
         }
