@@ -244,6 +244,9 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
     public boolean isAQueryTerm(String queryId, String term){
         CopyOnWriteArrayList<String> strings = queryTerms.get(queryId);
+        if(queryId.equals("69")){
+            System.out.println("Inside isAQueryTerm >>>>>"+strings+":::"+queryId+":::"+term);
+        }
         if(strings==null){
             return false;
         }
