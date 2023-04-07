@@ -110,7 +110,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
             if(aQueryTerm) {
                 if(shouldDebug){
-                    System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId);
+                    System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId+":::"+term);
                 }
                 if(context_.shouldDebug()){
                     //System.out.println("it is a query term ::"+context_.getQueryId()+"::"+term);
