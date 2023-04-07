@@ -201,7 +201,7 @@ public class BM25SReranker implements Reranker {
       List<TermScoreDetails> termScoreDetails = originalScoredDocsStats.get(docId);
 
       List<TermScoreDetails> queryTerms = context_.preprocess(termScoreDetails,context_);
-      if(context_.getQueryId().equals("71")){
+      if(context_.getSearchArgs().debugQueryID.equals("71")){
         System.out.println("for 71 queryTerms >>>>"+queryTerms);
       }
 
