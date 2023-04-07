@@ -74,14 +74,14 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
     List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
     if(args.debugQueryID.trim().equals(queryid.trim())){
-    System.out.println("Query tokens >>"+tokens+":::"+queryid);
-  }
+      System.out.println("Query tokens >>"+tokens+":::"+queryid);
+    }
     Map<String, Long> collect = tokens.stream()
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     boolean debug = args.debugQueryID.equals("52");
     List<WeightedTerm> weightedTerms= new ArrayList<>();
-    
+
     for (String t : collect.keySet()) {
       float boost = collect.get(t);
       float weight=1;
@@ -130,7 +130,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       int sizeAfter=finalTerms.size();
       if(sizeAfter !=sizeBefore){
         printChanges(weightedTerms,finalTerms,queryid);
-       // System.out.println("Size changed "+weightedTerms+"::::"+finalTerms+":::"+queryid);
+        // System.out.println("Size changed "+weightedTerms+"::::"+finalTerms+":::"+queryid);
       }
       weightedTerms2.addAll(finalTerms);
     }else{
@@ -160,10 +160,8 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
 
 
   public void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms,Analyzer analyzer,List<String> origQueryTokens){
-    List<String> analyze1 = AnalyzerUtils.analyze(term);
-    for(String str : analyze1) {
-      BM25QueryContext.setQueryTerms(queryid, str);
-    }
+
+    BM25QueryContext.setQueryTerms(queryid, term);
     Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms(queryid);
     if(queryExpansionTerms==null){
       System.out.println("NO EXPANSION for query ::"+queryid+"::"+term);
@@ -173,9 +171,9 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     //System.out.println("@@@@"+queryid+":::"+term+"::::"+weightedExpansionTerms+":::"+queryExpansionTerms);
     boolean debug = queryid.equals("52");
     if(debug){
-     // System.out.println("Adding expansion for term ::"+term);
-     // System.out.println("for expansion Mp >>"+queryExpansionTerms);
-     // System.out.println("weightedExpansionTerms for term is >>"+weightedExpansionTerms+"::"+term+":::"+queryid+"::"+queryExpansionTerms);
+      // System.out.println("Adding expansion for term ::"+term);
+      // System.out.println("for expansion Mp >>"+queryExpansionTerms);
+      // System.out.println("weightedExpansionTerms for term is >>"+weightedExpansionTerms+"::"+term+":::"+queryid+"::"+queryExpansionTerms);
     }
     if(weightedExpansionTerms==null){
       return ;
