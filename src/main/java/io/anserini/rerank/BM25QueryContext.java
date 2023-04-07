@@ -100,16 +100,29 @@ public class BM25QueryContext<K>  extends  RerankerContext{
      */
     public List<TermScoreDetails> preprocess(List<TermScoreDetails> termScoreDetails,BM25QueryContext context_) {
         CopyOnWriteArrayList actuals= new CopyOnWriteArrayList();
+        boolean shouldDebug=false;
+        if(context_.getQueryId().toString().equals("69")){
+            shouldDebug=true;
+        }
         for (TermScoreDetails term : termScoreDetails) {
             boolean aQueryTerm = isAQueryTerm(queryId.toString(), term.getTerm());
             String actualToken = getActualToken(term.getTerm());
+
             if(aQueryTerm) {
+                if(shouldDebug){
+                    System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId);
+                }
                 if(context_.shouldDebug()){
                     //System.out.println("it is a query term ::"+context_.getQueryId()+"::"+term);
                 }
                 term.setWeight(1);
                 setSynonyms(actualToken, term, termScoreDetails);
                 actuals.add(term);
+            }
+            else{
+                if(shouldDebug){
+                    System.out.println("NOT  a query term >>>"+term.getTerm()+":::"+queryId+"::::"+term);
+                }
             }
 
         }
