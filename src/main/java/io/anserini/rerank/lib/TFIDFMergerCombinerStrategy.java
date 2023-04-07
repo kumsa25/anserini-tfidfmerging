@@ -109,6 +109,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         for(TermScoreDetails synonymsTF: synonymsTFStats){
 
             float assignedweight = synonymsTF.getWeight();
+            System.out.println("Assigned Weight synonyms  >>>"+assignedweight);
 
             if(shouldDebug) {
                 // System.out.println("Inside aggregateTermsFre actual query term >>>" + original + ":::" + assignedweight+"::qid:"+context.getQueryId());
