@@ -16,17 +16,12 @@
 
 package io.anserini.rerank.lib;
 
-import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
-import io.anserini.ltr.feature.IdfStat;
 import io.anserini.rerank.*;
-import io.anserini.search.query.BagOfWordsQueryGenerator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 
 import java.io.File;
@@ -200,6 +195,7 @@ public class BM25SReranker implements Reranker {
     for(String docId: originalScoredDocsStats.keySet()) {
       List<TermScoreDetails> termScoreDetails = originalScoredDocsStats.get(docId);
 
+
       List<TermScoreDetails> queryTerms = context_.preprocess(termScoreDetails,context_);
       if(context_.getSearchArgs().debugQueryID.equals("71")){
         System.out.println("for 71 queryTerms >>>>"+queryTerms);
@@ -277,7 +273,7 @@ public class BM25SReranker implements Reranker {
           if(context_.getQueryId().equals("71")){
             System.out.println("for 71 remaining >>>>"+remaining);
           }
-          weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_);
+          weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_,termScoreDetails);
         }else{
           System.out.println("YES BM25W $$$$$$$$$$");
           weight = createTermWeight(remaining.getIdfStats().getBoost(),remaining.getTfSStats(), remaining.getIdfStats(), context_, docId);
@@ -389,10 +385,10 @@ public class BM25SReranker implements Reranker {
     return context.isSynonyms(orig,expanded);
   }
 
-  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats,BM25QueryContext context_) {
+  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, BM25QueryContext context_, List<TermScoreDetails> termScoreDetails) {
 
     float expansionIDF=idfStats.getIdfValue();
-    float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_);
+    float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_,termScoreDetails);
     if(context_.getSearchArgs().alwaysUseOriginalIdf){
       expansionIDF=originalIDF;
     }

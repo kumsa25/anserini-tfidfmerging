@@ -1,13 +1,13 @@
 package io.anserini.rerank.lib;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import io.anserini.rerank.BM25QueryContext;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 public class IDFStats {
@@ -131,13 +131,13 @@ public class IDFStats {
         this.allActualDocIds=docIds;
     }
 
-    public static float getOriginalIDF(String term, BM25QueryContext context){
+    public static float getOriginalIDF(String term, BM25QueryContext context, List<TermScoreDetails> termScoreDetails){
         String queryTerm = context.findQueryTermForExpansion(term);
         if(termVsIDF.containsKey(queryTerm)) {
             return termVsIDF.get(queryTerm);
         }else{
             System.out.println("Original Query term not found "+term+"::"+queryTerm);
-            return smoothingIDF(term);
+            return smoothingIDF(term,termScoreDetails);
         }
     }
 
@@ -156,12 +156,16 @@ public class IDFStats {
     }
 
 
-    private static float smoothingIDF(String term) {
-        System.out.println("Finding smoothing IDF"+term);
+    private static float smoothingIDF(String term, List<TermScoreDetails> termScoreDetails) {
+        System.out.println("Finding smoothing IDF"+term+"::::"+findMatchedTerms(termScoreDetails));
         double value=1+(IDFStats.corpusSize+0.5)/(0.5);
         double logValue=Math.log(value);
         float v = Double.valueOf( logValue ).floatValue();
         termVsIDF.putIfAbsent(term,v);
         return v;
+    }
+
+    private static Set findMatchedTerms(List<TermScoreDetails> termScoreDetails) {
+        return termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet());
     }
 }
