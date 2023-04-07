@@ -253,7 +253,7 @@ public class BM25SReranker implements Reranker {
           //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         }
         processedTerms.addAll(scoreDetails.getSynonymsTerms());
-        System.out.println("TERMS including query and expansion  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId());
+        System.out.println("TERMS including query and expansion  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryText());
 
         float termWeight = createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
 
