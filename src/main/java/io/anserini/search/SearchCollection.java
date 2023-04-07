@@ -843,6 +843,7 @@ public final class SearchCollection implements Closeable {
 
       }
     }
+    System.out.println("Query after expansion " + qid + ":::" + query);
 
     TopDocs rs = new TopDocs(new TotalHits(0, TotalHits.Relation.EQUAL_TO), new ScoreDoc[]{});
     if (!isRerank || (args.rerankcutoff > 0 && args.rf_qrels == null) || (args.rf_qrels != null && !hasRelDocs)) {

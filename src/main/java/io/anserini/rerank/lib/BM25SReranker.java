@@ -251,7 +251,7 @@ public class BM25SReranker implements Reranker {
         processedTerms.add(scoreDetails);
         //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         if(scoreDetails.getSynonymsTerms() !=null && !scoreDetails.getSynonymsTerms().isEmpty()){
-          System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
+          //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         }
         processedTerms.addAll(scoreDetails.getSynonymsTerms());
         float termWeight = createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
@@ -396,7 +396,7 @@ public class BM25SReranker implements Reranker {
     if(context_.getSearchArgs().alwaysUseOriginalIdf){
       expansionIDF=originalIDF;
     }
-    System.out.println("originalIDF >>>"+originalIDF+"::"+expansionIDF);
+    //System.out.println("originalIDF >>>"+originalIDF+"::"+expansionIDF);
 
     return boost * tfSStats .getTfValue()* expansionIDF;
   }
