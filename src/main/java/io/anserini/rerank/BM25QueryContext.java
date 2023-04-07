@@ -109,19 +109,20 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             String actualToken = getActualToken(term.getTerm());
 
             if(aQueryTerm) {
-                if(shouldDebug){
-                    System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId+":::"+term);
-                }
+
                 if(context_.shouldDebug()){
                     //System.out.println("it is a query term ::"+context_.getQueryId()+"::"+term);
                 }
                 term.setWeight(1);
+                if(shouldDebug){
+                    System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId+":::"+term.getTerm()+"::"+System.identityHashCode(term));
+                }
                 setSynonyms(actualToken, term, termScoreDetails);
                 actuals.add(term);
             }
             else{
                 if(shouldDebug){
-                    System.out.println("NOT  a query term >>>"+term.getTerm()+":::"+queryId+"::::"+term);
+                    System.out.println("NOT  a query term >>>"+term.getTerm()+":::"+queryId+"::::"+term.getTerm());
                 }
             }
 

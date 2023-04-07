@@ -152,7 +152,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
     private void validateExpansionTerms(TFStats original, List<TermScoreDetails> synonymsTFStats, BM25QueryContext context) {
         if(original.getAssignedweight() !=1.0){
-            throw new RuntimeException("Weight of original term is not 1 ::"+original.getTerm()+"::"+original.getAssignedweight()+":::"+context.getQueryId());
+            throw new RuntimeException("Weight of original term is not 1 ::"+original.getTerm()+"::"+original.getAssignedweight()+":::"+context.getQueryId()+":::"+System.identityHashCode(original));
         }
         List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(original.getTerm());
         Set<String> collect = expansionTerms.stream().map(WeightedExpansionTerm::getExpansionTerm).collect(Collectors.toSet());
