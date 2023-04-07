@@ -8,9 +8,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
+    private static AtomicInteger totalCount= new AtomicInteger();
     @Override
     public float aggregateTF(TFStats original, List<TFStats> synonymsTFStats,boolean shdLog,RerankerContext context) {
         float tfTotal=original.getTfValue();
@@ -152,7 +154,9 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
     private void validateExpansionTerms(TFStats original, List<TermScoreDetails> synonymsTFStats, BM25QueryContext context) {
         if(original.getAssignedweight() !=1.0){
-            throw new RuntimeException("Weight of original term is not 1 ::"+original.getTerm()+"::"+original.getAssignedweight()+":::"+context.getQueryId()+":::"+System.identityHashCode(original));
+            int i = totalCount.incrementAndGet();
+
+            throw new RuntimeException("Weight of original term is not 1 ::"+original.getTerm()+"::"+original.getAssignedweight()+":::"+context.getQueryId()+":::"+System.identityHashCode(original)+":::failed::"+i);
         }
         List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(original.getTerm());
         Set<String> collect = expansionTerms.stream().map(WeightedExpansionTerm::getExpansionTerm).collect(Collectors.toSet());
