@@ -2,10 +2,13 @@ package io.anserini.rerank.lib;
 
 import io.anserini.rerank.BM25QueryContext;
 import io.anserini.rerank.RerankerContext;
+import io.anserini.rerank.WeightedExpansionTerm;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     @Override
@@ -89,6 +92,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
 
     public float aggregateTermsFre(TFStats original, List<TermScoreDetails> synonymsTFStats,BM25QueryContext context) {
+        validateExpansionTerms(original,synonymsTFStats,context);
         boolean shouldDebug=context.shouldDebug();
         float tfTotal=original.getTfValue();
         float freqTotal=original.getFreq();
@@ -144,6 +148,25 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             //    System.out.println("TF DIFFERENCE >>>>>>>>"+original.getTfValue()+":::"+tfTotal+"::"+freqTotal+"::"+original.getFreq());
         }
         return tfTotal;
+    }
+
+    private void validateExpansionTerms(TFStats original, List<TermScoreDetails> synonymsTFStats, BM25QueryContext context) {
+        if(original.getAssignedweight() !=1.0){
+            throw new RuntimeException("Weight of original term is not 1 ::"+original.getTerm()+"::"+original.getAssignedweight()+":::"+context.getQueryId());
+        }
+        List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(original.getTerm());
+        Set<String> collect = expansionTerms.stream().map(WeightedExpansionTerm::getExpansionTerm).collect(Collectors.toSet());
+        Iterator<TermScoreDetails> iterator = synonymsTFStats.iterator();
+        while(iterator.hasNext())
+        {
+            TermScoreDetails next = iterator.next();
+            if(next.getIdfStats().getAssignedweight() !=0.1){
+                throw new RuntimeException("Weight of Expansion term is not 0.1 ::"+next.getTerm()+":::"+next.getIdfStats().getAssignedweight()+context.getQueryId());
+            }
+            if(!collect.contains(next.getTerm().toLowerCase())){
+                throw new RuntimeException("Invalid expansion term used :"+next.getTerm()+"::"+original.getTerm()+":::"+context.getQueryId());
+            }
+        }
     }
 
     @Override

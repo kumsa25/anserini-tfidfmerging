@@ -197,10 +197,9 @@ public class BM25SReranker implements Reranker {
 
 
       List<TermScoreDetails> queryTerms = context_.preprocess(termScoreDetails,context_);
-      System.out.println("Query Terms that were found "+queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId());
-      if(context_.getSearchArgs().debugQueryID.equals("71")){
-        System.out.println("for 71 queryTerms >>>>"+queryTerms);
-      }
+      validateForQueryTerms(queryTerms,context_);
+     // System.out.println("FOUND QUERY EXPANSION :  "+queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+context_.getQueryText()+":::"+docId);
+
 
       for(TermScoreDetails term:queryTerms){
         if(term.getIdfStats().getBoost() !=1){
@@ -208,7 +207,7 @@ public class BM25SReranker implements Reranker {
         }
       }
       List<TermScoreDetails> expansionWords = context_.filterOnlyExpansionTermsMatches(termScoreDetails, queryTerms);
-      System.out.println(" Expansion Terms that were found and added as synonyms: "+expansionWords.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId());
+     // System.out.println("REMAINING EXPANSION TERMS "+expansionWords.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+context_.getQueryText()+":::"+docId);
 
       if(context_.getQueryId().equals("71")){
         System.out.println("for 71 expansionWords >>>>"+expansionWords);
@@ -253,7 +252,7 @@ public class BM25SReranker implements Reranker {
           //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         }
         processedTerms.addAll(scoreDetails.getSynonymsTerms());
-        System.out.println("TERMS including query and expansion  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryText());
+      //  System.out.println("TERMS PROCESSED AS QUERY AND SYNONYMS  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryText());
 
         float termWeight = createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
 
@@ -262,6 +261,7 @@ public class BM25SReranker implements Reranker {
       if(context_.getQueryId().equals("71")){
         System.out.println("for 71 termScoreDetails >>>>"+termScoreDetails);
       }
+      Set<String> onlySynonymsMatched=new HashSet<>();
       for(TermScoreDetails remaining : termScoreDetails){
         if(processedTerms.contains(remaining)){
           //System.out.println("CONTINUE");
@@ -275,10 +275,9 @@ public class BM25SReranker implements Reranker {
         if(!context_.getSearchArgs().bm25w) {
           // System.out.println("NO BM25W $$$$$$$$$$");
           //System.out.println("ONLY MATCHED EXPANSION TERM IN  ::"+docId);
-          if(context_.getQueryId().equals("71")){
-            System.out.println("for 71 remaining >>>>"+remaining);
-          }
-          System.out.println("Remaining expansion term :::"+remaining.getTerm()+":::"+context_.getQueryId());
+
+      //    System.out.println("Remaining expansion term :::"+remaining.getTerm()+":::"+context_.getQueryId());
+          onlySynonymsMatched.add(remaining.getTerm());
           weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_,termScoreDetails);
         }else{
           System.out.println("YES BM25W $$$$$$$$$$");
@@ -286,6 +285,13 @@ public class BM25SReranker implements Reranker {
         }
         totalScore+=weight;
       }
+      Set<String> allMatchedTerms=termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet());
+      Set<String> allConsidered= processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet());
+      allConsidered.addAll(onlySynonymsMatched);
+      if(allMatchedTerms.size() !=allConsidered.size()){
+        throw new RuntimeException("All terms were not considered for weight >>>"+allMatchedTerms+":::"+allConsidered+"::"+context_.getQueryId()+"::"+docId);
+      }
+
 
       /*for(TermScoreDetails expansion : expansionWords){
         if(context_.notIncluded(queryTerms,expansion)){
@@ -307,6 +313,15 @@ public class BM25SReranker implements Reranker {
 
 
     return finalComputedScores;
+  }
+
+  private void validateForQueryTerms(List<TermScoreDetails> queryTerms, BM25QueryContext context_) {
+    List queryTokens = context_.getQueryTokens();
+    for(TermScoreDetails termScoreDetails: queryTerms){
+      if(!queryTokens.contains(termScoreDetails.getTerm().toLowerCase())){
+        throw new RuntimeException("NOT A QUERY TERM >>>"+queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+":::"+context_.getQueryId()+":::"+context_.getQueryText()+"::"+context_.getQueryTokens());
+      }
+    }
   }
 
 
