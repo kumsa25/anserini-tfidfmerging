@@ -115,7 +115,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 }
                 term.setWeight(1);
                 if(shouldDebug){
-                    System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId+":::"+term.getTerm()+"::"+System.identityHashCode(term));
+                    System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId+":::"+term.getTerm()+"::"+System.identityHashCode(term.getTfSStats()));
                 }
                 setSynonyms(actualToken, term, termScoreDetails);
                 actuals.add(term);
