@@ -100,6 +100,7 @@ public class TermScoreDetails {
     }
 
     public void setWeight(float weight) {
+        //tfSStats.setAssignedweight(weight);
         this.weight=weight;
     }
 

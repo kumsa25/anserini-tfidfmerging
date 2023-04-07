@@ -98,7 +98,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
 
     public float aggregateTermsFre(TFStats original, List<TermScoreDetails> synonymsTFStats,BM25QueryContext context) {
-        validateExpansionTerms(original,synonymsTFStats,context);
+       // validateExpansionTerms(original,synonymsTFStats,context);
         boolean shouldDebug=context.shouldDebug();
         float tfTotal=original.getTfValue();
         float freqTotal=original.getFreq();
