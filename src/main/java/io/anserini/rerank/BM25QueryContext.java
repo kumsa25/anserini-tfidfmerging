@@ -195,7 +195,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                     }
 
                     term.setWeight(expansionTerm.getWeight());
-                    if(!actualTermDetails.getSynonymsTerms().contains(term)){
+                    if(expansion.equals(term.getTerm()) && !actualTermDetails.getSynonymsTerms().contains(term)){
 
                         actualTermDetails.addSynonymsTFStats(term);
                     }else{
