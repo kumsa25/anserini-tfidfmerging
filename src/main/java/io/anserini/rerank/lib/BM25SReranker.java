@@ -348,6 +348,7 @@ public class BM25SReranker implements Reranker {
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> synonymsTerms,BM25QueryContext context_,String docId) {
 
     TFIDFMergerCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
+    System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.size()+":::"+docId+":::"+context_.getQueryId());
     if(context_.shouldDebug() && context_.getSearchArgs().debugDocID.trim().equalsIgnoreCase(docId)){
       System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.size()+":::"+docId+":::"+Thread.currentThread());
     }
@@ -392,7 +393,7 @@ public class BM25SReranker implements Reranker {
   }
 
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, BM25QueryContext context_, List<TermScoreDetails> termScoreDetails) {
-
+    System.out.println("EXPANSION WITHOUT ACTUAL "+idfStats.getTerm()+"::::"+context_.getQueryId());
     float expansionIDF=idfStats.getIdfValue();
     float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_,termScoreDetails);
     if(context_.getSearchArgs().alwaysUseOriginalIdf){
