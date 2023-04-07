@@ -197,6 +197,7 @@ public class BM25SReranker implements Reranker {
 
 
       List<TermScoreDetails> queryTerms = context_.preprocess(termScoreDetails,context_);
+      System.out.println("Query Terms that were found "+queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId());
       if(context_.getSearchArgs().debugQueryID.equals("71")){
         System.out.println("for 71 queryTerms >>>>"+queryTerms);
       }
@@ -207,6 +208,8 @@ public class BM25SReranker implements Reranker {
         }
       }
       List<TermScoreDetails> expansionWords = context_.filterOnlyExpansionTermsMatches(termScoreDetails, queryTerms);
+      System.out.println(" Expansion Terms that were found and added as synonyms: "+expansionWords.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId());
+
       if(context_.getQueryId().equals("71")){
         System.out.println("for 71 expansionWords >>>>"+expansionWords);
       }
@@ -250,6 +253,8 @@ public class BM25SReranker implements Reranker {
           //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         }
         processedTerms.addAll(scoreDetails.getSynonymsTerms());
+        System.out.println("TERMS including query and expansion  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId());
+
         float termWeight = createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
 
         totalScore += termWeight;
@@ -273,6 +278,7 @@ public class BM25SReranker implements Reranker {
           if(context_.getQueryId().equals("71")){
             System.out.println("for 71 remaining >>>>"+remaining);
           }
+          System.out.println("Remaining expansion term :::"+remaining.getTerm()+":::"+context_.getQueryId());
           weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_,termScoreDetails);
         }else{
           System.out.println("YES BM25W $$$$$$$$$$");
