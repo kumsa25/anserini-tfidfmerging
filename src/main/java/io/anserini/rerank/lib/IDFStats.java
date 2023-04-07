@@ -136,8 +136,8 @@ public class IDFStats {
         if(termVsIDF.containsKey(queryTerm)) {
             return termVsIDF.get(queryTerm);
         }else{
-            System.out.println("Original Query term not found "+term+"::"+queryTerm);
-            return smoothingIDF(term,termScoreDetails);
+            System.out.println("Original Query term not found "+term+"::"+queryTerm+":::"+context.getQueryId());
+            return smoothingIDF(term,termScoreDetails,context);
         }
     }
 
@@ -156,8 +156,8 @@ public class IDFStats {
     }
 
 
-    private static float smoothingIDF(String term, List<TermScoreDetails> termScoreDetails) {
-        System.out.println("Finding smoothing IDF"+term+"::::"+findMatchedTerms(termScoreDetails));
+    private static float smoothingIDF(String term, List<TermScoreDetails> termScoreDetails, BM25QueryContext context) {
+        System.out.println("Finding smoothing IDF"+term+"::::"+findMatchedTerms(termScoreDetails)+"::::"+context.getQueryId());
         double value=1+(IDFStats.corpusSize+0.5)/(0.5);
         double logValue=Math.log(value);
         float v = Double.valueOf( logValue ).floatValue();
