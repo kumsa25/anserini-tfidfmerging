@@ -111,6 +111,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     if(!args.bm25syn && args.bm25Weighted) {
       List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid,args,analyzer);
+      expansionTermsForBM25=expansionTermsForBM25.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm)).collect(Collectors.toList());
       if(queryid.equalsIgnoreCase("89")){
         System.out.println("expansionTermsForBM25>>>>>"+expansionTermsForBM25);
       }
@@ -137,6 +138,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }else{
       weightedTerms2=weightedTerms;
     }
+    weightedTerms2=weightedTerms2.stream().sorted(Comparator.comparing(WeightedTerm::getName)).collect(Collectors.toList());
     for(WeightedTerm weightedTerm : weightedTerms2){
       builder.add(new BoostQuery(new TermQuery(new Term(field, weightedTerm.getName())), weightedTerm.getWeight()),
               BooleanClause.Occur.SHOULD);
@@ -169,6 +171,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       return ;
     }
     List<WeightedExpansionTerm> weightedExpansionTerms = queryExpansionTerms.get(term.toLowerCase());
+    weightedExpansionTerms = weightedExpansionTerms.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm)).collect(Collectors.toList());
     //System.out.println("@@@@"+queryid+":::"+term+"::::"+weightedExpansionTerms+":::"+queryExpansionTerms);
     boolean debug = queryid.equals("52");
     if(debug){
