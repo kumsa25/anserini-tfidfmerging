@@ -206,7 +206,7 @@ public class BM25SReranker implements Reranker {
           System.out.println("ERROR WHY THE BOST IS NOT 1");
         }
       }
-      List<TermScoreDetails> expansionWords = context_.filterOnlyExpansionTermsMatches(termScoreDetails, queryTerms);
+      /*List<TermScoreDetails> expansionWords = context_.filterOnlyExpansionTermsMatches(termScoreDetails, queryTerms);
      // System.out.println("REMAINING EXPANSION TERMS "+expansionWords.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+context_.getQueryText()+":::"+docId);
 
       if(context_.getQueryId().equals("71")){
@@ -229,6 +229,8 @@ public class BM25SReranker implements Reranker {
       if(!expansionWords .isEmpty() && !queryTerms.isEmpty()){
         // System.out.println("Both  Expansion terms and Query terms  found "+docId+"::"+"expansion::"+extractTerms(expansionWords)+"::Query ::"+extractTerms(queryTerms));
       }
+      */
+
 
       Iterator<TermScoreDetails> iterator = queryTerms.iterator();
 
