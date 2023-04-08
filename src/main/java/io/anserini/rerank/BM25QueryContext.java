@@ -118,14 +118,14 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 }
                 term.setWeight(1);
                 if(shouldDebug){
-                    System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId+":::"+term.getTerm()+"::"+System.identityHashCode(term.getTfSStats()));
+                    //System.out.println("is a query term >>>"+term.getTerm()+":::"+queryId+":::"+term.getTerm()+"::"+System.identityHashCode(term.getTfSStats()));
                 }
                 setSynonyms(actualToken, term, termScoreDetails);
                 actuals.add(term);
             }
             else{
                 if(shouldDebug){
-                    System.out.println("NOT  a query term >>>"+term.getTerm()+":::"+queryId+"::::"+term.getTerm());
+                   // System.out.println("NOT  a query term >>>"+term.getTerm()+":::"+queryId+"::::"+term.getTerm());
                 }
             }
 
