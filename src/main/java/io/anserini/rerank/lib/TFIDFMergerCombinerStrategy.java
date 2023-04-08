@@ -153,7 +153,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         float v = freqTotal + (k1 * (1 - b + v1));
         tfTotal=freqTotal / v;
 
-        if(shouldDebug){
+        if(freqTotal > original.getFreq()){
             System.out.println("aggregated freq is >>"+original.getTerm()+":::"+freqTotal+":::orig fre::"+original.getFreq()+"::orig tf:"+original.getTfValue()+"::finalTF:"+tfTotal);
         }
         if(Float.compare(tfTotal,original.getTfValue()) !=0){
