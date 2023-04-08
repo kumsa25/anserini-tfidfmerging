@@ -101,7 +101,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
     public List<TermScoreDetails> preprocess(List<TermScoreDetails> termScoreDetails,BM25QueryContext context_) {
         CopyOnWriteArrayList actuals= new CopyOnWriteArrayList();
         boolean shouldDebug=false;
-        if(context_.getQueryId().toString().equals("69")){
+        if(context_.getQueryId().toString().equals("52")){
             shouldDebug=true;
         }
         for (TermScoreDetails term : termScoreDetails) {
@@ -258,7 +258,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
     public boolean isAQueryTerm(String queryId, String term){
         CopyOnWriteArrayList<String> strings = queryTerms.get(queryId);
-        if(queryId.equals("69")){
+        if(queryId.equals("52")){
             System.out.println("Inside isAQueryTerm >>>>>"+strings+":::"+queryId+":::"+term);
         }
         if(strings==null){
