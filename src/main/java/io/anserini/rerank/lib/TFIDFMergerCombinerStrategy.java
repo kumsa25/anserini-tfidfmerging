@@ -109,12 +109,12 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         for(TermScoreDetails synonymsTF: synonymsTFStats){
 
             float assignedweight = synonymsTF.getWeight();
-            int result=Float.compare(assignedweight,0.5f);
+            /*int result=Float.compare(assignedweight,0.5f);
             if(result==0){
                // System.out.println("Assigned Weight is correct");
             }else{
                 throw new RuntimeException("Wromg weight for synonyms >>>"+synonymsTF.getTerm()+"::"+assignedweight+"::"+context.getQueryId());
-            }
+            }*/
             System.out.println("Assigned Weight synonyms  >>>"+assignedweight);
 
             if(shouldDebug) {
@@ -178,9 +178,9 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         while(iterator.hasNext())
         {
             TermScoreDetails next = iterator.next();
-            if(Float.compare(next.getIdfStats().getAssignedweight(),0.5f) !=0){
+            /*if(Float.compare(next.getIdfStats().getAssignedweight(),0.5f) !=0){
                 throw new RuntimeException("Weight of Expansion term is not 0.1 orig::"+original.getTerm()+"::"+next.getTerm()+":::"+next.getIdfStats().getAssignedweight()+context.getQueryId()+":::"+context.getActualQueryTerms());
-            }
+            }*/
             if(!collect.contains(next.getTerm().toLowerCase())){
                 throw new RuntimeException("Invalid expansion term used :"+next.getTerm()+"::"+original.getTerm()+":::"+context.getQueryId());
             }
