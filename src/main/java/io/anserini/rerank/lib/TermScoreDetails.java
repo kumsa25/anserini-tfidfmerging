@@ -101,6 +101,7 @@ public class TermScoreDetails {
 
     public void setWeight(float weight) {
         tfSStats.setAssignedweight(weight);
+        idfStats.setAssignedweight(weight);
         this.weight=weight;
     }
 
