@@ -154,7 +154,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         tfTotal=freqTotal / v;
 
         if(freqTotal > original.getFreq()){
-            System.out.println("aggregated freq is >>"+original.getTerm()+":::"+freqTotal+":::orig fre::"+original.getFreq()+"::orig tf:"+original.getTfValue()+"::finalTF:"+tfTotal);
+            //System.out.println("aggregated freq is >>"+original.getTerm()+":::"+freqTotal+":::orig fre::"+original.getFreq()+"::orig tf:"+original.getTfValue()+"::finalTF:"+tfTotal);
         }
         if(Float.compare(tfTotal,original.getTfValue()) !=0){
            // System.out.println("after merge >>>"+original.getTfValue()+":::"+tfTotal+":::"+original.getTerm()+":::"+synonymsTFStats.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet()));
