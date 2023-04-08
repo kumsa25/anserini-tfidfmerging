@@ -115,7 +115,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             }else{
                 throw new RuntimeException("Wromg weight for synonyms >>>"+synonymsTF.getTerm()+"::"+assignedweight+"::"+context.getQueryId());
             }*/
-            System.out.println("Assigned Weight synonyms  >>>"+assignedweight);
+            //System.out.println("Assigned Weight synonyms  >>>"+assignedweight);
 
             if(shouldDebug) {
                 // System.out.println("Inside aggregateTermsFre actual query term >>>" + original + ":::" + assignedweight+"::qid:"+context.getQueryId());
