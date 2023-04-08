@@ -171,7 +171,6 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       return ;
     }
     List<WeightedExpansionTerm> weightedExpansionTerms = queryExpansionTerms.get(term.toLowerCase());
-    weightedExpansionTerms = weightedExpansionTerms.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm)).collect(Collectors.toList());
     //System.out.println("@@@@"+queryid+":::"+term+"::::"+weightedExpansionTerms+":::"+queryExpansionTerms);
     boolean debug = queryid.equals("52");
     if(debug){
@@ -182,6 +181,8 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     if(weightedExpansionTerms==null){
       return ;
     }
+    weightedExpansionTerms = weightedExpansionTerms.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm)).collect(Collectors.toList());
+
     for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
       if(debug){
        // System.out.println("Going to add expansion term "+weightedExpansionTerm.getExpansionTerm()+"::"+weightedExpansionTerm.getWeight()+"::"+term);
