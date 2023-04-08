@@ -402,14 +402,18 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 List<String> analyze = AnalyzerUtils.analyze(analyzer, expansionWord);
                 String weight = split1[1];
                 for(String anayzedTerm : analyze) {
-                    weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
+                    if(!word.equalsIgnoreCase(anayzedTerm)) {
+                        weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
+                    }
                 }
                 current = closeIndex + 1;
                /* if(expansionTermsWeight.containsKey(expansionWord.toString())){
                     throw new RuntimeException("Duplicate expansion words found for query "+id+"::"+expansionWord);
                 }*/
                 for(String analyzeTerm: analyze) {
-                    expansionTermsWeight.put(analyzeTerm.toLowerCase(), Float.parseFloat(weight));
+                    if(!weight.equalsIgnoreCase(analyzeTerm)) {
+                        expansionTermsWeight.put(analyzeTerm.toLowerCase(), Float.parseFloat(weight));
+                    }
                 }
             }
 
