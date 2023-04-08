@@ -98,7 +98,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
 
     public float aggregateTermsFre(TFStats original, List<TermScoreDetails> synonymsTFStats,BM25QueryContext context) {
-       // validateExpansionTerms(original,synonymsTFStats,context);
+       validateExpansionTerms(original,synonymsTFStats,context);
         boolean shouldDebug=context.shouldDebug();
         float tfTotal=original.getTfValue();
         float freqTotal=original.getFreq();
@@ -157,7 +157,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             System.out.println("aggregated freq is >>"+original.getTerm()+":::"+freqTotal+":::orig fre::"+original.getFreq()+"::orig tf:"+original.getTfValue()+"::finalTF:"+tfTotal);
         }
         if(Float.compare(tfTotal,original.getTfValue()) !=0){
-            System.out.println("after merge >>>"+original.getTfValue()+":::"+tfTotal+":::"+original.getTerm()+":::"+synonymsTFStats.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet()));
+           // System.out.println("after merge >>>"+original.getTfValue()+":::"+tfTotal+":::"+original.getTerm()+":::"+synonymsTFStats.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet()));
         }
         if(tfTotal !=original.getTfValue()){
             //    System.out.println("TF DIFFERENCE >>>>>>>>"+original.getTfValue()+":::"+tfTotal+"::"+freqTotal+"::"+original.getFreq());

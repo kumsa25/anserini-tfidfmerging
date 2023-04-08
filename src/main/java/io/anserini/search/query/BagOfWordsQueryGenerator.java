@@ -72,6 +72,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
 
   @Override
   public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
+
     List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
     if(args.debugQueryID.trim().equals(queryid.trim())){
       System.out.println("Query tokens >>"+tokens+":::"+queryid);
@@ -184,13 +185,16 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       }
       String expansionTerm = weightedExpansionTerm.getExpansionTerm();
       List<String> analyze = AnalyzerUtils.analyze(analyzer, expansionTerm);
-      for(String analyzedTerms : analyze) {
+      /*for(String analyzedTerms : analyze) {
         if(args.debugQueryID.trim().equals(queryid.trim())){
           System.out.println("adding $$$$$ >>"+analyzedTerms+":::"+weightedExpansionTerm.getWeight());
         }
         float weight = origQueryTokens.contains(analyzedTerms)? 1 : weightedExpansionTerm.getWeight();
         weightedTerms.add(new WeightedTerm(analyzedTerms, weight));
-      }
+      }*/
+      float weight = origQueryTokens.contains(expansionTerm)? 1 : weightedExpansionTerm.getWeight();
+      weightedTerms.add(new WeightedTerm(expansionTerm, weight));
+
 
 
       /*builder.add(new BoostQuery(new TermQuery(new Term(field, weightedExpansionTerm.getExpansionTerm())), weightedExpansionTerm.getWeight()),
