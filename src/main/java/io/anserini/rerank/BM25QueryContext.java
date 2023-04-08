@@ -204,7 +204,9 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 if(Float.compare(expansionTerm.getWeight(),0.1f) !=0){
                     System.out.println("ERROR @@@@@@@why the weight is not 0.1 "+expansionTerm+":::"+queryId);
                 }
-
+                if (queryId.toString().equals("52")) {
+                    System.out.println("FOR query id 52 >>>" + actualTerm + ":::" + expansionTermScoreDetails.getTerm()+"::"+expansionTermScoreDetails.getWeight());
+                }
                 actualTermDetails.addSynonymsTFStats(expansionTermScoreDetails);
                 /*if (!actualTermDetails.getSynonymsTerms().contains(expansionTermScoreDetails)) {
 
