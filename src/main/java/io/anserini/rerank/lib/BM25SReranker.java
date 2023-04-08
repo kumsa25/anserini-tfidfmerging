@@ -363,9 +363,9 @@ public class BM25SReranker implements Reranker {
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> synonymsTerms,BM25QueryContext context_,String docId) {
 
     TFIDFMergerCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
-    System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+":::"+docId+":::"+context_.getQueryId());
+    //System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+":::"+docId+":::"+context_.getQueryId());
     if(context_.shouldDebug() && context_.getSearchArgs().debugDocID.trim().equalsIgnoreCase(docId)){
-      System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.size()+":::"+docId+":::"+Thread.currentThread());
+      //System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.size()+":::"+docId+":::"+Thread.currentThread());
     }
     float finalTFValue = tfidfCombinerStrategy.aggregateTermsFre(tfSStats, synonymsTerms,context_);
 

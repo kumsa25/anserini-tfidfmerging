@@ -157,7 +157,7 @@ public class IDFStats {
 
 
     private static float smoothingIDF(String term, List<TermScoreDetails> termScoreDetails, BM25QueryContext context) {
-        System.out.println("Finding smoothing IDF"+term+"::::"+findMatchedTerms(termScoreDetails)+"::::"+context.getQueryId());
+       // System.out.println("Finding smoothing IDF"+term+"::::"+findMatchedTerms(termScoreDetails)+"::::"+context.getQueryId());
         double value=1+(IDFStats.corpusSize+0.5)/(0.5);
         double logValue=Math.log(value);
         float v = Double.valueOf( logValue ).floatValue();
