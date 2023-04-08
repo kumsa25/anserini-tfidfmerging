@@ -92,6 +92,10 @@ public class BM25QueryContext<K>  extends  RerankerContext{
         }
     }
 
+    public CopyOnWriteArrayList<String> getActualQueryTerms(){
+        return queryTerms.get(queryId.toString());
+    }
+
     /**
      *
      * @param termScoreDetails

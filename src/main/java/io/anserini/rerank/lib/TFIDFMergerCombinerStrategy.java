@@ -179,7 +179,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         {
             TermScoreDetails next = iterator.next();
             if(Float.compare(next.getIdfStats().getAssignedweight(),0.1f) !=0){
-                throw new RuntimeException("Weight of Expansion term is not 0.1 orig::"+original.getTerm()+"::"+next.getTerm()+":::"+next.getIdfStats().getAssignedweight()+context.getQueryId());
+                throw new RuntimeException("Weight of Expansion term is not 0.1 orig::"+original.getTerm()+"::"+next.getTerm()+":::"+next.getIdfStats().getAssignedweight()+context.getQueryId()+":::"+context.getActualQueryTerms());
             }
             if(!collect.contains(next.getTerm().toLowerCase())){
                 throw new RuntimeException("Invalid expansion term used :"+next.getTerm()+"::"+original.getTerm()+":::"+context.getQueryId());
