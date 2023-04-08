@@ -214,6 +214,10 @@ public class BM25QueryContext<K>  extends  RerankerContext{
     }
 
     private TermScoreDetails findExpansionTermScoreDetails(TermScoreDetails actualTerm, List<TermScoreDetails> termScoreDetails, WeightedExpansionTerm expansion) {
+        if(queryId.toString().equals("52")){
+            System.out.println("SANJEEV for 52 >>actula term:: "+actualTerm+":::expansion::"+termScoreDetails);
+
+        }
         for(TermScoreDetails termScoreDetails1: termScoreDetails){
             if(termScoreDetails1==actualTerm){
                 continue;
@@ -222,6 +226,8 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 float weight = expansion.getWeight();
                 if(queryId.toString().equals("52")){
                     System.out.println("SANJEEV for 52 >>actula term:: "+actualTerm+":::expansion::"+expansion.getExpansionTerm()+":::"+weight);
+                    System.out.println("SANJEEV for 52 >>"+System.identityHashCode(termScoreDetails1)+":::"+weight);
+
                 }
                 termScoreDetails1.setWeight(weight);
                 return termScoreDetails1;
