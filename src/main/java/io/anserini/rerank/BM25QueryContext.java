@@ -219,7 +219,11 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 continue;
             }
             if(termScoreDetails1.getTerm().equalsIgnoreCase(expansion.getExpansionTerm())){
-                termScoreDetails1.setWeight(expansion.getWeight());
+                float weight = expansion.getWeight();
+                if(queryId.toString().equals("52")){
+                    System.out.println("SANJEEV for 52 >>actula term:: "+actualTerm+":::expansion::"+expansion.getExpansionTerm()+":::"+weight);
+                }
+                termScoreDetails1.setWeight(weight);
                 return termScoreDetails1;
             }
         }
