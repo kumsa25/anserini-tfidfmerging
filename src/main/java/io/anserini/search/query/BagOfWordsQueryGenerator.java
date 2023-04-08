@@ -165,7 +165,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     BM25QueryContext.setQueryTerms(queryid, term);
     Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms(queryid);
     if(queryExpansionTerms==null){
-      System.out.println("NO EXPANSION for query ::"+queryid+"::"+term);
+//      System.out.println("NO EXPANSION for query ::"+queryid+"::"+term);
       return ;
     }
     List<WeightedExpansionTerm> weightedExpansionTerms = queryExpansionTerms.get(term.toLowerCase());
@@ -181,7 +181,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
       if(debug){
-        System.out.println("Going to add expansion term "+weightedExpansionTerm.getExpansionTerm()+"::"+weightedExpansionTerm.getWeight()+"::"+term);
+       // System.out.println("Going to add expansion term "+weightedExpansionTerm.getExpansionTerm()+"::"+weightedExpansionTerm.getWeight()+"::"+term);
       }
       String expansionTerm = weightedExpansionTerm.getExpansionTerm();
       List<String> analyze = AnalyzerUtils.analyze(analyzer, expansionTerm);
