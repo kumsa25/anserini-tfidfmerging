@@ -136,7 +136,7 @@ public class IDFStats {
         if(termVsIDF.containsKey(queryTerm)) {
             return termVsIDF.get(queryTerm);
         }else{
-            System.out.println("Original Query term not found "+term+"::"+queryTerm+":::"+context.getQueryId());
+            //System.out.println("Original Query term not found "+term+"::"+queryTerm+":::"+context.getQueryId());
             return smoothingIDF(term,termScoreDetails,context);
         }
     }

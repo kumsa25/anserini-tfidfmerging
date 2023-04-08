@@ -408,7 +408,7 @@ public class BM25SReranker implements Reranker {
   }
 
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, BM25QueryContext context_, List<TermScoreDetails> termScoreDetails) {
-    System.out.println("EXPANSION WITHOUT ACTUAL "+idfStats.getTerm()+"::::"+context_.getQueryId());
+    //System.out.println("EXPANSION WITHOUT ACTUAL "+idfStats.getTerm()+"::::"+context_.getQueryId());
     float expansionIDF=idfStats.getIdfValue();
     float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_,termScoreDetails);
     if(context_.getSearchArgs().alwaysUseOriginalIdf){
