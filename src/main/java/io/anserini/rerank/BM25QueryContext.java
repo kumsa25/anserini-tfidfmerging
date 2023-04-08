@@ -197,9 +197,10 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             String expansion = expansionTerm.getExpansionTerm(); // This is in dictionary
             TermScoreDetails expansionTermScoreDetails = findExpansionTermScoreDetails(actualTermDetails, termScoreDetails, expansionTerm);
             if (expansionTermScoreDetails != null) {
-                if(expansionTerm.getWeight() !=0.1){
+                if(Float.compare(expansionTerm.getWeight(),0.1f) !=0){
                     System.out.println("ERROR @@@@@@@why the weight is not 0.1 "+expansionTerm+":::"+queryId);
                 }
+
                 actualTermDetails.addSynonymsTFStats(expansionTermScoreDetails);
                 /*if (!actualTermDetails.getSynonymsTerms().contains(expansionTermScoreDetails)) {
 
