@@ -511,7 +511,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
     public List<WeightedExpansionTerm> getExpansionTerms(String word){
         Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get( queryId.toString() );
         if(stringListMap==null){
-            System.out.println("Did not find any expansion terms for the queryId>>"+queryId);
+           // System.out.println("Did not find any expansion terms for the queryId>>"+queryId);
             return Collections.EMPTY_LIST;
         }
 
