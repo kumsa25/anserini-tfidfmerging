@@ -178,7 +178,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         while(iterator.hasNext())
         {
             TermScoreDetails next = iterator.next();
-            if(next.getIdfStats().getAssignedweight() !=0.1){
+            if(Float.compare(next.getIdfStats().getAssignedweight(),0.1f) !=0){
                 throw new RuntimeException("Weight of Expansion term is not 0.1 ::"+next.getTerm()+":::"+next.getIdfStats().getAssignedweight()+context.getQueryId());
             }
             if(!collect.contains(next.getTerm().toLowerCase())){
