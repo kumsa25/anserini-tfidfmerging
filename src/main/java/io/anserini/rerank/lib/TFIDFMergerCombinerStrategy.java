@@ -98,7 +98,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
 
     public float aggregateTermsFre(TFStats original, List<TermScoreDetails> synonymsTFStats,BM25QueryContext context) {
-       //validateExpansionTerms(original,synonymsTFStats,context);
+       validateExpansionTerms(original,synonymsTFStats,context);
         boolean shouldDebug=context.shouldDebug();
         float tfTotal=original.getTfValue();
         float freqTotal=original.getFreq();
@@ -179,7 +179,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         {
             TermScoreDetails next = iterator.next();
             if(Float.compare(next.getIdfStats().getAssignedweight(),0.1f) !=0){
-                throw new RuntimeException("Weight of Expansion term is not 0.1 ::"+next.getTerm()+":::"+next.getIdfStats().getAssignedweight()+context.getQueryId());
+                throw new RuntimeException("Weight of Expansion term is not 0.1 orig::"+original.getTerm()+"::"+next.getTerm()+":::"+next.getIdfStats().getAssignedweight()+context.getQueryId());
             }
             if(!collect.contains(next.getTerm().toLowerCase())){
                 throw new RuntimeException("Invalid expansion term used :"+next.getTerm()+"::"+original.getTerm()+":::"+context.getQueryId());
