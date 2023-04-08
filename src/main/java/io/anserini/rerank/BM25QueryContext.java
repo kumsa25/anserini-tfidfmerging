@@ -22,7 +22,6 @@ import io.anserini.search.SearchArgs;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -172,7 +171,57 @@ public class BM25QueryContext<K>  extends  RerankerContext{
         return actualToken !=null;
     }
 
+
+
+
     public void setSynonyms(String actualTerm, TermScoreDetails actualTermDetails,List<TermScoreDetails> termScoreDetails) {
+        Map<String, List<WeightedExpansionTerm>> stringListMap = BM25QueryContext.getQueryExpansionTerms(queryId.toString());
+        if (stringListMap == null) {
+            if (shouldDebug()) {
+                System.out.println("SOMETHING WEIRD >>>>>" + queryId + ":::" + expansionWords);
+            }
+            return;
+        }
+
+        List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(actualTerm.toLowerCase());
+        if (queryId.toString().equals("52")) {
+            System.out.println("FOR query id 52 >>>" + actualTerm + ":::" + weightedExpansionTerms);
+        }
+        if (weightedExpansionTerms == null) {
+            if (shouldDebug()) {
+                System.out.println("weightedExpansionTerms is NULL for " + queryId + "::" + actualTerm);
+            }
+            return;
+        }
+        for (WeightedExpansionTerm expansionTerm : weightedExpansionTerms) {
+            String expansion = expansionTerm.getExpansionTerm(); // This is in dictionary
+            TermScoreDetails expansionTermScoreDetails = findExpansionTermScoreDetails(actualTermDetails, termScoreDetails, expansionTerm);
+            if (expansionTermScoreDetails != null) {
+                if (!actualTermDetails.getSynonymsTerms().contains(expansionTermScoreDetails)) {
+
+                    actualTermDetails.addSynonymsTFStats(expansionTermScoreDetails);
+                }
+            }else{
+                System.out.println("ERRoR !!! EXPANSION TERM SCORE DETAILS NOT FOUND >>"+expansionTerm+":::"+queryId);
+            }
+        }
+
+    }
+
+    private TermScoreDetails findExpansionTermScoreDetails(TermScoreDetails actualTerm, List<TermScoreDetails> termScoreDetails, WeightedExpansionTerm expansion) {
+        for(TermScoreDetails termScoreDetails1: termScoreDetails){
+            if(termScoreDetails1==actualTerm){
+                continue;
+            }
+            if(termScoreDetails1.getTerm().equalsIgnoreCase(expansion.getExpansionTerm())){
+                termScoreDetails1.setWeight(expansion.getWeight());
+                return termScoreDetails1;
+            }
+        }
+        return null;
+    }
+
+    public void setSynonyms1(String actualTerm, TermScoreDetails actualTermDetails,List<TermScoreDetails> termScoreDetails) {
         for (TermScoreDetails term : termScoreDetails) {
             //String actualToken = getActualToken(term.getTerm());
             if (term==actualTermDetails) {
