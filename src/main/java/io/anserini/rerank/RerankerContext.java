@@ -374,12 +374,7 @@ public class RerankerContext<K> {
     }
 
     List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get( word.toLowerCase() );
-    if(weightedExpansionTerms==null){
-      if(!searchArgs.stemmer.equals("none")) {
-        String root = findRootWord(word);
-        weightedExpansionTerms = stringListMap.get(root);
-      }
-    }
+
     return weightedExpansionTerms !=null ? weightedExpansionTerms : new ArrayList<>();
   }
 

@@ -193,6 +193,9 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 return;
             }
             List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(actualTerm.toLowerCase());
+            if(queryId.toString().equals("52")){
+                System.out.println("FOR query id 52 >>>"+actualTerm+":::"+weightedExpansionTerms);
+            }
             if(weightedExpansionTerms==null){
                 if(shouldDebug()){
                     System.out.println("weightedExpansionTerms is NULL for "+queryId+"::"+actualTerm);
@@ -209,6 +212,9 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                     }
 
                     term.setWeight(expansionTerm.getWeight());
+                    if(queryId.toString().equals("52")){
+                        System.out.println("FOR query id 52  set weight to >>>"+term+":::"+System.identityHashCode(term)+":::"+expansionTerm.getWeight());
+                    }
                     if(expansion.equals(term.getTerm()) && !actualTermDetails.getSynonymsTerms().contains(term)){
 
                         actualTermDetails.addSynonymsTFStats(term);
