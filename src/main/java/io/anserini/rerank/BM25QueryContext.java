@@ -202,7 +202,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                     actualTermDetails.addSynonymsTFStats(expansionTermScoreDetails);
                 }
             }else{
-                System.out.println("ERRoR !!! EXPANSION TERM SCORE DETAILS NOT FOUND >>"+expansionTerm+":::"+queryId);
+               // System.out.println("ERRoR !!! EXPANSION TERM SCORE DETAILS NOT FOUND >>"+expansionTerm+":::"+queryId);
             }
         }
 
