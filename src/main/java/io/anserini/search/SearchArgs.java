@@ -111,7 +111,7 @@ public class SearchArgs {
 
 
   @Option(name = "-alwaysUseOriginalIdf", usage = "Boolean switch to keep stopwords in the query topics")
-  public boolean alwaysUseOriginalIdf = true;
+  public boolean alwaysUseOriginalIdf = false;
 
 
 
