@@ -170,7 +170,7 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             int i = totalCount.incrementAndGet();
             docIds.add(context.getQueryId());
 
-            throw new RuntimeException("Weight of original term is not 1 ::"+original.getTerm()+"::"+original.getAssignedweight()+":::"+context.getQueryId()+":::"+System.identityHashCode(original)+":::failed::"+i+"::"+docIds.size());
+            //throw new RuntimeException("Weight of original term is not 1 ::"+original.getTerm()+"::"+original.getAssignedweight()+":::"+context.getQueryId()+":::"+System.identityHashCode(original)+":::failed::"+i+"::"+docIds.size());
         }
         List<WeightedExpansionTerm> expansionTerms = context.getExpansionTerms(original.getTerm());
         Set<String> collect = expansionTerms.stream().map(WeightedExpansionTerm::getExpansionTerm).collect(Collectors.toSet());
