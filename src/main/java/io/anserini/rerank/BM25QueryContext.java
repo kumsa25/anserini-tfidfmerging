@@ -189,7 +189,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
         List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(actualTerm.toLowerCase());
         if (queryId.toString().equals("52")) {
-            System.out.println("FOR query id 52 >>>" + actualTerm + ":::" + weightedExpansionTerms);
+            //System.out.println("FOR query id 52 >>>" + actualTerm + ":::" + weightedExpansionTerms);
         }
         if (weightedExpansionTerms == null) {
             if (shouldDebug()) {
@@ -205,7 +205,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                   //  System.out.println("ERROR @@@@@@@why the weight is not 0.1 "+expansionTerm+":::"+queryId);
                 }
                 if (queryId.toString().equals("52")) {
-                    System.out.println("FOR query id 52 >>>" + actualTerm + ":::" + expansionTermScoreDetails.getTerm()+"::"+expansionTermScoreDetails.getWeight());
+                   // System.out.println("FOR query id 52 >>>" + actualTerm + ":::" + expansionTermScoreDetails.getTerm()+"::"+expansionTermScoreDetails.getWeight());
                 }
                 actualTermDetails.addSynonymsTFStats(expansionTermScoreDetails);
                 /*if (!actualTermDetails.getSynonymsTerms().contains(expansionTermScoreDetails)) {
@@ -221,7 +221,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
     private TermScoreDetails findExpansionTermScoreDetails(TermScoreDetails actualTerm, List<TermScoreDetails> termScoreDetails, WeightedExpansionTerm expansion) {
         if(queryId.toString().equals("52")){
-            System.out.println("SANJEEV for 52 >>actula term:: "+actualTerm+":::expansion::"+termScoreDetails.stream().map(term->term.getTerm()+":"+term.getWeight()).collect(Collectors.toList()));
+           // System.out.println("SANJEEV for 52 >>actula term:: "+actualTerm+":::expansion::"+termScoreDetails.stream().map(term->term.getTerm()+":"+term.getWeight()).collect(Collectors.toList()));
 
         }
         for(TermScoreDetails termScoreDetails1: termScoreDetails){
@@ -231,8 +231,8 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             if(termScoreDetails1.getTerm().equalsIgnoreCase(expansion.getExpansionTerm())){
                 float weight = expansion.getWeight();
                 if(queryId.toString().equals("52")){
-                    System.out.println("SANJEEV for 52 >>actula term:: "+actualTerm+":::expansion::"+expansion.getExpansionTerm()+":::"+weight);
-                    System.out.println("SANJEEV for 52 >>"+System.identityHashCode(termScoreDetails1)+":::"+weight);
+                   // System.out.println("SANJEEV for 52 >>actula term:: "+actualTerm+":::expansion::"+expansion.getExpansionTerm()+":::"+weight);
+                   // System.out.println("SANJEEV for 52 >>"+System.identityHashCode(termScoreDetails1)+":::"+weight);
 
                 }
                 termScoreDetails1.setWeight(weight);
@@ -264,7 +264,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
             }
             List<WeightedExpansionTerm> weightedExpansionTerms = stringListMap.get(actualTerm.toLowerCase());
             if(queryId.toString().equals("52")){
-                System.out.println("FOR query id 52 >>>"+actualTerm+":::"+weightedExpansionTerms);
+                //System.out.println("FOR query id 52 >>>"+actualTerm+":::"+weightedExpansionTerms);
             }
             if(weightedExpansionTerms==null){
                 if(shouldDebug()){
@@ -283,7 +283,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
 
                     term.setWeight(expansionTerm.getWeight());
                     if(queryId.toString().equals("52")){
-                        System.out.println("FOR query id 52  set weight to >>>"+term+":::"+System.identityHashCode(term)+":::"+expansionTerm.getWeight());
+                        //System.out.println("FOR query id 52  set weight to >>>"+term+":::"+System.identityHashCode(term)+":::"+expansionTerm.getWeight());
                     }
                     if(expansion.equals(term.getTerm()) && !actualTermDetails.getSynonymsTerms().contains(term)){
 
@@ -335,7 +335,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
     public boolean isAQueryTerm(String queryId, String term){
         CopyOnWriteArrayList<String> strings = queryTerms.get(queryId);
         if(queryId.equals("52")){
-            System.out.println("Inside isAQueryTerm >>>>>"+strings+":::"+queryId+":::"+term);
+           // System.out.println("Inside isAQueryTerm >>>>>"+strings+":::"+queryId+":::"+term);
         }
         if(strings==null){
             return false;
