@@ -224,6 +224,11 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
             return getAvgIDF1(original,synonymsIDFStats);
         }
+        if(context.getSearchArgs().idfWeightedAvg==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getWeightedAvgIDF1(original,synonymsIDFStats,context);
+        }
         if(context.getSearchArgs().pickLargerIDF==true){
             //  System.out.println("originalidf is true. So, returning original idf");
 
@@ -233,6 +238,21 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             //  System.out.println("originalidf is true. So, returning original idf");
 
             return UnionIDF(original,synonymsIDFStats,context);
+        }
+        if(context.getSearchArgs().idfUnion==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return UnionIDF(original,synonymsIDFStats,context);
+        }
+        if(context.getSearchArgs().pickAvgIDFByFreq==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getFreqAvgIDF1(original,synonymsIDFStats);
+        }
+        if(context.getSearchArgs().pickAvgIDFByUniqueFreq==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getFreqAvgIDF1(original,synonymsIDFStats,context);
         }
 
         return original.getIdfValue();
@@ -284,6 +304,65 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             sum+=idf.getIdfStats().getIdfValue();
         }
         return sum/(synonymsIDFStats.size()+1);
+    }
+
+    private float getFreqAvgIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
+        float count=original.getNumOfDocsContainingTerm();
+        int size=1;
+        for(TermScoreDetails termScoreDetails : synonymsIDFStats){
+            float numOfDocsContainingTerm = termScoreDetails.getIdfStats().getNumOfDocsContainingTerm();
+            count=count+numOfDocsContainingTerm;
+            size+=1;
+        }
+
+
+        float corpusSize=original.getTotal_number_of_documents_with_field();
+        float docIdsSize=count/size;
+        //log(1 + (N - n + 0.5) / (n + 0.5))
+        double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
+        double logValue=Math.log(value);
+        float v = Double.valueOf( logValue ).floatValue();
+        return v;
+    }
+    private float getFreqAvgIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats,BM25QueryContext context) {
+        Set docId = context.getDocId(original);
+        int size=1;
+        Set<String> mergedSets= new HashSet<>();
+        mergedSets.addAll(docId);
+        for(TermScoreDetails termScoreDetails : synonymsIDFStats){
+            Set expansionDocs = context.getDocId(termScoreDetails.getIdfStats());
+            mergedSets.addAll(expansionDocs);
+            size++;
+        }
+        float corpusSize=original.getTotal_number_of_documents_with_field();
+        float docIdsSize= mergedSets.size()/size;
+        //log(1 + (N - n + 0.5) / (n + 0.5))
+        double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
+        double logValue=Math.log(value);
+        float v = Double.valueOf( logValue ).floatValue();
+        return v;
+
+    }
+
+    private float getWeightedAvgIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats,BM25QueryContext context) {
+        Set docId = context.getDocId(original);
+        int size=1;
+        int total=1;
+        Set<String> mergedSets= new HashSet<>();
+        mergedSets.addAll(docId);
+        for(TermScoreDetails termScoreDetails : synonymsIDFStats){
+            Set expansionDocs = context.getDocId(termScoreDetails.getIdfStats());
+            total+=total+(expansionDocs.size()*termScoreDetails.getIdfStats().getAssignedweight());
+            mergedSets.addAll(expansionDocs);
+            size++;
+        }
+        float corpusSize=original.getTotal_number_of_documents_with_field();
+        float docIdsSize= total/size;
+        //log(1 + (N - n + 0.5) / (n + 0.5))
+        double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
+        double logValue=Math.log(value);
+        float v = Double.valueOf( logValue ).floatValue();
+        return v;
     }
 
     private float getLargestIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
