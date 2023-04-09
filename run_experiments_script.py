@@ -3,17 +3,17 @@ import os
 #stem = "with_stemming"
 stem = "without_stemming"
 
-#idf = "-originalidf"
+idf = "-originalidf"
 #idf = "-pickLargerIDF"
 #idf = "-pickSmallerIDF"
 #idf = "-idfUnion"
-idf = "-pickAvgIDF"
+#idf = "-pickAvgIDF"
 
 """
 bm25 (optimal, non-optimal) (with, without stemming), always originalidf
 
-[GOOD] optimal without stemming
-[GOOD] non-optimal without stemming
+[RUNNING] optimal without stemming
+[] non-optimal without stemming
 
 bm25s (optimal, non-optimal) (with, without stemming), (original, larger, smaller, union)
 
@@ -49,12 +49,12 @@ for filename in os.listdir(query_dir):
         #    continue
 
         # bm25, not optimal
-        #if not("wordnet." in filename and "bm25." in filename):
-        #    continue
+        if not("wordnet." in filename and "bm25." in filename):
+            continue
 
         # bm25s, optimal
-        if not("optimal." in filename and "bm25s." in filename):
-            continue
+        #if not("optimal." in filename and "bm25s." in filename):
+        #    continue
 
         # bm25s, not optimal
         #if not("wordnet." in filename and "bm25s." in filename):
