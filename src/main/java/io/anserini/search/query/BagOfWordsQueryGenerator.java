@@ -148,7 +148,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     return builder.build();
   }
 
-  private void printChanges(List<WeightedTerm> weightedTerms, Set<WeightedTerm> finalTerms,String queryId) {
+  static void printChanges(List<WeightedTerm> weightedTerms, Set<WeightedTerm> finalTerms,String queryId) {
     for(WeightedTerm orig: weightedTerms){
       if(!finalTerms.contains(orig)){
         System.out.println("Error !Why the original term got removed"+queryId+":::"+orig);
@@ -162,7 +162,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   }
 
 
-  public void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms,Analyzer analyzer,List<String> origQueryTokens){
+  public  static void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms,Analyzer analyzer,List<String> origQueryTokens){
 
     BM25QueryContext.setQueryTerms(queryid, term);
     Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms(queryid);
@@ -301,7 +301,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   }
 
 
-  private static class WeightedTerm{
+  static class WeightedTerm{
     private String name;
     private float weight;
 
