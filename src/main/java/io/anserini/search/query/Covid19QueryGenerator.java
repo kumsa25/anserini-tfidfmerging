@@ -26,6 +26,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -105,6 +106,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
     @Override
     public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
         // Remove boilerplate
+        System.out.println("Inside buildQuery of covid >>>>"+queryText+"::"+queryid);
         queryText = removeBoilerplate(queryText);
 
 
