@@ -106,7 +106,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
     @Override
     public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
         // Remove boilerplate
-        System.out.println("Inside buildQuery of covid >>>>"+queryText+"::"+queryid);
+        /*System.out.println("Inside buildQuery of covid >>>>"+queryText+"::"+queryid);
         queryText = removeBoilerplate(queryText);
 
 
@@ -182,6 +182,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
             // Do nothing.
         }
 
-        return builder.build();
+        return builder.build();*/
+        return buildQuery(field,analyzer,queryText);
     }
 }
