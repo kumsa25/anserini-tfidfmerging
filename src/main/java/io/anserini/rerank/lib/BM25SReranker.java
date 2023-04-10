@@ -262,7 +262,7 @@ public class BM25SReranker implements Reranker {
 
         boolean covid19 = scoreDetails.getScore() !=null && scoreDetails.getScore().floatValue() != -1;
         if(covid19){
-          System.out.println("for covid 19 score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
+         // System.out.println("for covid 19 score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
         }else{
           //System.out.println("NON covid score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
         }
