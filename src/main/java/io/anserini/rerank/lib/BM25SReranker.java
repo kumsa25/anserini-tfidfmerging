@@ -260,7 +260,7 @@ public class BM25SReranker implements Reranker {
         //System.out.println("Processed for 6::>>> "+processedTerms);
       //  System.out.println("TERMS PROCESSED AS QUERY AND SYNONYMS  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryText());
 
-        float termWeight = createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
+        float termWeight = scoreDetails.getScore() .floatValue()!=-1? scoreDetails.getScore().floatValue() : createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
 
         totalScore += termWeight;
       }
@@ -549,26 +549,42 @@ public class BM25SReranker implements Reranker {
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
+        boolean isCovid19=false;
+        Number value=-1;
         if(termSpecificExplanation.length !=2){
           System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
           if((termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1) || (termScoreExplanation.getDescription().indexOf("sar cov 2") !=-1)) {
+            isCovid19=true;
             System.out.println("FOUND COVID !( DATA ");
             Explanation[] details1 = termScoreExplanation.getDetails();
-            System.out.println("details1  size is >>>>"+details1.length);
+
+            System.out.println("details1  size is >>>>"+details1.length+":::"+stemmedTerm);
             if(details1.length !=1){
               throw new RuntimeException("Size should be 1");
             }
+            value = details1[0].getValue();
             termSpecificExplanation=details1[0].getDetails();
           }
           //continue;
         }
         Explanation idfExplanation=termSpecificExplanation[0];
         IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
+
         idfStats.setStemmedTerm(stemmedTerm);
         context_.setDocid(term.toLowerCase(),actaulDocId);
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
+        if(isCovid19){
+          System.out.println("for covid19 >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue());
+          System.out.println("for covid19 >>>"+tfStats.getTerm()+":::"+tfStats.getTfValue());
+
+        }
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
+        if(isCovid19){
+          System.out.println("Setting score for term >>>"+stemmedTerm+"::"+value);
+          termScoreDetails.setScore(value);
+        }
+
         termScoreDetailsList.add(termScoreDetails);
       }
 
