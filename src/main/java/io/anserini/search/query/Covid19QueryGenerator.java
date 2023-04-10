@@ -179,19 +179,19 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
         try {
             List<Query> disjuncts = new ArrayList<>();
-            Query parse1 = parser.parse("\"COVID-19\"");
+            PhraseQuery parse1 = (PhraseQuery) parser.parse("\"COVID-19\"");
             System.out.println(":::PARSE 1 is >>"+parse1+":::"+parse1.getClass());
             disjuncts.add(parse1);
-            BM25QueryContext.setQueryTerms(queryid, "covid 19");
+            BM25QueryContext.setQueryTerms(queryid, parse1.getField());
 
-            Query parse2 = parser.parse("\"2019-nCov\"");
+            PhraseQuery parse2 = (PhraseQuery) parser.parse("\"2019-nCov\"");
             System.out.println(":::PARSE 2 is >>"+parse2+":::"+parse2.getClass());
-            BM25QueryContext.setQueryTerms(queryid,"2019 ncov");
+            BM25QueryContext.setQueryTerms(queryid,parse2.getField());
 
             disjuncts.add(parse2);
-            Query parse3 = parser.parse("\"SARS-CoV-2\"");
+            PhraseQuery parse3 = (PhraseQuery) parser.parse("\"SARS-CoV-2\"");
             System.out.println(":::PARSE 3 is >>"+parse3+":::"+parse3.getClass());
-            BM25QueryContext.setQueryTerms(queryid,"SARS-CoV-2");
+            BM25QueryContext.setQueryTerms(queryid,parse3.getField());
 
 
             disjuncts.add(parse3);
