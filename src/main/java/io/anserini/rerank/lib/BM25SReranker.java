@@ -460,7 +460,7 @@ public class BM25SReranker implements Reranker {
     return new TFStats(term,tfValue,freqExpl.getValue().floatValue(),K1_termSaturation,b_length_normalization,dl_lengthOfField,avgdl_avgLengthofField);
   }
 
-  private IDFStats extractIDFDetails( String term, Explanation idfExplanation, Explanation[] termSpecificExplanation_) {
+  private IDFStats extractIDFDetails(String term, Explanation idfExplanation, Explanation[] termSpecificExplanation_, boolean isCovid19) {
     float idfValue=0;
     float boost=1;
     Explanation[] details = null;
@@ -488,7 +488,9 @@ public class BM25SReranker implements Reranker {
     float docIdsSize=numbOfDocsWithThatTerm;
     //log(1 + (N - n + 0.5) / (n + 0.5))
     double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
-    IDFStats.setCorpusSize(corpusSize);
+    if(!isCovid19) {
+      IDFStats.setCorpusSize(corpusSize);
+    }
     double logValue=Math.log(value);
     float v = Double.valueOf( logValue ).floatValue();
 
@@ -558,7 +560,7 @@ public class BM25SReranker implements Reranker {
         boolean isCovid19=false;
         Number value=-1;
         if(termSpecificExplanation.length !=2){
-          System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
+         // System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
           if((termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1) || (termScoreExplanation.getDescription().indexOf("sar cov 2") !=-1)) {
             //System.out.println("termScoreExplanation.getDescription()::::"+termScoreExplanation.getDescription());
             colonIndex=termScoreExplanation.getDescription().indexOf(":");
@@ -582,7 +584,7 @@ public class BM25SReranker implements Reranker {
           //continue;
         }
         Explanation idfExplanation=termSpecificExplanation[0];
-        IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
+        IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation,isCovid19);
 
         idfStats.setStemmedTerm(stemmedTerm);
         context_.setDocid(term.toLowerCase(),actaulDocId);
