@@ -547,7 +547,7 @@ public class BM25SReranker implements Reranker {
       }
       String stemmedTerm=term;
       if(("covid 19".equalsIgnoreCase(stemmedTerm) || ("2019 ncov".equalsIgnoreCase(stemmedTerm) || ("sar cov 2".equalsIgnoreCase(stemmedTerm))))){
-        System.out.println("COVID RELATED DATA >>>>>>>");
+       // System.out.println("COVID RELATED DATA >>>>>>>");
       }
       //term=getActualTerm(queryText,term);
 
@@ -560,19 +560,19 @@ public class BM25SReranker implements Reranker {
         if(termSpecificExplanation.length !=2){
           System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
           if((termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1) || (termScoreExplanation.getDescription().indexOf("sar cov 2") !=-1)) {
-            System.out.println("termScoreExplanation.getDescription()::::"+termScoreExplanation.getDescription());
+            //System.out.println("termScoreExplanation.getDescription()::::"+termScoreExplanation.getDescription());
             colonIndex=termScoreExplanation.getDescription().indexOf(":");
             int in_index=termScoreExplanation.getDescription().indexOf("in");
-            System.out.println("in_index >>>"+in_index);
+            //System.out.println("in_index >>>"+in_index);
             textAfterColon=termScoreExplanation.getDescription().substring(colonIndex+1,in_index);
-            System.out.println("textAfterColon >>>"+textAfterColon);
+           // System.out.println("textAfterColon >>>"+textAfterColon);
             term=textAfterColon;
             stemmedTerm=term;
             isCovid19=true;
-            System.out.println("FOUND COVID !( DATA "+stemmedTerm);
+            //System.out.println("FOUND COVID !( DATA "+stemmedTerm);
             Explanation[] details1 = termScoreExplanation.getDetails();
 
-            System.out.println("details1  size is >>>>"+details1.length+":::"+stemmedTerm);
+            //System.out.println("details1  size is >>>>"+details1.length+":::"+stemmedTerm);
             if(details1.length !=1){
               throw new RuntimeException("Size should be 1");
             }
@@ -589,8 +589,8 @@ public class BM25SReranker implements Reranker {
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
         if(isCovid19){
-          System.out.println("for covid19 >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue());
-          System.out.println("for covid19 >>>"+tfStats.getTerm()+":::"+tfStats.getTfValue());
+         // System.out.println("for covid19 >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue());
+          //System.out.println("for covid19 >>>"+tfStats.getTerm()+":::"+tfStats.getTfValue());
 
         }
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
