@@ -552,7 +552,9 @@ public class BM25SReranker implements Reranker {
         if(termSpecificExplanation.length !=2){
           System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
           if((termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1) || (termScoreExplanation.getDescription().indexOf("sar cov 2") !=-1)) {
+            System.out.println("FOUND COVID !( DATA ");
             Explanation[] details1 = termScoreExplanation.getDetails();
+            System.out.println("DETAULS 1 size is >>>>"+details1.length);
             termSpecificExplanation=details1;
           }
           //continue;
