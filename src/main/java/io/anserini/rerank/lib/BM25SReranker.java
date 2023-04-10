@@ -556,7 +556,8 @@ public class BM25SReranker implements Reranker {
           if((termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1) || (termScoreExplanation.getDescription().indexOf("sar cov 2") !=-1)) {
             System.out.println("termScoreExplanation.getDescription()::::"+termScoreExplanation.getDescription());
             colonIndex=termScoreExplanation.getDescription().indexOf(":");
-            textAfterColon=termScoreExplanation.getDescription().substring(colonIndex+1);
+            int in_index=termScoreExplanation.getDescription().indexOf("in");
+            textAfterColon=termScoreExplanation.getDescription().substring(colonIndex+1,in_index);
             term=textAfterColon.split(" ")[0];
             stemmedTerm=term;
             isCovid19=true;
