@@ -82,6 +82,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
         queryText = queryText.replaceAll("(?i)" + COVID_NAMES, " ");
 
         List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
+        System.out.println("Query tokens are >>>"+tokens+":::"+queryText);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         for (String t : tokens) {
             builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
@@ -89,7 +90,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
         QueryParser parser = new QueryParser(IndexArgs.CONTENTS, analyzer);
 
-        try {
+       /* try {
             List<Query> disjuncts = new ArrayList<>();
             disjuncts.add(parser.parse("\"COVID-19\""));
             disjuncts.add(parser.parse("\"2019-nCov\""));
@@ -98,7 +99,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
         } catch (Exception ParseException) {
             // Do nothing.
-        }
+        }*/
 
         return builder.build();
     }
