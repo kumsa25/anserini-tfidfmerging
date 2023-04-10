@@ -540,6 +540,9 @@ public class BM25SReranker implements Reranker {
         //System.out.println("MATCHED TERM >>>>>>"+term);
       }
       String stemmedTerm=term;
+      if(("covid 19".equalsIgnoreCase(stemmedTerm) || ("2019 ncov".equalsIgnoreCase(stemmedTerm) || ("sar cov 2".equalsIgnoreCase(stemmedTerm))))){
+        System.out.println("COVID RELATED DATA >>>>>>>");
+      }
       //term=getActualTerm(queryText,term);
 
       Explanation[] eachTermScoreExplanation = eachTermExpInThatDoc.getDetails();
