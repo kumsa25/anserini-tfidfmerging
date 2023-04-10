@@ -174,18 +174,26 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
         }
 
-       /* QueryParser parser = new QueryParser(IndexArgs.CONTENTS, analyzer);
+        QueryParser parser = new QueryParser(IndexArgs.CONTENTS, analyzer);
 
         try {
             List<Query> disjuncts = new ArrayList<>();
-            disjuncts.add(parser.parse("\"COVID-19\""));
-            disjuncts.add(parser.parse("\"2019-nCov\""));
-            disjuncts.add(parser.parse("\"SARS-CoV-2\""));
+            Query parse1 = parser.parse("\"COVID-19\"");
+            System.out.println(":::PARSE 1 is >>"+parse1+":::"+parse1.getClass());
+            disjuncts.add(parse1);
+            Query parse2 = parser.parse("\"2019-nCov\"");
+            System.out.println(":::PARSE 2 is >>"+parse2+":::"+parse2.getClass());
+
+            disjuncts.add(parse2);
+            Query parse3 = parser.parse("\"SARS-CoV-2\"");
+            System.out.println(":::PARSE 3 is >>"+parse3+":::"+parse3.getClass());
+
+            disjuncts.add(parse3);
             builder.add(new DisjunctionMaxQuery(disjuncts, 0.0f), BooleanClause.Occur.SHOULD);
 
         } catch (Exception ParseException) {
             // Do nothing.
-        }*/
+        }
 
         return builder.build();
     }
