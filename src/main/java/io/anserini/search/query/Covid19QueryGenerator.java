@@ -18,6 +18,7 @@ package io.anserini.search.query;
 
 import io.anserini.analysis.AnalyzerUtils;
 import io.anserini.index.IndexArgs;
+import io.anserini.rerank.BM25QueryContext;
 import io.anserini.rerank.RerankerContext;
 import io.anserini.rerank.WeightedExpansionTerm;
 import io.anserini.search.SearchArgs;
@@ -181,12 +182,17 @@ public class Covid19QueryGenerator extends QueryGenerator {
             Query parse1 = parser.parse("\"COVID-19\"");
             System.out.println(":::PARSE 1 is >>"+parse1+":::"+parse1.getClass());
             disjuncts.add(parse1);
+            BM25QueryContext.setQueryTerms(queryid, "\"COVID-19\"");
+
             Query parse2 = parser.parse("\"2019-nCov\"");
             System.out.println(":::PARSE 2 is >>"+parse2+":::"+parse2.getClass());
+            BM25QueryContext.setQueryTerms(queryid,"\"2019-nCov\"");
 
             disjuncts.add(parse2);
             Query parse3 = parser.parse("\"SARS-CoV-2\"");
             System.out.println(":::PARSE 3 is >>"+parse3+":::"+parse3.getClass());
+            BM25QueryContext.setQueryTerms(queryid,"\"SARS-CoV-2\"");
+
 
             disjuncts.add(parse3);
             builder.add(new BoostQuery(new DisjunctionMaxQuery(disjuncts, 0.0f),1), BooleanClause.Occur.SHOULD);
