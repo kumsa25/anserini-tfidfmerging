@@ -260,7 +260,7 @@ public class BM25SReranker implements Reranker {
         //System.out.println("Processed for 6::>>> "+processedTerms);
       //  System.out.println("TERMS PROCESSED AS QUERY AND SYNONYMS  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryText());
 
-        boolean covid19 = scoreDetails.getScore().floatValue() != -1;
+        boolean covid19 = scoreDetails.getScore() !=null && scoreDetails.getScore().floatValue() != -1;
         if(covid19){
           System.out.println("for covid 19 score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
         }else{

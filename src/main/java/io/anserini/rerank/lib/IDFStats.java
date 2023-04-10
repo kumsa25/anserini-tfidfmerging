@@ -133,6 +133,9 @@ public class IDFStats {
 
     public static float getOriginalIDF(String term, BM25QueryContext context, List<TermScoreDetails> termScoreDetails){
         String queryTerm = context.findQueryTermForExpansion(term,termScoreDetails);
+        if(queryTerm==null){
+            System.out.println("Query term is null for "+term);
+        }
         if(termVsIDF.containsKey(queryTerm)) {
             return termVsIDF.get(queryTerm);
         }else{
