@@ -549,6 +549,10 @@ public class BM25SReranker implements Reranker {
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
+        if(termSpecificExplanation.length !=2){
+          System.out.println("length is less than 2"+termScoreExplanation);
+          continue;
+        }
         Explanation idfExplanation=termSpecificExplanation[0];
         IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
         idfStats.setStemmedTerm(stemmedTerm);
