@@ -333,15 +333,14 @@ public class BM25QueryContext<K>  extends  RerankerContext{
     }
 
     public boolean isAQueryTerm(String queryId, String term){
-        /*CopyOnWriteArrayList<String> strings = queryTerms.get(queryId);
+        CopyOnWriteArrayList<String> strings = queryTerms.get(queryId);
         if(queryId.equals("52")){
            // System.out.println("Inside isAQueryTerm >>>>>"+strings+":::"+queryId+":::"+term);
         }
         if(strings==null){
             return false;
         }
-        return strings.contains(term) || strings.contains(term.toLowerCase()) ;*/
-        return true;
+        return strings.contains(term) || strings.contains(term.toLowerCase()) ;
     }
 
     public String getActualTokensFrom(String token, Map<String, String> tokensMap) {
