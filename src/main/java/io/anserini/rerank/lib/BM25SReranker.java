@@ -597,7 +597,7 @@ public class BM25SReranker implements Reranker {
         }
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
         if(isCovid19){
-          System.out.println("Setting score for term >>>"+stemmedTerm+"::"+value);
+          //System.out.println("Setting score for term >>>"+stemmedTerm+"::"+value);
           termScoreDetails.setScore(value);
         }
 
