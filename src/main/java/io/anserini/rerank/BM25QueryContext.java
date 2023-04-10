@@ -499,7 +499,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
         return getSearchArgs().debugQueryID.trim().equals(getQueryId().toString().trim());
     }
 
-    public String findQueryTermForExpansion(String expnsionTerm) {
+    public String findQueryTermForExpansion(String expnsionTerm, List<TermScoreDetails> termScoreDetails) {
         Map<String, List<WeightedExpansionTerm>> stringListMap = expansionWords.get(queryId.toString());
         Set<String> strings = stringListMap.keySet();
         Iterator<String> iterator = strings.iterator();
@@ -513,6 +513,8 @@ public class BM25QueryContext<K>  extends  RerankerContext{
                 }
             }
         }
+
+        System.out.println("original term is null for expansion :::"+expnsionTerm+":::"+queryId+":::"+termScoreDetails);
         return null;
     }
 

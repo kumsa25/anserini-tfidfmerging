@@ -132,7 +132,7 @@ public class IDFStats {
     }
 
     public static float getOriginalIDF(String term, BM25QueryContext context, List<TermScoreDetails> termScoreDetails){
-        String queryTerm = context.findQueryTermForExpansion(term);
+        String queryTerm = context.findQueryTermForExpansion(term,termScoreDetails);
         if(termVsIDF.containsKey(queryTerm)) {
             return termVsIDF.get(queryTerm);
         }else{
