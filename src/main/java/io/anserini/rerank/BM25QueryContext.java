@@ -335,8 +335,7 @@ public class BM25QueryContext<K>  extends  RerankerContext{
     public boolean isAQueryTerm(String queryId, String term){
 
         CopyOnWriteArrayList<String> strings = queryTerms.get(queryId);
-        if(term.indexOf("covid 19") !=-1 || term.indexOf("2019 ncov")!=-1 || term.indexOf("SARS-CoV-2") !=-1){
-            System.out.println("for covid terms >>>"+strings);
+        if(term.indexOf("covid 19") !=-1 || term.indexOf("2019 ncov")!=-1 || term.toLowerCase().indexOf("sar cov 2") !=-1 || term.indexOf("sars-cov-2") !=-1){
             return true;
         }
         if(queryId.equals("52")){

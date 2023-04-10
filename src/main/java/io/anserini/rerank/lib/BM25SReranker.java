@@ -233,9 +233,7 @@ public class BM25SReranker implements Reranker {
 
 
       Iterator<TermScoreDetails> iterator = queryTerms.iterator();
-      if(context_.getQueryId().toString().equalsIgnoreCase("6")){
-        //System.out.println("for Query id 6 is >>>"+queryTerms);
-      }
+
 
       List<TermScoreDetails> processedTerms= new ArrayList<>();
       float totalScore = 0;
@@ -331,9 +329,17 @@ public class BM25SReranker implements Reranker {
 
   private void validateForQueryTerms(List<TermScoreDetails> queryTerms, BM25QueryContext context_) {
     List queryTokens = context_.getQueryTokens();
-    for(TermScoreDetails termScoreDetails: queryTerms){
-      if(!queryTokens.contains(termScoreDetails.getTerm().toLowerCase())){
-        throw new RuntimeException("NOT A QUERY TERM >>>"+queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+":::"+context_.getQueryId()+":::"+context_.getQueryText()+"::"+context_.getQueryTokens());
+    for (TermScoreDetails termScoreDetails : queryTerms) {
+      if (termScoreDetails.getTerm().indexOf("2019 ncov") != -1 ||
+              termScoreDetails.getTerm().toLowerCase().indexOf("sar cov 2") != -1 ||
+              termScoreDetails.getTerm().indexOf("covid 19") != -1 ||
+              termScoreDetails.getTerm().toLowerCase().indexOf("sars-cov-2") != -1 ||
+
+              termScoreDetails.getTerm().indexOf("sar cov 2") != -1) {
+        continue;
+      }
+      if (!queryTokens.contains(termScoreDetails.getTerm().toLowerCase())) {
+        throw new RuntimeException("NOT A QUERY TERM >>>" + queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet()) + ":::" + context_.getQueryId() + ":::" + context_.getQueryText() + "::" + context_.getQueryTokens());
       }
     }
   }
@@ -561,7 +567,7 @@ public class BM25SReranker implements Reranker {
         Number value=-1;
         if(termSpecificExplanation.length !=2){
          // System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
-          if((termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1) || (termScoreExplanation.getDescription().indexOf("sar cov 2") !=-1)) {
+          if(termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1 || termScoreExplanation.getDescription().toLowerCase().indexOf("sar cov 2") !=-1 || termScoreExplanation.getDescription().toLowerCase().indexOf("sars-cov-2") !=-1) {
             //System.out.println("termScoreExplanation.getDescription()::::"+termScoreExplanation.getDescription());
             colonIndex=termScoreExplanation.getDescription().indexOf(":");
             int in_index=termScoreExplanation.getDescription().indexOf("in");
