@@ -189,7 +189,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
             System.out.println(":::PARSE 3 is >>"+parse3+":::"+parse3.getClass());
 
             disjuncts.add(parse3);
-            builder.add(new DisjunctionMaxQuery(disjuncts, 0.0f), BooleanClause.Occur.SHOULD);
+            builder.add(new BoostQuery(new DisjunctionMaxQuery(disjuncts, 0.0f),1), BooleanClause.Occur.SHOULD);
 
         } catch (Exception ParseException) {
             // Do nothing.
