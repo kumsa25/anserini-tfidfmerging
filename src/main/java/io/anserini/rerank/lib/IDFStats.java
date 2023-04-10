@@ -146,7 +146,7 @@ public class IDFStats {
             corpusSize = corSize;
         }else{
             if(corpusSize !=corSize){
-                System.out.println("Invalid corpus size;");
+                System.out.println("Invalid corpus size;"+corpusSize+"::"+corSize);
             }
         }
     }
