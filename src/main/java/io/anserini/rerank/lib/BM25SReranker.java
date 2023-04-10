@@ -233,6 +233,9 @@ public class BM25SReranker implements Reranker {
 
 
       Iterator<TermScoreDetails> iterator = queryTerms.iterator();
+      if(context_.getQueryId().toString().equalsIgnoreCase("6")){
+        System.out.println("for Query id 6 is >>>"+queryTerms);
+      }
 
       List<TermScoreDetails> processedTerms= new ArrayList<>();
       float totalScore = 0;
@@ -254,6 +257,7 @@ public class BM25SReranker implements Reranker {
           //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         }
         processedTerms.addAll(scoreDetails.getSynonymsTerms());
+        System.out.println("Processed for 6::>>> "+processedTerms);
       //  System.out.println("TERMS PROCESSED AS QUERY AND SYNONYMS  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryText());
 
         float termWeight = createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
@@ -265,10 +269,12 @@ public class BM25SReranker implements Reranker {
       }
       Set<String> onlySynonymsMatched=new HashSet<>();
       for(TermScoreDetails remaining : termScoreDetails){
+        System.out.println("Remaining is >>"+remaining+":::"+processedTerms);
         if(processedTerms.contains(remaining)){
           //System.out.println("CONTINUE");
           continue;
         }
+
         //System.out.println("REMAINING ");
         if(remaining.getIdfStats().getBoost()  > 1){
           System.out.println("Boost for expansion term is >>"+remaining.getTerm()+"::"+remaining.getIdfStats().getBoost()+"::"+context_.getQueryId()+"::"+remaining.getWeight()+"::"+docId+"::"+context_.getQueryText());
