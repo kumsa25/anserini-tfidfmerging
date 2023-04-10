@@ -85,7 +85,11 @@ public class Covid19QueryGenerator extends QueryGenerator {
         System.out.println("Query tokens are >>>"+tokens+":::"+queryText);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         for (String t : tokens) {
-            builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
+            builder.add(new BoostQuery(new TermQuery(new Term(field, t)), 1),
+                    BooleanClause.Occur.SHOULD);
+
+
+            //builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
         }
 
         QueryParser parser = new QueryParser(IndexArgs.CONTENTS, analyzer);
