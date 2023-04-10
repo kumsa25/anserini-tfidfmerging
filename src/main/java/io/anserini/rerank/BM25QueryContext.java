@@ -333,7 +333,11 @@ public class BM25QueryContext<K>  extends  RerankerContext{
     }
 
     public boolean isAQueryTerm(String queryId, String term){
+
         CopyOnWriteArrayList<String> strings = queryTerms.get(queryId);
+        if(term.equalsIgnoreCase("covid 19") || term.equalsIgnoreCase("2019 ncov") || term.equalsIgnoreCase("SARS-CoV-2")){
+            System.out.println("for covid terms >>>"+strings);
+        }
         if(queryId.equals("52")){
            // System.out.println("Inside isAQueryTerm >>>>>"+strings+":::"+queryId+":::"+term);
         }
