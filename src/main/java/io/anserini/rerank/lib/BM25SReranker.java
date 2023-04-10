@@ -550,8 +550,12 @@ public class BM25SReranker implements Reranker {
         Number eachTerrmscore = termScoreExplanation.getValue();
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
         if(termSpecificExplanation.length !=2){
-          System.out.println("length is less than 2"+termScoreExplanation);
-          continue;
+          System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
+          if((termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1) || (termScoreExplanation.getDescription().indexOf("sar cov 2") !=-1)) {
+            Explanation[] details1 = termScoreExplanation.getDetails();
+            termSpecificExplanation=details1;
+          }
+          //continue;
         }
         Explanation idfExplanation=termSpecificExplanation[0];
         IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
