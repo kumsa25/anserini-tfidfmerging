@@ -155,8 +155,11 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
         List<BagOfWordsQueryGenerator.WeightedTerm> weightedTerms2 = new ArrayList<>();
         if (args.removeDuplicateTerms) {
+            System.out.println("weightedTerms>>>>>"+queryid+":::"+weightedTerms);
             int sizeBefore = weightedTerms.size();
             Set<BagOfWordsQueryGenerator.WeightedTerm> finalTerms = new HashSet<>(weightedTerms);
+            System.out.println("finalTerms>>>>>"+queryid+":::"+finalTerms);
+
 
             int sizeAfter = finalTerms.size();
             if (sizeAfter != sizeBefore) {
@@ -167,8 +170,12 @@ public class Covid19QueryGenerator extends QueryGenerator {
         } else {
             weightedTerms2 = weightedTerms;
         }
+        System.out.println("weightedTerms2 before>>>>>"+queryid+":::"+weightedTerms2);
+
         //builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
         weightedTerms2 = weightedTerms2.stream().sorted(Comparator.comparing(BagOfWordsQueryGenerator.WeightedTerm::getName)).collect(Collectors.toList());
+        System.out.println("weightedTerms2 after>>>>>"+queryid+":::"+weightedTerms2);
+
         for (BagOfWordsQueryGenerator.WeightedTerm weightedTerm : weightedTerms2) {
             builder.add(new BoostQuery(new TermQuery(new Term(field, weightedTerm.getName())), weightedTerm.getWeight()),
                     BooleanClause.Occur.SHOULD);
