@@ -174,6 +174,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       return ;
     }
     List<WeightedExpansionTerm> weightedExpansionTerms = queryExpansionTerms.get(term.toLowerCase());
+    System.out.println("weightedExpansionTerms >>>>"+queryid+":::"+term+":::"+weightedExpansionTerms);
     //System.out.println("@@@@"+queryid+":::"+term+"::::"+weightedExpansionTerms+":::"+queryExpansionTerms);
     boolean debug = queryid.equals("52");
     if(debug){
