@@ -112,7 +112,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
     @Override
     public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
         // Remove boilerplate
-        System.out.println("Inside buildQuery of covid >>>>"+queryText+"::"+queryid);
+        //System.out.println("Inside buildQuery of covid >>>>"+queryText+"::"+queryid);
         queryText = removeBoilerplate(queryText);
 
 
@@ -141,7 +141,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
             List<WeightedExpansionTerm> expansionTermsForBM25 = RerankerContext.getWeight(queryid, args, analyzer);
             expansionTermsForBM25 = expansionTermsForBM25.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm)).collect(Collectors.toList());
             if (queryid.equalsIgnoreCase("89")) {
-                System.out.println("expansionTermsForBM25>>>>>" + expansionTermsForBM25);
+                //System.out.println("expansionTermsForBM25>>>>>" + expansionTermsForBM25);
             }
             //Set<WeightedExpansionTerm> uniqueTerms= new HashSet<>(expansionTermsForBM25);
             for (WeightedExpansionTerm weightedExpansionTerm : expansionTermsForBM25) {
@@ -180,17 +180,17 @@ public class Covid19QueryGenerator extends QueryGenerator {
         try {
             List<Query> disjuncts = new ArrayList<>();
             PhraseQuery parse1 = (PhraseQuery) parser.parse("\"COVID-19\"");
-            System.out.println(":::PARSE 1 is >>"+parse1+":::"+parse1.getClass());
+            //System.out.println(":::PARSE 1 is >>"+parse1+":::"+parse1.getClass());
             disjuncts.add(parse1);
             BM25QueryContext.setQueryTerms(queryid, "\"COVID-19\"");
 
             PhraseQuery parse2 = (PhraseQuery) parser.parse("\"2019-nCov\"");
-            System.out.println(":::PARSE 2 is >>"+parse2+":::"+parse2.getClass());
+            //System.out.println(":::PARSE 2 is >>"+parse2+":::"+parse2.getClass());
             BM25QueryContext.setQueryTerms(queryid,"\"2019-nCov\"");
 
             disjuncts.add(parse2);
             PhraseQuery parse3 = (PhraseQuery) parser.parse("\"SARS-CoV-2\"");
-            System.out.println(":::PARSE 3 is >>"+parse3+":::"+parse3.getClass());
+            //System.out.println(":::PARSE 3 is >>"+parse3+":::"+parse3.getClass());
             BM25QueryContext.setQueryTerms(queryid,"\"SARS-CoV-2\"");
 
 
