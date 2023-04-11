@@ -114,7 +114,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
     public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
         // Remove boilerplate
         //System.out.println("Inside buildQuery of covid >>>>"+queryText+"::"+queryid);
-        queryText = removeBoilerplate(queryText);
+        //queryText = removeBoilerplate(queryText);
         System.out.println("queryText>>>>"+queryid+"::::"+queryText);
 
 
