@@ -129,7 +129,10 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
 
         // Remove the variant of covid-19 itself.
+        System.out.println("Query text before >>>"+queryText);
         queryText = queryText.replaceAll("(?i)" + COVID_NAMES, " ");
+        System.out.println("Query text after >>>"+queryText);
+
 
         List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
