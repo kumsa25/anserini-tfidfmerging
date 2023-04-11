@@ -74,11 +74,13 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   public Query buildQuery(String field, Analyzer analyzer, String queryText, String queryid, SearchArgs args) {
 
     List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
+    System.out.println("queryText>>>>"+queryid+"::::"+queryText);
     if(args.debugQueryID.trim().equals(queryid.trim())){
       System.out.println("Query tokens >>"+tokens+":::"+queryid);
     }
     Map<String, Long> collect = tokens.stream()
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    System.out.println("collect >>>"+queryid+":::"+collect);
     BooleanQuery.Builder builder = new BooleanQuery.Builder();
     boolean debug = args.debugQueryID.equals("52");
     List<WeightedTerm> weightedTerms= new ArrayList<>();
