@@ -84,7 +84,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
         queryText = queryText.replaceAll("(?i)" + COVID_NAMES, " ");
 
         List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
-        System.out.println("Query tokens are >>>"+tokens+":::"+queryText);
+       // System.out.println("Query tokens are >>>"+tokens+":::"+queryText);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         for (String t : tokens) {
             builder.add(new BoostQuery(new TermQuery(new Term(field, t)), 1),
@@ -115,13 +115,13 @@ public class Covid19QueryGenerator extends QueryGenerator {
         // Remove boilerplate
         //System.out.println("Inside buildQuery of covid >>>>"+queryText+"::"+queryid);
         queryText = removeBoilerplate(queryText);
-        System.out.println("queryText>>>>"+queryid+"::::"+queryText);
+       // System.out.println("queryText>>>>"+queryid+"::::"+queryText);
 
 
 
         // If query doesn't contain variants of COVID-19, then just pass through with BoW generator.
         if (!isCovidQuery(queryText)) {
-            System.out.println("NOT A COVID Query >>>"+queryid+"::"+queryText);
+           // System.out.println("NOT A COVID Query >>>"+queryid+"::"+queryText);
             return bowQueryGenerator.buildQuery(field, analyzer, queryText);
         }
 
@@ -129,15 +129,15 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
 
         // Remove the variant of covid-19 itself.
-        System.out.println("Query text before >>>"+queryText);
+        //System.out.println("Query text before >>>"+queryText);
         //queryText = queryText.replaceAll("(?i)" + COVID_NAMES, " ");
-        System.out.println("Query text after >>>"+queryText);
+        //System.out.println("Query text after >>>"+queryText);
 
 
         List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         for (String t : tokens) {
-            System.out.println("Individual token >>>"+queryid+":::"+t);
+            //System.out.println("Individual token >>>"+queryid+":::"+t);
             weightedTerms.add(new BagOfWordsQueryGenerator.WeightedTerm(t.toLowerCase(), 1));
 
             if (args.bm25s) {
@@ -163,10 +163,10 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
         List<BagOfWordsQueryGenerator.WeightedTerm> weightedTerms2 = new ArrayList<>();
         if (args.removeDuplicateTerms) {
-            System.out.println("weightedTerms>>>>>"+queryid+":::"+weightedTerms);
+            //System.out.println("weightedTerms>>>>>"+queryid+":::"+weightedTerms);
             int sizeBefore = weightedTerms.size();
             Set<BagOfWordsQueryGenerator.WeightedTerm> finalTerms = new HashSet<>(weightedTerms);
-            System.out.println("finalTerms>>>>>"+queryid+":::"+finalTerms);
+           // System.out.println("finalTerms>>>>>"+queryid+":::"+finalTerms);
 
 
             int sizeAfter = finalTerms.size();
@@ -178,11 +178,11 @@ public class Covid19QueryGenerator extends QueryGenerator {
         } else {
             weightedTerms2 = weightedTerms;
         }
-        System.out.println("weightedTerms2 before>>>>>"+queryid+":::"+weightedTerms2);
+        //System.out.println("weightedTerms2 before>>>>>"+queryid+":::"+weightedTerms2);
 
         //builder.add(new TermQuery(new Term(field, t)), BooleanClause.Occur.SHOULD);
         weightedTerms2 = weightedTerms2.stream().sorted(Comparator.comparing(BagOfWordsQueryGenerator.WeightedTerm::getName)).collect(Collectors.toList());
-        System.out.println("weightedTerms2 after>>>>>"+queryid+":::"+weightedTerms2);
+        //System.out.println("weightedTerms2 after>>>>>"+queryid+":::"+weightedTerms2);
 
         for (BagOfWordsQueryGenerator.WeightedTerm weightedTerm : weightedTerms2) {
             builder.add(new BoostQuery(new TermQuery(new Term(field, weightedTerm.getName())), weightedTerm.getWeight()),
