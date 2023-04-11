@@ -84,6 +84,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     List<WeightedTerm> weightedTerms= new ArrayList<>();
 
     for (String t : collect.keySet()) {
+      System.out.println("Query term >>>"+queryid+"::"+t+"::::"+tokens);
       float boost = collect.get(t);
       float weight=1;
       if(!args.bm25syn && args.bm25considerWeightAndBoost) {
