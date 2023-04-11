@@ -128,6 +128,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     if(args.removeDuplicateTerms){
       int sizeBefore=weightedTerms.size();
       Set<WeightedTerm> finalTerms= new HashSet<>(weightedTerms);
+      System.out.println("FInal terms >>>"+queryid+":::"+finalTerms);
 
       int sizeAfter=finalTerms.size();
       if(sizeAfter !=sizeBefore){
@@ -138,6 +139,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }else{
       weightedTerms2=weightedTerms;
     }
+    System.out.println("WeigjtedTerms2 >>"+queryid+":::"+weightedTerms2);
     weightedTerms2=weightedTerms2.stream().sorted(Comparator.comparing(WeightedTerm::getName)).collect(Collectors.toList());
     for(WeightedTerm weightedTerm : weightedTerms2){
       builder.add(new BoostQuery(new TermQuery(new Term(field, weightedTerm.getName())), weightedTerm.getWeight()),
@@ -199,6 +201,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
       }*/
       float weight = origQueryTokens.contains(expansionTerm)? 1 : weightedExpansionTerm.getWeight();
       weightedTerms.add(new WeightedTerm(expansionTerm, weight));
+      System.out.println("@@@@@@@"+queryid+weightedTerms);
 
 
 
