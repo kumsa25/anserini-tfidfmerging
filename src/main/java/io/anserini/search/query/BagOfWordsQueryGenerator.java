@@ -179,7 +179,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     List<WeightedExpansionTerm> weightedExpansionTerms = queryExpansionTerms.get(term.toLowerCase());
     if(queryid.equals("16")) {
-      System.out.println("queryExpansionTerms are >>>"+queryid+"::"+term+":::"+queryExpansionTerms);
+     // System.out.println("queryExpansionTerms are >>>"+queryid+"::"+term+":::"+queryExpansionTerms);
     }
     //System.out.println("weightedExpansionTerms >>>>"+queryid+":::"+term+":::"+weightedExpansionTerms);
     //System.out.println("@@@@"+queryid+":::"+term+"::::"+weightedExpansionTerms+":::"+queryExpansionTerms);

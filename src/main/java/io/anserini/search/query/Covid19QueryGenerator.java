@@ -117,7 +117,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
         //System.out.println("Inside buildQuery of covid >>>>"+queryText+"::"+queryid);
         queryText = removeBoilerplate(queryText);
         if(queryid.equals("16")){
-            System.out.println("Query id >>>"+queryid+"::::"+queryText);
+           // System.out.println("Query id >>>"+queryid+"::::"+queryText);
         }
        // System.out.println("queryText>>>>"+queryid+"::::"+queryText);
 
@@ -139,7 +139,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
 
         List<String> tokens = AnalyzerUtils.analyze(analyzer, queryText);
-        System.out.println("Tokens >>>"+queryid+":::"+tokens);
+        //System.out.println("Tokens >>>"+queryid+":::"+tokens);
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         for (String t : tokens) {
             //System.out.println("Individual token >>>"+queryid+":::"+t);
