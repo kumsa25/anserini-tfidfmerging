@@ -170,13 +170,17 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
   public  static void addExpansionTerms(String queryid, String term, BooleanQuery.Builder builder,String field,SearchArgs args,List<WeightedTerm> weightedTerms,Analyzer analyzer,List<String> origQueryTokens){
 
     BM25QueryContext.setQueryTerms(queryid, term);
+
     Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms(queryid);
-    //System.out.println("queryExpansionTerms are >>>"+queryExpansionTerms);
+
     if(queryExpansionTerms==null){
 //      System.out.println("NO EXPANSION for query ::"+queryid+"::"+term);
       return ;
     }
     List<WeightedExpansionTerm> weightedExpansionTerms = queryExpansionTerms.get(term.toLowerCase());
+    if(queryid.equals("16")) {
+      System.out.println("queryExpansionTerms are >>>"+queryid+"::"+term+":::"+queryExpansionTerms);
+    }
     //System.out.println("weightedExpansionTerms >>>>"+queryid+":::"+term+":::"+weightedExpansionTerms);
     //System.out.println("@@@@"+queryid+":::"+term+"::::"+weightedExpansionTerms+":::"+queryExpansionTerms);
     boolean debug = queryid.equals("52");
