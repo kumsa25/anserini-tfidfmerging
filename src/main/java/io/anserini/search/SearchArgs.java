@@ -529,17 +529,17 @@ public class SearchArgs {
   public boolean pickSmallerIDF=false;
 
 
-  @Option(name = "-pickSmallerIDF",
+  @Option(name = "-pickAvgOfSmllestAndOrig",
       usage = "originalidf: print original and expanded queries")
   public boolean pickAvgOfSmllestAndOrig=false;
 
 
-  @Option(name = "-pickSmallerIDF",
+  @Option(name = "-pickAvgOfLargestAndOrig",
       usage = "originalidf: print original and expanded queries")
   public boolean pickAvgOfLargestAndOrig=false;
 
 
-  @Option(name = "-pickSmallerIDF",
+  @Option(name = "-pickWeightedLargerIDF",
       usage = "originalidf: print original and expanded queries")
   public boolean pickWeightedLargerIDF=false;
 
