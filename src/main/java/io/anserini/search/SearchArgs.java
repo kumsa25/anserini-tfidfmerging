@@ -528,13 +528,25 @@ public class SearchArgs {
           usage = "originalidf: print original and expanded queries")
   public boolean pickSmallerIDF=false;
 
+
+  @Option(name = "-pickSmallerIDF",
+      usage = "originalidf: print original and expanded queries")
+  public boolean pickAvgOfSmllestAndOrig=false;
+
+
+  @Option(name = "-pickSmallerIDF",
+      usage = "originalidf: print original and expanded queries")
+  public boolean pickAvgOfLargestAndOrig=false;
+
+
+  @Option(name = "-pickSmallerIDF",
+      usage = "originalidf: print original and expanded queries")
+  public boolean pickWeightedLargerIDF=false;
+
+
   @Option(name = "-pickSumIDF",
           usage = "originalidf: print original and expanded queries")
   public boolean pickSumIDF=false;
-
-
-
-
 
   // These are convenience methods to support a fluent, method-chaining style of programming.
   public SearchArgs impact() {

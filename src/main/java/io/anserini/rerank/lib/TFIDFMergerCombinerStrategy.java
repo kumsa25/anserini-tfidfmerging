@@ -295,6 +295,26 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
 
             return getFreqAvgIDF1(original,synonymsIDFStats,context);
         }
+        if(context.getSearchArgs().pickAvgIDFByUniqueFreq==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getFreqAvgIDF1(original,synonymsIDFStats,context);
+        }
+        if(context.getSearchArgs().pickAvgOfSmllestAndOrig==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getAvgOfSmallestAndOriginal(original,synonymsIDFStats,context);
+        }
+        if(context.getSearchArgs().pickAvgOfLargestAndOrig==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getAvgOfLargestAndOriginal(original,synonymsIDFStats,context);
+        }
+        if(context.getSearchArgs().pickWeightedLargerIDF==true){
+            //  System.out.println("originalidf is true. So, returning original idf");
+
+            return getWeightedLargestIDF1(original,synonymsIDFStats,context);
+        }
 
         return original.getIdfValue();
 
@@ -320,6 +340,29 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
     }
 
 
+    private float getAvgOfSmallestAndOriginal(IDFStats original, List<IDFStats> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        for(IDFStats idf : synonymsIDFStats){
+            if(idf.getIdfValue() < idfStats.getIdfValue()){
+                idfStats=idf;
+            }
+        }
+        float sum=original.getIdfValue()+idfStats.getIdfValue();
+        return (float) ((sum/2)*1.0);
+    }
+
+
+
+    private float getAvgOfLargestAndOriginal(IDFStats original, List<IDFStats> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        for(IDFStats idf : synonymsIDFStats){
+            if(idf.getIdfValue() > idfStats.getIdfValue()){
+                idfStats=idf;
+            }
+        }
+        float sum=original.getIdfValue()+idfStats.getIdfValue();
+        return (float) ((sum/2)*1.0);
+    }
     private float getSmallestIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
         IDFStats idfStats=original;
         for(IDFStats idf : synonymsIDFStats){
@@ -414,6 +457,16 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
             }
         }
         return idfStats.getIdfValue();
+    }
+
+    private float getWeightedLargestIDF1(IDFStats original, List<TermScoreDetails> synonymsIDFStats) {
+        IDFStats idfStats=original;
+        for(TermScoreDetails idf : synonymsIDFStats){
+            if(idf.getIdfStats().getIdfValue() > idfStats.getIdfValue()){
+                idfStats=idf.getIdfStats();
+            }
+        }
+        return idfStats.getIdfValue()*idfStats.getAssignedweight();
     }
 
     private float getSumIDF(IDFStats original, List<IDFStats> synonymsIDFStats) {
