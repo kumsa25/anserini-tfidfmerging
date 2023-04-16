@@ -544,6 +544,17 @@ public class SearchArgs {
   public boolean pickWeightedLargerIDF=false;
 
 
+  @Option(name = "-useWeightedForExpansionOnly",
+      usage = "originalidf: print original and expanded queries")
+  public boolean useWeightedForExpansionOnly=false;
+
+
+  @Option(name = "-useAvgForExpansionIDFOnly",
+      usage = "originalidf: print original and expanded queries")
+  public boolean useAvgForExpansionIDFOnly=false;
+
+
+
   @Option(name = "-pickSumIDF",
           usage = "originalidf: print original and expanded queries")
   public boolean pickSumIDF=false;
