@@ -16,17 +16,12 @@
 
 package io.anserini.rerank.lib;
 
-import io.anserini.index.IndexArgs;
-import io.anserini.index.IndexCollection;
-import io.anserini.ltr.feature.IdfStat;
 import io.anserini.rerank.*;
-import io.anserini.search.query.BagOfWordsQueryGenerator;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 
 import java.io.File;
@@ -173,7 +168,7 @@ public class BM25SReranker implements Reranker {
       scoredDocs.documents[index++]=doc;
     }
 
-    System.out.println("FINAL sorted cle MAP ::::"+stringFloatMap);
+   // System.out.println("FINAL sorted cle MAP ::::"+stringFloatMap);
 
 
     //   docIdVsDocument.clear();
@@ -200,14 +195,23 @@ public class BM25SReranker implements Reranker {
     for(String docId: originalScoredDocsStats.keySet()) {
       List<TermScoreDetails> termScoreDetails = originalScoredDocsStats.get(docId);
 
+
       List<TermScoreDetails> queryTerms = context_.preprocess(termScoreDetails,context_);
+      validateForQueryTerms(queryTerms,context_);
+     // System.out.println("FOUND QUERY EXPANSION :  "+queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+context_.getQueryText()+":::"+docId);
+
 
       for(TermScoreDetails term:queryTerms){
         if(term.getIdfStats().getBoost() !=1){
           System.out.println("ERROR WHY THE BOST IS NOT 1");
         }
       }
-      List<TermScoreDetails> expansionWords = context_.filterOnlyExpansionTermsMatches(termScoreDetails, queryTerms);
+      /*List<TermScoreDetails> expansionWords = context_.filterOnlyExpansionTermsMatches(termScoreDetails, queryTerms);
+     // System.out.println("REMAINING EXPANSION TERMS "+expansionWords.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+context_.getQueryText()+":::"+docId);
+
+      if(context_.getQueryId().equals("71")){
+        System.out.println("for 71 expansionWords >>>>"+expansionWords);
+      }
       for(TermScoreDetails term:expansionWords){
         if(term.getIdfStats().getBoost() ==1){
           //System.out.println("ERROR WHY THE BOST IS  1 for expansion"+term.getTerm()+"::"+term.getWeight()+"::"+context_.getQuery()+"::"+context_.getQueryId());
@@ -225,8 +229,11 @@ public class BM25SReranker implements Reranker {
       if(!expansionWords .isEmpty() && !queryTerms.isEmpty()){
         // System.out.println("Both  Expansion terms and Query terms  found "+docId+"::"+"expansion::"+extractTerms(expansionWords)+"::Query ::"+extractTerms(queryTerms));
       }
+      */
+
 
       Iterator<TermScoreDetails> iterator = queryTerms.iterator();
+
 
       List<TermScoreDetails> processedTerms= new ArrayList<>();
       float totalScore = 0;
@@ -245,19 +252,33 @@ public class BM25SReranker implements Reranker {
         processedTerms.add(scoreDetails);
         //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         if(scoreDetails.getSynonymsTerms() !=null && !scoreDetails.getSynonymsTerms().isEmpty()){
-          System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
+          //System.out.println("MATCHED EXPANSION TERM TOO IN  ::"+docId);
         }
         processedTerms.addAll(scoreDetails.getSynonymsTerms());
-        float termWeight = createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
+        //System.out.println("Processed for 6::>>> "+processedTerms);
+      //  System.out.println("TERMS PROCESSED AS QUERY AND SYNONYMS  : "+scoreDetails.getTerm()+":::"+processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryText());
+
+        boolean covid19 = scoreDetails.getScore() !=null && scoreDetails.getScore().floatValue() != -1;
+        if(covid19){
+         // System.out.println("for covid 19 score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
+        }else{
+          //System.out.println("NON covid score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
+        }
+        float termWeight = covid19 ? scoreDetails.getScore().floatValue() : createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
 
         totalScore += termWeight;
       }
-
+      if(context_.getQueryId().equals("71")){
+        System.out.println("for 71 termScoreDetails >>>>"+termScoreDetails);
+      }
+      Set<String> onlySynonymsMatched=new HashSet<>();
       for(TermScoreDetails remaining : termScoreDetails){
+       // System.out.println("Remaining is >>"+remaining+":::"+processedTerms);
         if(processedTerms.contains(remaining)){
           //System.out.println("CONTINUE");
           continue;
         }
+
         //System.out.println("REMAINING ");
         if(remaining.getIdfStats().getBoost()  > 1){
           System.out.println("Boost for expansion term is >>"+remaining.getTerm()+"::"+remaining.getIdfStats().getBoost()+"::"+context_.getQueryId()+"::"+remaining.getWeight()+"::"+docId+"::"+context_.getQueryText());
@@ -266,13 +287,23 @@ public class BM25SReranker implements Reranker {
         if(!context_.getSearchArgs().bm25w) {
           // System.out.println("NO BM25W $$$$$$$$$$");
           //System.out.println("ONLY MATCHED EXPANSION TERM IN  ::"+docId);
-          weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_);
+
+      //    System.out.println("Remaining expansion term :::"+remaining.getTerm()+":::"+context_.getQueryId());
+          onlySynonymsMatched.add(remaining.getTerm());
+          weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_,termScoreDetails);
         }else{
           System.out.println("YES BM25W $$$$$$$$$$");
           weight = createTermWeight(remaining.getIdfStats().getBoost(),remaining.getTfSStats(), remaining.getIdfStats(), context_, docId);
         }
         totalScore+=weight;
       }
+      Set<String> allMatchedTerms=termScoreDetails.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet());
+      Set<String> allConsidered= processedTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet());
+      allConsidered.addAll(onlySynonymsMatched);
+      if(allMatchedTerms.size() !=allConsidered.size()){
+        throw new RuntimeException("All terms were not considered for weight >>>"+allMatchedTerms+":::"+allConsidered+"::"+context_.getQueryId()+"::"+docId);
+      }
+
 
       /*for(TermScoreDetails expansion : expansionWords){
         if(context_.notIncluded(queryTerms,expansion)){
@@ -294,6 +325,23 @@ public class BM25SReranker implements Reranker {
 
 
     return finalComputedScores;
+  }
+
+  private void validateForQueryTerms(List<TermScoreDetails> queryTerms, BM25QueryContext context_) {
+    List queryTokens = context_.getQueryTokens();
+    for (TermScoreDetails termScoreDetails : queryTerms) {
+      if (termScoreDetails.getTerm().indexOf("2019 ncov") != -1 ||
+              termScoreDetails.getTerm().toLowerCase().indexOf("sar cov 2") != -1 ||
+              termScoreDetails.getTerm().indexOf("covid 19") != -1 ||
+              termScoreDetails.getTerm().toLowerCase().indexOf("sars-cov-2") != -1 ||
+
+              termScoreDetails.getTerm().indexOf("sar cov 2") != -1) {
+        continue;
+      }
+      if (!queryTokens.contains(termScoreDetails.getTerm().toLowerCase())) {
+        throw new RuntimeException("NOT A QUERY TERM >>>" + queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet()) + ":::" + context_.getQueryId() + ":::" + context_.getQueryText() + "::" + context_.getQueryTokens());
+      }
+    }
   }
 
 
@@ -335,8 +383,9 @@ public class BM25SReranker implements Reranker {
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> synonymsTerms,BM25QueryContext context_,String docId) {
 
     TFIDFMergerCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
+    //System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+":::"+docId+":::"+context_.getQueryId());
     if(context_.shouldDebug() && context_.getSearchArgs().debugDocID.trim().equalsIgnoreCase(docId)){
-      System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.size()+":::"+docId+":::"+Thread.currentThread());
+      //System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.size()+":::"+docId+":::"+Thread.currentThread());
     }
     float finalTFValue = tfidfCombinerStrategy.aggregateTermsFre(tfSStats, synonymsTerms,context_);
 
@@ -378,14 +427,21 @@ public class BM25SReranker implements Reranker {
     return context.isSynonyms(orig,expanded);
   }
 
-  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats,BM25QueryContext context_) {
-
+  private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, BM25QueryContext context_, List<TermScoreDetails> termScoreDetails) {
+    //System.out.println("EXPANSION WITHOUT ACTUAL "+idfStats.getTerm()+"::::"+context_.getQueryId());
     float expansionIDF=idfStats.getIdfValue();
-    float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_);
+    float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_,termScoreDetails);
     if(context_.getSearchArgs().alwaysUseOriginalIdf){
       expansionIDF=originalIDF;
     }
-    System.out.println("originalIDF >>>"+originalIDF+"::"+expansionIDF);
+    if(context_.getSearchArgs().useWeightedForExpansionOnly){
+      expansionIDF=expansionIDF*idfStats.getAssignedweight();
+    }
+    if(context_.getSearchArgs().useAvgForExpansionIDFOnly){
+      return (originalIDF+expansionIDF)/2;
+    }
+
+    //System.out.println("originalIDF >>>"+originalIDF+"::"+expansionIDF);
 
     return boost * tfSStats .getTfValue()* expansionIDF;
   }
@@ -417,7 +473,7 @@ public class BM25SReranker implements Reranker {
     return new TFStats(term,tfValue,freqExpl.getValue().floatValue(),K1_termSaturation,b_length_normalization,dl_lengthOfField,avgdl_avgLengthofField);
   }
 
-  private IDFStats extractIDFDetails( String term, Explanation idfExplanation, Explanation[] termSpecificExplanation_) {
+  private IDFStats extractIDFDetails(String term, Explanation idfExplanation, Explanation[] termSpecificExplanation_, boolean isCovid19) {
     float idfValue=0;
     float boost=1;
     Explanation[] details = null;
@@ -445,7 +501,9 @@ public class BM25SReranker implements Reranker {
     float docIdsSize=numbOfDocsWithThatTerm;
     //log(1 + (N - n + 0.5) / (n + 0.5))
     double value=1+(corpusSize-docIdsSize+0.5)/(docIdsSize+0.5);
-    IDFStats.setCorpusSize(corpusSize);
+    if(!isCovid19) {
+      IDFStats.setCorpusSize(corpusSize);
+    }
     double logValue=Math.log(value);
     float v = Double.valueOf( logValue ).floatValue();
 
@@ -503,19 +561,59 @@ public class BM25SReranker implements Reranker {
         //System.out.println("MATCHED TERM >>>>>>"+term);
       }
       String stemmedTerm=term;
+      if(("covid 19".equalsIgnoreCase(stemmedTerm) || ("2019 ncov".equalsIgnoreCase(stemmedTerm) || ("sar cov 2".equalsIgnoreCase(stemmedTerm))))){
+       // System.out.println("COVID RELATED DATA >>>>>>>");
+      }
       //term=getActualTerm(queryText,term);
 
       Explanation[] eachTermScoreExplanation = eachTermExpInThatDoc.getDetails();
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
+        boolean isCovid19=false;
+        Number value=-1;
+        if(termSpecificExplanation.length !=2){
+         // System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
+          if(termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1 || termScoreExplanation.getDescription().toLowerCase().indexOf("sar cov 2") !=-1 || termScoreExplanation.getDescription().toLowerCase().indexOf("sars-cov-2") !=-1) {
+            //System.out.println("termScoreExplanation.getDescription()::::"+termScoreExplanation.getDescription());
+            colonIndex=termScoreExplanation.getDescription().indexOf(":");
+            int in_index=termScoreExplanation.getDescription().indexOf("in");
+            //System.out.println("in_index >>>"+in_index);
+            textAfterColon=termScoreExplanation.getDescription().substring(colonIndex+1,in_index);
+           // System.out.println("textAfterColon >>>"+textAfterColon);
+            term=textAfterColon;
+            stemmedTerm=term;
+            isCovid19=true;
+            //System.out.println("FOUND COVID !( DATA "+stemmedTerm);
+            Explanation[] details1 = termScoreExplanation.getDetails();
+
+            //System.out.println("details1  size is >>>>"+details1.length+":::"+stemmedTerm);
+            if(details1.length !=1){
+              throw new RuntimeException("Size should be 1");
+            }
+            value = details1[0].getValue();
+            termSpecificExplanation=details1[0].getDetails();
+          }
+          //continue;
+        }
         Explanation idfExplanation=termSpecificExplanation[0];
-        IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation);
+        IDFStats idfStats = extractIDFDetails(term, idfExplanation,termSpecificExplanation,isCovid19);
+
         idfStats.setStemmedTerm(stemmedTerm);
         context_.setDocid(term.toLowerCase(),actaulDocId);
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
+        if(isCovid19){
+         // System.out.println("for covid19 >>>"+idfStats.getTerm()+":::"+idfStats.getIdfValue());
+          //System.out.println("for covid19 >>>"+tfStats.getTerm()+":::"+tfStats.getTfValue());
+
+        }
         TermScoreDetails termScoreDetails= new TermScoreDetails(term,actaulDocId,idfStats,tfStats);
+        if(isCovid19){
+          //System.out.println("Setting score for term >>>"+stemmedTerm+"::"+value);
+          termScoreDetails.setScore(value);
+        }
+
         termScoreDetailsList.add(termScoreDetails);
       }
 

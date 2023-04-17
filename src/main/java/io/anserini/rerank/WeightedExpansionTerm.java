@@ -28,24 +28,10 @@ public class WeightedExpansionTerm {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        WeightedExpansionTerm that = (WeightedExpansionTerm) o;
-
-        return Objects.equals(expansionTerm, that.expansionTerm);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(expansionTerm);
-    }
-
-
-    @Override
     public String toString() {
         return "WeightedExpansionTerm{" +
-                "expansionTerm='" + expansionTerm + '\'' +
+                "weight=" + weight +
+                ", expansionTerm='" + expansionTerm + '\'' +
                 '}';
     }
 }

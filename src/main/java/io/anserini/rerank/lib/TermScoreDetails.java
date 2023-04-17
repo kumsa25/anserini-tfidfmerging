@@ -19,6 +19,7 @@ public class TermScoreDetails {
 
     private List<TermScoreDetails> synonyms= new CopyOnWriteArrayList<>();
     private float weight;
+    private Number score;
 
 
     public TermScoreDetails(String term, String docid, IDFStats idfStats, TFStats tfSStats) {
@@ -100,10 +101,20 @@ public class TermScoreDetails {
     }
 
     public void setWeight(float weight) {
+        tfSStats.setAssignedweight(weight);
+        idfStats.setAssignedweight(weight);
         this.weight=weight;
     }
 
     public float getWeight(){
         return weight;
+    }
+
+    public void setScore(Number value) {
+        this.score=value;
+    }
+
+    public Number getScore(){
+        return score;
     }
 }
