@@ -579,7 +579,7 @@ public class BM25SynonymReranker implements Reranker {
 
     }*/
     // System.out.println("Inside docIDS >>>>"+idfStats.getTerm()+":::"+numOfDocsContainingTerm+"::"+context.getQueryText());
-    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, DefaultEnglishAnalyzer.newNonStemmingInstance(), termToUse);
+    Query query = new BagOfWordsQueryGenerator().buildQuery(IndexArgs.CONTENTS, analyzer, termToUse);
     List<String> docIds= new ArrayList<>();
     TopDocs topDocs = null;
     try

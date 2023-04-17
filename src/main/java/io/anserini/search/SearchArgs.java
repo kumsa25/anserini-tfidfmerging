@@ -111,7 +111,7 @@ public class SearchArgs {
 
 
   @Option(name = "-alwaysUseOriginalIdf", usage = "Boolean switch to keep stopwords in the query topics")
-  public boolean alwaysUseOriginalIdf = true;
+  public boolean alwaysUseOriginalIdf = false;
 
 
 
@@ -528,13 +528,36 @@ public class SearchArgs {
           usage = "originalidf: print original and expanded queries")
   public boolean pickSmallerIDF=false;
 
+
+  @Option(name = "-pickAvgOfSmllestAndOrig",
+      usage = "originalidf: print original and expanded queries")
+  public boolean pickAvgOfSmllestAndOrig=false;
+
+
+  @Option(name = "-pickAvgOfLargestAndOrig",
+      usage = "originalidf: print original and expanded queries")
+  public boolean pickAvgOfLargestAndOrig=false;
+
+
+  @Option(name = "-pickWeightedLargerIDF",
+      usage = "originalidf: print original and expanded queries")
+  public boolean pickWeightedLargerIDF=false;
+
+
+  @Option(name = "-useWeightedForExpansionOnly",
+      usage = "originalidf: print original and expanded queries")
+  public boolean useWeightedForExpansionOnly=false;
+
+
+  @Option(name = "-useAvgForExpansionIDFOnly",
+      usage = "originalidf: print original and expanded queries")
+  public boolean useAvgForExpansionIDFOnly=false;
+
+
+
   @Option(name = "-pickSumIDF",
           usage = "originalidf: print original and expanded queries")
   public boolean pickSumIDF=false;
-
-
-
-
 
   // These are convenience methods to support a fluent, method-chaining style of programming.
   public SearchArgs impact() {
