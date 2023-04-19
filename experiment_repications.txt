@@ -1,0 +1,24 @@
+build_optimal_expansion.ipynb
+    - from a corpus and queries, creates mapping from specific query terms to "optimal" expansion terms selected 
+    from the corpus by cosine similairty
+    - run startv3
+
+build_all_expansions.ipynb
+    - uses config_wordnet.json and config_optimal.json to create expanded_queries_final
+    - also pulls optimal from build_optimal_expansion.ipynb output
+
+
+run_experiments_script.py
+    - takes everything in expanded_queries_final and outputs runs_final
+
+scores_to_latex.ipynb
+    - runs_final to latex table
+
+
+Todos:
+1. [DONE] sig testing (two score files each query, score)
+2. [DONE] change p@30 to p@10
+3. simulations
+    - keep, explain more, or re-do?
+4. run on covid
+5. determine which results to report

@@ -14,6 +14,13 @@ target/appassembler/bin/IndexCollection -collection TrecCollection -input /share
 
 target/appassembler/bin/IndexCollection -collection TrecCollection -input disks12 -index indexes/lucene-index.disk12_nostem/ -generator DefaultLuceneDocumentGenerator -threads 16 -storePositions -storeDocvectors -storeRaw -stemmer none
 
+target/appassembler/bin/IndexCollection -collection TrecCollection -input cran/cran_corpus_trec -index indexes/lucene-index.cran_nostem/ -generator DefaultLuceneDocumentGenerator -threads 16 -storePositions -storeDocvectors -storeRaw -stemmer none
+
+
+# FOR Cord (via https://github.com/castorini/anserini/blob/master/docs/experiments-cord19.md)
+target/appassembler/bin/IndexCollection -collection Cord19AbstractCollection -generator Cord19Generator -threads 1 -input collections/cord19-2020-07-16 -index indexes/lucene-index-cord19-abstract-2020-07-16_nostem -storePositions -storeDocvectors -storeContents -storeRaw -optimize -stemmer none
+
+cord19-abstract-2020-07-16 is covid
 
 
 ### bm25 on disk12
