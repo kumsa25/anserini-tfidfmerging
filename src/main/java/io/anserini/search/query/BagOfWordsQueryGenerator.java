@@ -114,7 +114,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     if(!args.bm25syn && args.bm25Weighted) {
       List<WeightedExpansionTerm> expansionTermsForBM25 = BM25QueryContext.getWeight(queryid,args,analyzer);
-      expansionTermsForBM25=expansionTermsForBM25.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm)).collect(Collectors.toList());
+      expansionTermsForBM25=expansionTermsForBM25.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm).thenComparing( WeightedExpansionTerm::getWeight )).collect(Collectors.toList());
       if(queryid.equalsIgnoreCase("89")){
        // System.out.println("expansionTermsForBM25>>>>>"+expansionTermsForBM25);
       }
@@ -192,7 +192,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     if(weightedExpansionTerms==null){
       return ;
     }
-    weightedExpansionTerms = weightedExpansionTerms.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm)).collect(Collectors.toList());
+    weightedExpansionTerms = weightedExpansionTerms.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm).thenComparing( WeightedExpansionTerm::getWeight )).collect(Collectors.toList());
 
     for(WeightedExpansionTerm weightedExpansionTerm : weightedExpansionTerms){
       if(debug){
