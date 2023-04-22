@@ -147,6 +147,7 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     if(args.removeDuplicateTerms){
       int sizeBefore=weightedTerms.size();
       System.out.println("Inside remove before duplicates >>>"+weightedTerms);
+      weightedTerms.stream().sorted(Comparator.comparing( WeightedTerm::getName ).thenComparing( WeightedTerm::getWeight ).reversed();
       Set<WeightedTerm> finalTerms= new HashSet<>(weightedTerms);
       System.out.println("After sorting >>>"+finalTerms);
     //  System.out.println("FInal terms >>>"+queryid+":::"+finalTerms);
