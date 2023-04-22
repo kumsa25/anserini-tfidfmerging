@@ -119,9 +119,9 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     if(!args.bm25syn && args.bm25Weighted) {
       List<WeightedExpansionTerm> expansionTermsForBM25 = BM25QueryContext.getWeight(queryid,args,analyzer);
-      if(queryid.equals( "52" ))
+      if(queryid.equals( "61" ))
       {
-      //  System.out.println( "Before sorting >>>" + expansionTermsForBM25 );
+        System.out.println( "Before sorting >>>" + expansionTermsForBM25 );
       }
       expansionTermsForBM25=expansionTermsForBM25.stream().sorted(Comparator.comparing(WeightedExpansionTerm::getExpansionTerm).thenComparing( WeightedExpansionTerm::getWeight )).collect(Collectors.toList());
       if(queryid.equals( "52" ))
