@@ -24,8 +24,10 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.tartarus.snowball.ext.PorterStemmer;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -95,12 +97,15 @@ public class RerankerContext<K> {
   }
 
   private static void buildWeightedTerm(String expWordsWithWeightsFile,Analyzer analyzer) throws IOException {
+
+    BufferedReader br = new BufferedReader(new FileReader(expWordsWithWeightsFile));
+    String line;
     Properties properties = new Properties();
     properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
     Set<Object> keys = properties.keySet();
     Iterator<Object> iterator = keys.iterator();
-    while (iterator.hasNext()) {
-      String termWithQID = (String) iterator.next();
+    while ((line = br.readLine()) != null) {
+      String termWithQID = line;
       String weight = properties.getProperty(termWithQID).trim();
       int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);
       String queryId=termWithQID.substring(0, endIndex);
