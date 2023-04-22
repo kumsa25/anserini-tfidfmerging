@@ -105,6 +105,9 @@ public class RerankerContext<K> {
       int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);
       String queryId=termWithQID.substring(0, endIndex);
       String term=termWithQID.substring(endIndex+1);
+      if(queryId.equals( "61" )){
+        System.out.println("TERM IS >>>"+term);
+      }
       List<WeightedExpansionTerm> weightedExpansionTerms = weightedBM25Terms.get(queryId);
       if(queryId.equalsIgnoreCase("89")) {
         System.out.println("Expansio Terms are >>>" + queryId + ":::" + weightedExpansionTerms);
@@ -125,11 +128,14 @@ public class RerankerContext<K> {
         if(anayzedTerm.equalsIgnoreCase("market")){
         //  System.out.println("@@@@@@"+weightedExpansionTerms+":::"+anayzedTerm);
         }
-        Set<String> words=weightedExpansionTerms.stream().map(weightedExpansionTerm -> weightedExpansionTerm.getExpansionTerm().toLowerCase()).collect(Collectors.toSet());
+        List<String> words=weightedExpansionTerms.stream().map(weightedExpansionTerm -> weightedExpansionTerm.getExpansionTerm().toLowerCase()).collect(Collectors.toList());
 
         /*if(words.contains(anayzedTerm.toLowerCase())){
           throw new RuntimeException("Duplicate expansion words found for query "+queryId+"::"+term);
         }*/
+        if(queryId.equals( "61" )){
+          System.out.println("going to add >>"+anayzedTerm+":::"+weight);
+        }
         weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
       }
 
