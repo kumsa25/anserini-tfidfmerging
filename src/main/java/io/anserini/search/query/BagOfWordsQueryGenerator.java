@@ -145,6 +145,9 @@ public class BagOfWordsQueryGenerator extends QueryGenerator {
     }
     List<WeightedTerm> weightedTerms2=new ArrayList<>();
     if(args.removeDuplicateTerms){
+      if(queryid.equals( "61" )){
+        System.out.println("Weighted terms >>>"+weightedTerms);
+      }
       int sizeBefore=weightedTerms.size();
       //System.out.println("Inside remove before duplicates >>>"+weightedTerms);
       weightedTerms=weightedTerms.stream().sorted(Comparator.comparing( WeightedTerm::getWeight,Comparator.reverseOrder() )).collect( Collectors.toList());
