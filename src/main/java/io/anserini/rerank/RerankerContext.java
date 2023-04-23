@@ -102,14 +102,18 @@ public class RerankerContext<K> {
     String line;
     while ((line = br.readLine()) != null) {
       String termWithQID = line;
+      System.out.println("termWithQID>>>>"+termWithQID);
       String[] parts = line.split(" ");
       String key = parts[0].trim();
 
       String value = parts[1].trim();
       String weight = parts[1].trim();
       int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);
+      System.out.println("endIndex is >>"+endIndex);
       String queryId=termWithQID.substring(0, endIndex);
+      System.out.println("queryId>>>>"+queryId);
       String term=termWithQID.substring(endIndex+1);
+      System.out.println("TERM IS >>>>>"+term);
       if(queryId.equals( "61" )){
         System.out.println("TERM IS >>>"+term);
       }
