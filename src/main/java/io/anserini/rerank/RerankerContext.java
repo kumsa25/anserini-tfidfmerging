@@ -100,13 +100,12 @@ public class RerankerContext<K> {
 
     BufferedReader br = new BufferedReader(new FileReader(expWordsWithWeightsFile));
     String line;
-    Properties properties = new Properties();
-    properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
-    Set<Object> keys = properties.keySet();
-    Iterator<Object> iterator = keys.iterator();
     while ((line = br.readLine()) != null) {
       String termWithQID = line;
-      String weight = properties.getProperty(termWithQID).trim();
+      String[] parts = line.split(" ");
+      String key = parts[0].trim();
+      String value = parts[1].trim();
+      String weight = parts[1].trim();
       int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);
       String queryId=termWithQID.substring(0, endIndex);
       String term=termWithQID.substring(endIndex+1);
