@@ -57,7 +57,7 @@ public class BM25SReranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext _context) {
-    System.out.println("Multiplier is >>>"+_context.getSearchArgs().weightMultiplier);
+    //System.out.println("Multiplier is >>>"+_context.getSearchArgs().weightMultiplier);
     BM25QueryContext context=(BM25QueryContext)_context;
 
     String outputPath=context.getSearchArgs().output;
