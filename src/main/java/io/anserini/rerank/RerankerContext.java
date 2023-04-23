@@ -111,15 +111,15 @@ public class RerankerContext<K> {
       int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);
       System.out.println("endIndex is >>"+endIndex);
       String queryId=termWithQID.substring(0, endIndex);
-      System.out.println("queryId>>>>"+queryId);
+      //System.out.println("queryId>>>>"+queryId);
       String term=termWithQID.substring(endIndex+1);
-      System.out.println("TERM IS >>>>>"+term);
+      //System.out.println("TERM IS >>>>>"+term);
       if(queryId.equals( "61" )){
-        System.out.println("TERM IS >>>"+term);
+        //System.out.println("TERM IS >>>"+term);
       }
       List<WeightedExpansionTerm> weightedExpansionTerms = weightedBM25Terms.get(queryId);
       if(queryId.equalsIgnoreCase("89")) {
-        System.out.println("Expansio Terms are >>>" + queryId + ":::" + weightedExpansionTerms);
+        //System.out.println("Expansio Terms are >>>" + queryId + ":::" + weightedExpansionTerms);
       }
       if(weightedExpansionTerms==null){
         weightedExpansionTerms= new ArrayList<>();
@@ -130,7 +130,7 @@ public class RerankerContext<K> {
 
       List<String> analyze = AnalyzerUtils.analyze(analyzer, term);
       if(queryId.equalsIgnoreCase("89")) {
-        System.out.println("analyze Terms are >>>" + queryId + ":::" + analyze);
+       // System.out.println("analyze Terms are >>>" + queryId + ":::" + analyze);
       }
       for(String anayzedTerm : analyze) {
 
@@ -143,9 +143,9 @@ public class RerankerContext<K> {
           throw new RuntimeException("Duplicate expansion words found for query "+queryId+"::"+term);
         }*/
         if(queryId.equals( "61" )){
-          System.out.println("going to add >>"+anayzedTerm+":::"+weight);
+         // System.out.println("going to add >>"+anayzedTerm+":::"+weight);
         }
-        System.out.println("Analyzer term is >>>"+anayzedTerm);
+        //System.out.println("Analyzer term is >>>"+anayzedTerm);
         weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
       }
 
