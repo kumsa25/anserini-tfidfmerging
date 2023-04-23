@@ -442,7 +442,7 @@ public class BM25SReranker implements Reranker {
 
 
       float v = idfStats.getAssignedweight() * multiplier;
-      System.out.println("After multiplying >>"+v+"::::"+idfStats.getAssignedweight()+":::"+multiplier+":::"+tfSStats.getAssignedweight());
+      //System.out.println("After multiplying >>"+v+"::::"+idfStats.getAssignedweight()+":::"+multiplier+":::"+tfSStats.getAssignedweight());
       expansionIDF= expansionIDF * v;
     }
     if(context_.getSearchArgs().useAvgForExpansionIDFOnly){
