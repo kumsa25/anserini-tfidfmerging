@@ -104,6 +104,7 @@ public class RerankerContext<K> {
       String termWithQID = line;
       String[] parts = line.split(" ");
       String key = parts[0].trim();
+
       String value = parts[1].trim();
       String weight = parts[1].trim();
       int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);

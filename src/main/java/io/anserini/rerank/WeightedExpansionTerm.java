@@ -7,6 +7,13 @@ public class WeightedExpansionTerm {
     private String expansionTerm;
 
     public WeightedExpansionTerm(float weight, String expansionTerm) {
+        try
+        {
+            float number=Float.parseFloat( expansionTerm );
+            Thread.dumpStack();
+        }catch( NumberFormatException nfe ){
+
+        }
         this.weight = weight;
         this.expansionTerm = expansionTerm;
     }
