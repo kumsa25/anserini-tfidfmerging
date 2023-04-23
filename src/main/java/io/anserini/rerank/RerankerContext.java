@@ -141,6 +141,7 @@ public class RerankerContext<K> {
         if(queryId.equals( "61" )){
           System.out.println("going to add >>"+anayzedTerm+":::"+weight);
         }
+        System.out.println("Analyzer term is >>>"+anayzedTerm);
         weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
       }
 
