@@ -24,8 +24,10 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.tartarus.snowball.ext.PorterStemmer;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -95,19 +97,29 @@ public class RerankerContext<K> {
   }
 
   private static void buildWeightedTerm(String expWordsWithWeightsFile,Analyzer analyzer) throws IOException {
-    Properties properties = new Properties();
-    properties.load(new FileInputStream(new File(expWordsWithWeightsFile)));
-    Set<Object> keys = properties.keySet();
-    Iterator<Object> iterator = keys.iterator();
-    while (iterator.hasNext()) {
-      String termWithQID = (String) iterator.next();
-      String weight = properties.getProperty(termWithQID).trim();
+
+    BufferedReader br = new BufferedReader(new FileReader(expWordsWithWeightsFile));
+    String line;
+    while ((line = br.readLine()) != null) {
+      String[] parts = line.split(" ");
+      String key = parts[0].trim();
+      String termWithQID = key;
+
+
+      String value = parts[1].trim();
+      String weight = parts[1].trim();
       int endIndex = termWithQID.indexOf(QUERYID_AND_TERM_SEPERATOR);
+      System.out.println("endIndex is >>"+endIndex);
       String queryId=termWithQID.substring(0, endIndex);
+      //System.out.println("queryId>>>>"+queryId);
       String term=termWithQID.substring(endIndex+1);
+      //System.out.println("TERM IS >>>>>"+term);
+      if(queryId.equals( "61" )){
+        //System.out.println("TERM IS >>>"+term);
+      }
       List<WeightedExpansionTerm> weightedExpansionTerms = weightedBM25Terms.get(queryId);
       if(queryId.equalsIgnoreCase("89")) {
-        System.out.println("Expansio Terms are >>>" + queryId + ":::" + weightedExpansionTerms);
+        //System.out.println("Expansio Terms are >>>" + queryId + ":::" + weightedExpansionTerms);
       }
       if(weightedExpansionTerms==null){
         weightedExpansionTerms= new ArrayList<>();
@@ -118,18 +130,22 @@ public class RerankerContext<K> {
 
       List<String> analyze = AnalyzerUtils.analyze(analyzer, term);
       if(queryId.equalsIgnoreCase("89")) {
-        System.out.println("analyze Terms are >>>" + queryId + ":::" + analyze);
+       // System.out.println("analyze Terms are >>>" + queryId + ":::" + analyze);
       }
       for(String anayzedTerm : analyze) {
 
         if(anayzedTerm.equalsIgnoreCase("market")){
         //  System.out.println("@@@@@@"+weightedExpansionTerms+":::"+anayzedTerm);
         }
-        Set<String> words=weightedExpansionTerms.stream().map(weightedExpansionTerm -> weightedExpansionTerm.getExpansionTerm().toLowerCase()).collect(Collectors.toSet());
+        List<String> words=weightedExpansionTerms.stream().map(weightedExpansionTerm -> weightedExpansionTerm.getExpansionTerm().toLowerCase()).collect(Collectors.toList());
 
         /*if(words.contains(anayzedTerm.toLowerCase())){
           throw new RuntimeException("Duplicate expansion words found for query "+queryId+"::"+term);
         }*/
+        if(queryId.equals( "61" )){
+         // System.out.println("going to add >>"+anayzedTerm+":::"+weight);
+        }
+        //System.out.println("Analyzer term is >>>"+anayzedTerm);
         weightedExpansionTerms.add(new WeightedExpansionTerm(Float.parseFloat(weight), anayzedTerm.toLowerCase()));
       }
 

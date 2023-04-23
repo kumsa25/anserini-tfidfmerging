@@ -34,6 +34,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BM25SReranker implements Reranker {
   private static final Logger LOG = LogManager.getLogger( BM25SReranker.class);
@@ -56,6 +57,7 @@ public class BM25SReranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext _context) {
+    //System.out.println("Multiplier is >>>"+_context.getSearchArgs().weightMultiplier);
     BM25QueryContext context=(BM25QueryContext)_context;
 
     String outputPath=context.getSearchArgs().output;
@@ -435,7 +437,13 @@ public class BM25SReranker implements Reranker {
       expansionIDF=originalIDF;
     }
     if(context_.getSearchArgs().useWeightedForExpansionOnly){
-      expansionIDF=expansionIDF*idfStats.getAssignedweight();
+      float multiplier=context_.getSearchArgs().weightMultiplier;
+      getWeight( context_,tfSStats,idfStats );
+
+
+      float v = idfStats.getAssignedweight() * multiplier;
+      //System.out.println("After multiplying >>"+v+"::::"+idfStats.getAssignedweight()+":::"+multiplier+":::"+tfSStats.getAssignedweight());
+      expansionIDF= expansionIDF * v;
     }
     if(context_.getSearchArgs().useAvgForExpansionIDFOnly){
       return (originalIDF+expansionIDF)/2;
@@ -444,6 +452,39 @@ public class BM25SReranker implements Reranker {
     //System.out.println("originalIDF >>>"+originalIDF+"::"+expansionIDF);
 
     return boost * tfSStats .getTfValue()* expansionIDF;
+  }
+
+  private float getWeight(BM25QueryContext context_, TFStats tfStats_,IDFStats idfStats_){
+    Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms( context_.getQueryId().toString() );
+    Collection<List<WeightedExpansionTerm>> values = queryExpansionTerms.values();
+    Iterator<List<WeightedExpansionTerm>> iterator = values.iterator();
+    List<WeightedExpansionTerm> mergedList= new ArrayList<>();
+    while(iterator.hasNext()){
+      List<WeightedExpansionTerm> next = iterator.next();
+      mergedList.addAll( next );
+    }
+    mergedList=mergedList.stream().sorted(Comparator.comparing( WeightedExpansionTerm::getWeight,Comparator.reverseOrder() )).collect( Collectors.toList());
+    WeightedExpansionTerm found=findTerm( mergedList,tfStats_ );
+    if(found !=null){
+      idfStats_.setAssignedweight( found.getWeight() );
+      return found.getWeight();
+    }
+    idfStats_.setAssignedweight( 1 );
+    return 1;
+  }
+
+  private WeightedExpansionTerm findTerm( List<WeightedExpansionTerm> next_, TFStats tfStats_ )
+  {
+    Iterator<WeightedExpansionTerm> iterator = next_.iterator();
+    while(iterator.hasNext()){
+      WeightedExpansionTerm next = iterator.next();
+      if(next.getExpansionTerm().equalsIgnoreCase( tfStats_.getTerm() )){
+        return next;
+      }
+
+    }
+    return null;
+
   }
 
   private TFStats extractTFDetails( String term, Explanation tfExplnation, Explanation[] termSpecificExplanation_ ) {

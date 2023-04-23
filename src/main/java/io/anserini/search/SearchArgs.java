@@ -548,6 +548,10 @@ public class SearchArgs {
       usage = "originalidf: print original and expanded queries")
   public boolean useWeightedForExpansionOnly=false;
 
+  @Option(name = "-weightMultiplier", metaVar = "[value]", usage = "ordered window weight in sdm")
+  public float weightMultiplier = 1.0f;
+
+
 
   @Option(name = "-useAvgForExpansionIDFOnly",
       usage = "originalidf: print original and expanded queries")
