@@ -101,7 +101,6 @@ public class RerankerContext<K> {
     BufferedReader br = new BufferedReader(new FileReader(expWordsWithWeightsFile));
     String line;
     while ((line = br.readLine()) != null) {
-      System.out.println("termWithQID>>>>"+termWithQID);
       String[] parts = line.split(" ");
       String key = parts[0].trim();
       String termWithQID = key;
