@@ -109,9 +109,9 @@ public class TFIDFMergerCombinerStrategy implements TFIDFCombinerStrategy {
         for(TermScoreDetails synonymsTF: synonymsTFStats){
 
             float assignedweight = synonymsTF.getWeight();
-            if(assignedweight==0){
+           // if(assignedweight==0){
                 System.out.println("Assigned Weigjt is zero >>>"+assignedweight);
-            }
+            //}
             /*int result=Float.compare(assignedweight,0.5f);
             if(result==0){
                // System.out.println("Assigned Weight is correct");
