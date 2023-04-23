@@ -56,6 +56,7 @@ public class BM25SReranker implements Reranker {
 
   @Override
   public ScoredDocuments rerank(ScoredDocuments docs, RerankerContext _context) {
+    System.out.println("Multiplier is >>>"+_context.getSearchArgs().weightMultiplier);
     BM25QueryContext context=(BM25QueryContext)_context;
 
     String outputPath=context.getSearchArgs().output;
@@ -435,7 +436,9 @@ public class BM25SReranker implements Reranker {
       expansionIDF=originalIDF;
     }
     if(context_.getSearchArgs().useWeightedForExpansionOnly){
-      expansionIDF=expansionIDF*idfStats.getAssignedweight();
+      float multiplier=context_.getSearchArgs().weightMultiplier;
+
+      expansionIDF=expansionIDF*idfStats.getAssignedweight()*multiplier;
     }
     if(context_.getSearchArgs().useAvgForExpansionIDFOnly){
       return (originalIDF+expansionIDF)/2;
