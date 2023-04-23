@@ -438,6 +438,7 @@ public class BM25SReranker implements Reranker {
     }
     if(context_.getSearchArgs().useWeightedForExpansionOnly){
       float multiplier=context_.getSearchArgs().weightMultiplier;
+      getWeight( context_,tfSStats,idfStats );
 
 
       float v = idfStats.getAssignedweight() * multiplier;
