@@ -611,7 +611,7 @@ public class BM25SReranker implements Reranker {
       for(Explanation termScoreExplanation: eachTermScoreExplanation){
         Number eachTerrmscore = termScoreExplanation.getValue();
         Explanation[] termSpecificExplanation = termScoreExplanation.getDetails();
-        boolean isCovid19=context_.getSearchArgs().queryGenerator !=null && context_.getSearchArgs().queryGenerator.trim().equalsIgnoreCase( "Covid19QueryGenerator" );
+        boolean isCovid19=false;
         Number value=-1;
         if(termSpecificExplanation.length !=2){
          // System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
@@ -644,6 +644,9 @@ public class BM25SReranker implements Reranker {
         context_.setDocid(term.toLowerCase(),actaulDocId);
         if(term.trim().length()==0){
           System.out.println("EMPTY TERM "+context_.getQueryId()+"::"+queryText+"::"+explanation.toString());
+        }
+        if(isCovid19){
+          continue;
         }
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
