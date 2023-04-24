@@ -195,7 +195,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
         }
 
-        QueryParser parser = new QueryParser(IndexArgs.CONTENTS, analyzer);
+        /*QueryParser parser = new QueryParser(IndexArgs.CONTENTS, analyzer);
 
         try {
             List<Query> disjuncts = new ArrayList<>();
@@ -220,7 +220,7 @@ public class Covid19QueryGenerator extends QueryGenerator {
 
         } catch (Exception ParseException) {
             // Do nothing.
-        }
+        }*/
 
         return builder.build();
     }
