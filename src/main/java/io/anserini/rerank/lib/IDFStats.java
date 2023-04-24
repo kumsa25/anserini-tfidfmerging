@@ -89,8 +89,9 @@ public class IDFStats {
         this.numOfDocsContainingTerm = numOfDocsContainingTerm;
         this.total_number_of_documents_with_field = total_number_of_documents_with_field;
         if(termVsIDF.containsKey(term.toLowerCase())){
-            if(termVsIDF.get(term.toLowerCase()) !=idfValue){
-                System.out.println("SAME TERM ALREADY EXISTS but DIFFERENT IDF");
+            Float aFloat = termVsIDF.get( term.toLowerCase() );
+            if( aFloat !=idfValue){
+                System.out.println("SAME TERM ALREADY EXISTS but DIFFERENT IDF"+"::"+term+"::"+aFloat+"::"+idfValue);
             }
         }
         termVsIDF.put(term.toLowerCase(),idfValue);
@@ -102,8 +103,14 @@ public class IDFStats {
         this.total_number_of_documents_with_field = total_number_of_documents_with_field;
         this.boost=boost;
         if(termVsIDF.containsKey(term.toLowerCase())){
-            if(termVsIDF.get(term.toLowerCase()) !=idfValue){
-                System.out.println("SAME TERM ALREADY EXISTS but DIFFERENT IDF");
+            Float aFloat = termVsIDF.get( term.toLowerCase() );
+            if( aFloat !=idfValue){
+                System.out.println("TERM2 is >>>>"+term);
+                if(term.trim().length()==0){
+                    System.out.println("EMPTY TERM ");
+                }
+                System.out.println("SAME TERM2 ALREADY EXISTS but DIFFERENT IDF"+"::"+term+"::"+aFloat+"::"+idfValue);
+
             }
         }
         termVsIDF.put(term.toLowerCase(),idfValue);

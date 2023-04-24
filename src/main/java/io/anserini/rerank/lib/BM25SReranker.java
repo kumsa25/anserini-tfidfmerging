@@ -615,7 +615,8 @@ public class BM25SReranker implements Reranker {
         Number value=-1;
         if(termSpecificExplanation.length !=2){
          // System.out.println("length is not equal to  2::"+termSpecificExplanation.length +":::"+termScoreExplanation);
-          if(termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1 || termScoreExplanation.getDescription().toLowerCase().indexOf("sar cov 2") !=-1 || termScoreExplanation.getDescription().toLowerCase().indexOf("sars-cov-2") !=-1) {
+          if(termScoreExplanation.getDescription().indexOf("covid 19") !=-1 || termScoreExplanation.getDescription().indexOf("2019 ncov") !=-1 || termScoreExplanation.getDescription().toLowerCase().indexOf("sars cov 2") !=-1 || termScoreExplanation.getDescription().toLowerCase().indexOf("sars-cov-2") !=-1) {
+           // System.out.println("ISCOVID TRUE >>>>"+termScoreExplanation.getDescription());
             //System.out.println("termScoreExplanation.getDescription()::::"+termScoreExplanation.getDescription());
             colonIndex=termScoreExplanation.getDescription().indexOf(":");
             int in_index=termScoreExplanation.getDescription().indexOf("in");
@@ -642,6 +643,12 @@ public class BM25SReranker implements Reranker {
 
         idfStats.setStemmedTerm(stemmedTerm);
         context_.setDocid(term.toLowerCase(),actaulDocId);
+        if(term.trim().length()==0){
+          System.out.println("EMPTY TERM "+context_.getQueryId()+"::"+queryText+"::"+explanation.toString());
+        }
+        if(isCovid19){
+          continue;
+        }
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
         if(isCovid19){
