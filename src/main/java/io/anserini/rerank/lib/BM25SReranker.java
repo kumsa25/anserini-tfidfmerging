@@ -642,6 +642,9 @@ public class BM25SReranker implements Reranker {
 
         idfStats.setStemmedTerm(stemmedTerm);
         context_.setDocid(term.toLowerCase(),actaulDocId);
+        if(term.trim().length()==0){
+          System.out.println("EMPTY TERM "+context_.getQueryId()+"::"+queryText+"::"+explanation.toString());
+        }
         Explanation tfExplnation=termSpecificExplanation[1];
         TFStats tfStats = extractTFDetails(term, tfExplnation,termSpecificExplanation);
         if(isCovid19){
