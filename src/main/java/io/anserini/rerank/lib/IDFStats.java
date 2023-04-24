@@ -105,6 +105,10 @@ public class IDFStats {
         if(termVsIDF.containsKey(term.toLowerCase())){
             Float aFloat = termVsIDF.get( term.toLowerCase() );
             if( aFloat !=idfValue){
+                System.out.println("TERM2 is >>>>"+term);
+                if(term.trim().length()==0){
+                    System.out.println("EMPTY TERM ");
+                }
                 System.out.println("SAME TERM2 ALREADY EXISTS but DIFFERENT IDF"+"::"+term+"::"+aFloat+"::"+idfValue);
 
             }
