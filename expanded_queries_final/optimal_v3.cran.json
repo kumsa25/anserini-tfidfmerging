@@ -1,0 +1,4254 @@
+{
+    "1": {
+        "what": {},
+        "similarity": {},
+        "laws": {},
+        "must": {},
+        "be": {},
+        "obeyed": {},
+        "when": {},
+        "constructing": {
+            "structures": 0.6244856119155884
+        },
+        "aeroelastic": {
+            "wing": 0.5100363492965698
+        },
+        "models": {},
+        "of": {},
+        "heated": {
+            "thermal": 0.751179039478302,
+            "temperature": 0.5598090291023254
+        },
+        "high": {},
+        "speed": {},
+        "aircraft": {
+            "wing": 0.5497791767120361
+        }
+    },
+    "2": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "structural": {},
+        "and": {
+            "including": 0.5739989280700684
+        },
+        "aeroelastic": {
+            "aerodynamic": 0.6688738465309143,
+            "wing": 0.5100363492965698
+        },
+        "problems": {},
+        "associated": {},
+        "with": {},
+        "flight": {
+            "wing": 0.5496487617492676,
+            "nasa": 0.5054711103439331
+        },
+        "of": {},
+        "high": {
+            "increasing": 0.5014749765396118
+        },
+        "speed": {},
+        "aircraft": {
+            "wing": 0.5497791767120361
+        }
+    },
+    "4": {
+        "what": {},
+        "problems": {},
+        "of": {},
+        "heat": {},
+        "conduction": {},
+        "in": {},
+        "composite": {
+            "mixture": 0.5067685842514038
+        },
+        "slabs": {},
+        "have": {},
+        "been": {},
+        "solved": {},
+        "so": {},
+        "far": {}
+    },
+    "8": {
+        "can": {},
+        "a": {},
+        "criterion": {},
+        "be": {},
+        "developed": {},
+        "to": {},
+        "show": {},
+        "empirically": {},
+        "the": {},
+        "validity": {},
+        "of": {},
+        "flow": {},
+        "solutions": {},
+        "for": {},
+        "chemically": {},
+        "reacting": {},
+        "gas": {
+            "pressure": 0.5703521966934204
+        },
+        "mixtures": {},
+        "based": {},
+        "on": {},
+        "simplifying": {},
+        "assumption": {},
+        "instantaneous": {},
+        "local": {},
+        "chemical": {},
+        "equilibrium": {}
+    },
+    "9": {
+        "what": {},
+        "chemical": {},
+        "kinetic": {
+            "velocity": 0.5859188437461853
+        },
+        "system": {},
+        "is": {},
+        "applicable": {
+            "valid": 0.5869098901748657
+        },
+        "to": {},
+        "hypersonic": {},
+        "aerodynamic": {},
+        "problems": {}
+    },
+    "10": {
+        "what": {},
+        "theoretical": {
+            "theory": 0.7783526182174683,
+            "concept": 0.5381495356559753
+        },
+        "and": {},
+        "experimental": {
+            "experiments": 0.8602644801139832,
+            "investigation": 0.5230790376663208
+        },
+        "guides": {
+            "techniques": 0.5053145289421082
+        },
+        "do": {},
+        "we": {},
+        "have": {},
+        "as": {},
+        "to": {},
+        "turbulent": {},
+        "couette": {},
+        "flow": {},
+        "behaviour": {}
+    },
+    "12": {
+        "is": {},
+        "it": {},
+        "possible": {},
+        "to": {},
+        "relate": {},
+        "the": {},
+        "available": {},
+        "pressure": {},
+        "distributions": {},
+        "for": {},
+        "an": {},
+        "ogive": {},
+        "forebody": {},
+        "at": {},
+        "zero": {
+            "calculated": 0.5104713439941406
+        },
+        "angle": {
+            "rotational": 0.5613833069801331
+        },
+        "of": {},
+        "attack": {},
+        "lower": {
+            "height": 0.5157572031021118
+        },
+        "surface": {},
+        "pressures": {},
+        "equivalent": {}
+    },
+    "22": {
+        "is": {},
+        "it": {},
+        "possible": {},
+        "to": {},
+        "find": {},
+        "an": {},
+        "analytical": {},
+        "similar": {},
+        "solution": {},
+        "of": {},
+        "the": {},
+        "strong": {},
+        "blast": {},
+        "wave": {},
+        "problem": {},
+        "in": {},
+        "newtonian": {},
+        "approximation": {}
+    },
+    "23": {
+        "how": {},
+        "can": {},
+        "the": {},
+        "aerodynamic": {
+            "unsteady": 0.5324604511260986
+        },
+        "performance": {
+            "speed": 0.6319396495819092,
+            "speeds": 0.6114557981491089,
+            "evaluation": 0.5676258206367493
+        },
+        "of": {},
+        "channel": {},
+        "flow": {},
+        "ground": {},
+        "effect": {
+            "effects": 0.9223095178604126
+        },
+        "machines": {},
+        "be": {},
+        "calculated": {
+            "formula": 0.6895065307617188,
+            "equal": 0.5478274822235107,
+            "equation": 0.5128933191299438,
+            "applied": 0.5123510956764221,
+            "evaluation": 0.5004807114601135
+        }
+    },
+    "26": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "basic": {},
+        "mechanism": {},
+        "of": {},
+        "transonic": {},
+        "aileron": {},
+        "buzz": {}
+    },
+    "27": {
+        "papers": {},
+        "on": {},
+        "shock": {},
+        "sound": {},
+        "wave": {},
+        "interaction": {}
+    },
+    "29": {
+        "material": {},
+        "properties": {},
+        "of": {},
+        "photoelastic": {},
+        "materials": {}
+    },
+    "32": {
+        "can": {},
+        "the": {},
+        "three": {},
+        "dimensional": {},
+        "problem": {},
+        "of": {},
+        "a": {},
+        "transverse": {},
+        "potential": {},
+        "flow": {},
+        "about": {},
+        "body": {},
+        "revolution": {},
+        "be": {},
+        "reduced": {},
+        "to": {},
+        "two": {}
+    },
+    "33": {
+        "are": {},
+        "experimental": {
+            "tests": 0.6137586236000061,
+            "investigated": 0.5104866027832031
+        },
+        "pressure": {},
+        "distributions": {},
+        "on": {},
+        "bodies": {},
+        "of": {},
+        "revolution": {},
+        "at": {},
+        "angle": {},
+        "attack": {},
+        "available": {}
+    },
+    "35": {
+        "has": {},
+        "anyone": {},
+        "formally": {},
+        "determined": {
+            "based": 0.5021061301231384
+        },
+        "the": {},
+        "influence": {
+            "effects": 0.5784912109375
+        },
+        "of": {},
+        "joule": {},
+        "heating": {},
+        "produced": {
+            "reaction": 0.5243310928344727
+        },
+        "by": {},
+        "induced": {},
+        "current": {},
+        "in": {},
+        "magnetohydrodynamic": {},
+        "free": {},
+        "convection": {},
+        "flows": {
+            "viscosities": 0.504583477973938
+        },
+        "under": {},
+        "general": {},
+        "conditions": {}
+    },
+    "39": {
+        "why": {},
+        "does": {},
+        "the": {},
+        "compressibility": {},
+        "transformation": {},
+        "fail": {},
+        "to": {},
+        "correlate": {},
+        "high": {},
+        "speed": {
+            "velocity": 0.7280413508415222
+        },
+        "data": {},
+        "for": {},
+        "helium": {},
+        "and": {},
+        "air": {}
+    },
+    "40": {
+        "did": {},
+        "anyone": {},
+        "else": {},
+        "discover": {},
+        "that": {},
+        "the": {},
+        "turbulent": {
+            "flow": 0.5201199650764465
+        },
+        "skin": {
+            "body": 0.6113260388374329,
+            "bodies": 0.5024003982543945
+        },
+        "friction": {
+            "motion": 0.565029501914978
+        },
+        "is": {},
+        "not": {},
+        "over": {
+            "overexpands": 0.5348758101463318
+        },
+        "sensitive": {},
+        "to": {},
+        "nature": {},
+        "of": {},
+        "variation": {},
+        "viscosity": {},
+        "with": {},
+        "temperature": {}
+    },
+    "41": {
+        "what": {},
+        "progress": {},
+        "has": {},
+        "been": {},
+        "made": {},
+        "in": {},
+        "research": {
+            "investigated": 0.6090579628944397,
+            "analysis": 0.5536165237426758
+        },
+        "on": {},
+        "unsteady": {},
+        "aerodynamics": {}
+    },
+    "49": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "factors": {},
+        "which": {},
+        "influence": {},
+        "time": {},
+        "required": {},
+        "to": {},
+        "invert": {},
+        "large": {},
+        "structural": {},
+        "matrices": {}
+    },
+    "50": {
+        "does": {},
+        "a": {},
+        "practical": {},
+        "flow": {},
+        "follow": {},
+        "the": {},
+        "theoretical": {},
+        "concepts": {},
+        "for": {},
+        "interaction": {},
+        "between": {},
+        "adjacent": {},
+        "blade": {},
+        "rows": {},
+        "of": {},
+        "supersonic": {},
+        "cascade": {}
+    },
+    "52": {
+        "how": {},
+        "is": {},
+        "the": {},
+        "design": {},
+        "of": {},
+        "ring": {},
+        "or": {},
+        "part": {},
+        "wings": {},
+        "by": {},
+        "linear": {},
+        "theory": {},
+        "affected": {
+            "effects": 0.5681273341178894
+        },
+        "thickness": {}
+    },
+    "53": {
+        "what": {},
+        "application": {},
+        "has": {},
+        "the": {},
+        "linear": {},
+        "theory": {},
+        "design": {},
+        "of": {},
+        "curved": {
+            "shape": 0.6750223636627197,
+            "circular": 0.5266168117523193,
+            "contours": 0.5017852783203125
+        },
+        "wings": {
+            "bird": 0.5369899272918701
+        }
+    },
+    "55": {
+        "papers": {},
+        "on": {},
+        "flow": {
+            "turbulent": 0.5201199650764465
+        },
+        "visualization": {
+            "graphically": 0.6966040730476379,
+            "illustrated": 0.524533212184906
+        },
+        "slender": {},
+        "conical": {},
+        "wings": {}
+    },
+    "57": {
+        "to": {},
+        "find": {},
+        "an": {},
+        "approximate": {},
+        "correction": {},
+        "for": {},
+        "thickness": {},
+        "in": {},
+        "slender": {},
+        "thin": {},
+        "wing": {
+            "aero": 0.610985517501831,
+            "aircraft": 0.5497791767120361
+        },
+        "theory": {}
+    },
+    "58": {
+        "how": {},
+        "do": {},
+        "interference": {},
+        "free": {},
+        "longitudinal": {},
+        "stability": {},
+        "measurements": {
+            "approximate": 0.5058383941650391
+        },
+        "made": {},
+        "using": {},
+        "flight": {},
+        "models": {},
+        "compare": {},
+        "with": {},
+        "similar": {},
+        "in": {},
+        "a": {},
+        "low": {},
+        "blockage": {},
+        "wind": {},
+        "tunnel": {}
+    },
+    "59": {
+        "have": {},
+        "wind": {},
+        "tunnel": {},
+        "interference": {},
+        "effects": {},
+        "been": {},
+        "investigated": {},
+        "on": {},
+        "a": {},
+        "systematic": {},
+        "basis": {}
+    },
+    "61": {
+        "are": {},
+        "there": {},
+        "any": {},
+        "papers": {},
+        "dealing": {},
+        "with": {},
+        "acoustic": {},
+        "wave": {},
+        "propagation": {},
+        "in": {
+            "infite": 0.5163373947143555
+        },
+        "reacting": {},
+        "gases": {}
+    },
+    "62": {
+        "has": {},
+        "anyone": {},
+        "investigated": {},
+        "relaxation": {},
+        "effects": {},
+        "on": {},
+        "gaseous": {},
+        "heat": {},
+        "transfer": {},
+        "to": {},
+        "a": {},
+        "suddenly": {},
+        "heated": {},
+        "wall": {}
+    },
+    "66": {
+        "are": {},
+        "there": {},
+        "any": {},
+        "theoretical": {},
+        "methods": {},
+        "for": {},
+        "predicting": {},
+        "base": {},
+        "pressure": {
+            "fluids": 0.5490272045135498
+        }
+    },
+    "67": {
+        "does": {},
+        "transition": {},
+        "in": {},
+        "the": {},
+        "hypersonic": {},
+        "wake": {},
+        "depend": {},
+        "on": {},
+        "body": {},
+        "geometry": {
+            "mathematics": 0.567458987236023
+        },
+        "and": {},
+        "size": {}
+    },
+    "69": {
+        "how": {},
+        "can": {},
+        "one": {},
+        "detect": {},
+        "transition": {},
+        "phenomena": {},
+        "in": {},
+        "hypersonic": {},
+        "wakes": {}
+    },
+    "72": {
+        "what": {},
+        "is": {},
+        "a": {
+            "considered": 0.5047973394393921
+        },
+        "criterion": {},
+        "that": {},
+        "the": {},
+        "transonic": {},
+        "flow": {
+            "fluid": 0.5961349010467529
+        },
+        "around": {},
+        "an": {},
+        "airfoil": {},
+        "with": {},
+        "round": {
+            "flat": 0.5586159229278564
+        },
+        "leading": {},
+        "edge": {},
+        "be": {},
+        "validly": {},
+        "analyzed": {},
+        "by": {},
+        "linearized": {},
+        "theory": {}
+    },
+    "79": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "details": {},
+        "of": {},
+        "rigorous": {},
+        "kinetic": {},
+        "theory": {},
+        "gases": {},
+        "chapman": {},
+        "enskog": {}
+    },
+    "80": {
+        "has": {},
+        "anyone": {},
+        "investigated": {},
+        "the": {},
+        "effect": {
+            "effects": 0.9223095178604126,
+            "influence": 0.6550650000572205
+        },
+        "of": {},
+        "surface": {},
+        "mass": {},
+        "transfer": {},
+        "on": {},
+        "hypersonic": {},
+        "viscous": {},
+        "interactions": {}
+    },
+    "81": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "combined": {},
+        "effect": {},
+        "of": {},
+        "surface": {},
+        "heat": {},
+        "and": {},
+        "mass": {},
+        "transfer": {},
+        "on": {},
+        "hypersonic": {},
+        "flow": {}
+    },
+    "82": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "existing": {},
+        "solutions": {},
+        "for": {},
+        "hypersonic": {},
+        "viscous": {},
+        "interactions": {},
+        "over": {},
+        "an": {},
+        "insulated": {},
+        "flat": {},
+        "plate": {}
+    },
+    "84": {
+        "can": {},
+        "the": {},
+        "three": {},
+        "point": {},
+        "boundary": {},
+        "value": {},
+        "problem": {},
+        "for": {},
+        "blasius": {},
+        "equation": {},
+        "be": {},
+        "integrated": {},
+        "numerically": {},
+        "using": {},
+        "suitable": {},
+        "transformations": {},
+        "without": {},
+        "iteration": {},
+        "on": {},
+        "conditions": {}
+    },
+    "85": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "effects": {},
+        "of": {},
+        "small": {},
+        "amounts": {
+            "capacity": 0.5433522462844849
+        },
+        "gas": {
+            "heat": 0.5344798564910889
+        },
+        "rarefaction": {},
+        "on": {},
+        "characteristics": {},
+        "boundary": {},
+        "layers": {},
+        "slender": {},
+        "bodies": {
+            "skin": 0.5024004578590393
+        },
+        "revolution": {}
+    },
+    "86": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "available": {
+            "included": 0.5719349384307861
+        },
+        "information": {
+            "data": 0.6413129568099976
+        },
+        "pertaining": {},
+        "to": {},
+        "boundary": {},
+        "layers": {},
+        "on": {},
+        "very": {},
+        "slender": {},
+        "bodies": {},
+        "of": {},
+        "revolution": {},
+        "in": {},
+        "continuum": {},
+        "flow": {},
+        "transverse": {},
+        "curvature": {},
+        "effect": {}
+    },
+    "93": {
+        "what": {},
+        "investigations": {},
+        "have": {},
+        "been": {},
+        "made": {},
+        "of": {},
+        "the": {},
+        "flow": {},
+        "field": {},
+        "about": {},
+        "a": {},
+        "body": {},
+        "moving": {
+            "transport": 0.5521442890167236
+        },
+        "through": {},
+        "rarefied": {},
+        "partially": {},
+        "ionized": {},
+        "gas": {
+            "fuel": 0.7644205093383789,
+            "methane": 0.6703363656997681,
+            "fuels": 0.6633960008621216,
+            "combustion": 0.6135790348052979,
+            "hydrocarbon": 0.5716183185577393
+        },
+        "in": {},
+        "presence": {},
+        "magnetic": {}
+    },
+    "95": {
+        "to": {},
+        "what": {},
+        "extent": {},
+        "can": {},
+        "the": {},
+        "available": {},
+        "information": {},
+        "for": {},
+        "incompressible": {},
+        "boundary": {},
+        "layers": {},
+        "be": {},
+        "applied": {},
+        "problems": {},
+        "involving": {},
+        "compressible": {}
+    },
+    "97": {
+        "to": {},
+        "what": {},
+        "extent": {},
+        "can": {},
+        "readily": {},
+        "available": {},
+        "steady": {},
+        "state": {},
+        "aerodynamic": {
+            "airfoil": 0.651917576789856,
+            "wing": 0.5335875749588013
+        },
+        "data": {},
+        "be": {},
+        "utilized": {},
+        "predict": {},
+        "lifting": {},
+        "surface": {},
+        "flutter": {},
+        "characteristics": {}
+    },
+    "99": {
+        "is": {},
+        "it": {},
+        "possible": {},
+        "to": {},
+        "determine": {
+            "identified": 0.5112313032150269
+        },
+        "rates": {},
+        "of": {},
+        "forced": {},
+        "convective": {},
+        "heat": {},
+        "transfer": {},
+        "from": {},
+        "heated": {},
+        "cylinders": {},
+        "non": {},
+        "circular": {
+            "angle": 0.5099544525146484
+        },
+        "cross": {},
+        "section": {},
+        "the": {},
+        "fluid": {},
+        "flow": {},
+        "being": {},
+        "along": {},
+        "generators": {}
+    },
+    "100": {
+        "how": {},
+        "much": {},
+        "is": {},
+        "known": {},
+        "about": {
+            "discussed": 0.5211116075515747
+        },
+        "boundary": {},
+        "layer": {},
+        "flows": {},
+        "along": {},
+        "non": {},
+        "circular": {
+            "geometric": 0.5250518321990967,
+            "geometry": 0.5199164152145386
+        },
+        "cylinders": {}
+    },
+    "101": {
+        "is": {},
+        "there": {},
+        "any": {},
+        "simple": {},
+        "but": {},
+        "practical": {
+            "physically": 0.508955717086792
+        },
+        "method": {},
+        "for": {},
+        "numerical": {
+            "math": 0.501192569732666
+        },
+        "integration": {},
+        "of": {},
+        "the": {},
+        "mixing": {},
+        "problem": {
+            "fails": 0.5315787196159363
+        },
+        "i": {},
+        "e": {},
+        "blasius": {},
+        "with": {},
+        "three": {},
+        "point": {},
+        "boundary": {},
+        "conditions": {}
+    },
+    "102": {
+        "does": {},
+        "there": {},
+        "exist": {},
+        "a": {
+            "considered": 0.5047973394393921
+        },
+        "closed": {},
+        "form": {},
+        "expression": {
+            "evaluated": 0.5096676349639893
+        },
+        "for": {},
+        "the": {},
+        "local": {},
+        "heat": {},
+        "transfer": {},
+        "around": {},
+        "yawed": {},
+        "cylinder": {}
+    },
+    "104": {
+        "where": {
+            "located": 0.7704002857208252
+        },
+        "can": {},
+        "i": {},
+        "find": {},
+        "pressure": {
+            "stress": 0.5593410134315491,
+            "stresses": 0.5310477018356323
+        },
+        "data": {},
+        "on": {},
+        "surfaces": {},
+        "of": {},
+        "swept": {},
+        "cylinders": {}
+    },
+    "106": {
+        "does": {},
+        "the": {},
+        "boundary": {
+            "walled": 0.5285544395446777
+        },
+        "layer": {},
+        "on": {},
+        "a": {},
+        "flat": {
+            "shallow": 0.5157084465026855
+        },
+        "plate": {},
+        "in": {
+            "internal": 0.5307515859603882,
+            "filled": 0.5135560631752014
+        },
+        "shear": {},
+        "flow": {},
+        "induce": {},
+        "pressure": {},
+        "gradient": {}
+    },
+    "107": {
+        "can": {},
+        "the": {},
+        "procedure": {},
+        "of": {},
+        "matching": {},
+        "inner": {},
+        "and": {},
+        "outer": {},
+        "solutions": {},
+        "for": {},
+        "a": {
+            "considered": 0.5047973990440369
+        },
+        "viscous": {},
+        "flow": {},
+        "problem": {},
+        "be": {},
+        "applied": {
+            "considered": 0.5273247957229614
+        },
+        "when": {},
+        "main": {},
+        "stream": {},
+        "is": {},
+        "shear": {}
+    },
+    "108": {
+        "can": {},
+        "series": {},
+        "expansions": {},
+        "be": {},
+        "found": {},
+        "for": {},
+        "the": {},
+        "boundary": {},
+        "layer": {},
+        "on": {},
+        "a": {},
+        "flat": {},
+        "plate": {},
+        "in": {},
+        "shear": {},
+        "flow": {}
+    },
+    "109": {
+        "what": {},
+        "possible": {},
+        "techniques": {},
+        "are": {},
+        "available": {
+            "allowed": 0.5923082828521729
+        },
+        "for": {},
+        "computing": {},
+        "the": {},
+        "injection": {},
+        "distribution": {},
+        "corresponding": {},
+        "to": {},
+        "an": {},
+        "isothermal": {
+            "thermal": 0.6171451210975647
+        },
+        "transpiration": {},
+        "cooled": {
+            "thermal": 0.7215203642845154,
+            "temperatures": 0.6226038932800293,
+            "temperature": 0.5897809267044067
+        },
+        "hemisphere": {}
+    },
+    "110": {
+        "what": {},
+        "is": {},
+        "known": {},
+        "regarding": {},
+        "asymptotic": {},
+        "solutions": {},
+        "to": {},
+        "the": {},
+        "exact": {},
+        "boundary": {},
+        "layer": {},
+        "equations": {}
+    },
+    "111": {
+        "previous": {},
+        "solutions": {},
+        "to": {},
+        "the": {},
+        "boundary": {},
+        "layer": {},
+        "similarity": {},
+        "equations": {}
+    },
+    "112": {
+        "experimental": {},
+        "results": {},
+        "on": {},
+        "hypersonic": {},
+        "viscous": {},
+        "interaction": {}
+    },
+    "113": {
+        "what": {},
+        "has": {},
+        "been": {},
+        "done": {},
+        "about": {},
+        "viscous": {},
+        "interactions": {},
+        "in": {},
+        "relatively": {},
+        "low": {},
+        "reynolds": {},
+        "number": {},
+        "flows": {
+            "flow": 0.9248344302177429,
+            "aerodynamic": 0.5273449420928955
+        },
+        "particularly": {},
+        "at": {},
+        "high": {},
+        "mach": {},
+        "numbers": {}
+    },
+    "114": {
+        "what": {},
+        "role": {
+            "acting": 0.6198803186416626,
+            "main": 0.505216121673584
+        },
+        "does": {},
+        "the": {},
+        "effect": {},
+        "of": {},
+        "chemical": {},
+        "reaction": {},
+        "particularly": {},
+        "when": {},
+        "out": {},
+        "equilibrium": {},
+        "play": {},
+        "in": {},
+        "similitude": {},
+        "laws": {},
+        "governing": {},
+        "hypersonic": {
+            "sonic": 0.5081993341445923
+        },
+        "flows": {
+            "flow": 0.9248344302177429
+        },
+        "over": {},
+        "slender": {
+            "flexible": 0.5563791990280151
+        },
+        "aerodynamic": {
+            "wing": 0.533587634563446
+        },
+        "bodies": {}
+    },
+    "118": {
+        "do": {},
+        "the": {},
+        "discrepancies": {
+            "accuracy": 0.5004705786705017
+        },
+        "among": {},
+        "current": {},
+        "analyses": {
+            "methods": 0.560335636138916
+        },
+        "of": {},
+        "vorticity": {},
+        "effect": {
+            "effects": 0.9223095178604126,
+            "experimental": 0.5004469752311707
+        },
+        "on": {},
+        "stagnation": {},
+        "point": {},
+        "heat": {},
+        "transfer": {},
+        "result": {
+            "applied": 0.5195616483688354,
+            "experimental": 0.5058187246322632
+        },
+        "primarily": {},
+        "from": {},
+        "differences": {},
+        "in": {
+            "applied": 0.5405126214027405
+        },
+        "viscosity": {},
+        "temperature": {},
+        "law": {},
+        "assumed": {}
+    },
+    "119": {
+        "how": {},
+        "far": {},
+        "can": {},
+        "one": {},
+        "trust": {},
+        "the": {},
+        "linear": {},
+        "viscosity": {},
+        "temperature": {},
+        "solution": {},
+        "assumed": {},
+        "in": {},
+        "some": {},
+        "of": {},
+        "analyses": {},
+        "hypersonic": {},
+        "shock": {},
+        "layer": {},
+        "at": {},
+        "low": {},
+        "reynolds": {},
+        "number": {}
+    },
+    "120": {
+        "how": {
+            "simply": 0.5846047401428223
+        },
+        "close": {},
+        "is": {},
+        "the": {},
+        "comparison": {
+            "examined": 0.5147898197174072,
+            "analyzed": 0.5037981271743774
+        },
+        "of": {},
+        "shock": {},
+        "layer": {},
+        "theory": {},
+        "with": {
+            "simply": 0.5190730094909668
+        },
+        "existing": {
+            "developed": 0.5103704929351807
+        },
+        "experiments": {
+            "examined": 0.556425154209137,
+            "analyzed": 0.5235427618026733
+        },
+        "in": {},
+        "low": {},
+        "reynolds": {},
+        "number": {},
+        "merged": {},
+        "regime": {}
+    },
+    "121": {
+        "has": {},
+        "anyone": {},
+        "explained": {},
+        "the": {},
+        "kink": {},
+        "in": {},
+        "surge": {},
+        "line": {},
+        "of": {},
+        "a": {},
+        "multi": {},
+        "stage": {},
+        "axial": {
+            "cylindrical": 0.5103756189346313
+        },
+        "compressor": {}
+    },
+    "122": {
+        "have": {},
+        "any": {},
+        "aerodynamic": {},
+        "derivatives": {},
+        "been": {},
+        "measured": {
+            "calculations": 0.5134333372116089
+        },
+        "at": {},
+        "hypersonic": {},
+        "mach": {},
+        "numbers": {
+            "numerical": 0.5696424245834351
+        },
+        "and": {},
+        "comparison": {},
+        "made": {},
+        "with": {},
+        "theoretical": {
+            "theory": 0.7783524990081787
+        },
+        "work": {
+            "employed": 0.5920200347900391
+        }
+    },
+    "123": {
+        "are": {},
+        "methods": {},
+        "of": {},
+        "measuring": {},
+        "aerodynamic": {
+            "flows": 0.5273449420928955
+        },
+        "derivatives": {},
+        "available": {
+            "allowed": 0.5923082828521729
+        },
+        "which": {},
+        "could": {
+            "allowed": 0.5341075658798218
+        },
+        "be": {},
+        "adopted": {},
+        "for": {},
+        "use": {},
+        "in": {},
+        "short": {},
+        "running": {},
+        "time": {},
+        "facilities": {}
+    },
+    "126": {
+        "what": {},
+        "are": {},
+        "wind": {
+            "turbulent": 0.5431830883026123
+        },
+        "tunnel": {},
+        "corrections": {},
+        "for": {},
+        "a": {},
+        "two": {},
+        "dimensional": {},
+        "aerofoil": {},
+        "mounted": {},
+        "off": {},
+        "centre": {},
+        "in": {
+            "location": 0.5162031650543213
+        }
+    },
+    "130": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "present": {},
+        "state": {
+            "region": 0.5003317594528198
+        },
+        "of": {},
+        "theory": {},
+        "quasi": {},
+        "conical": {},
+        "flows": {}
+    },
+    "131": {
+        "references": {},
+        "on": {},
+        "the": {},
+        "methods": {},
+        "available": {},
+        "for": {},
+        "accurately": {},
+        "estimating": {},
+        "aerodynamic": {},
+        "heat": {
+            "temperature": 0.5618862509727478
+        },
+        "transfer": {},
+        "to": {},
+        "conical": {},
+        "bodies": {},
+        "both": {},
+        "laminar": {},
+        "and": {},
+        "turbulent": {},
+        "flow": {}
+    },
+    "132": {
+        "what": {},
+        "parameters": {},
+        "can": {},
+        "seriously": {
+            "actual": 0.5228513479232788,
+            "real": 0.5200799703598022
+        },
+        "influence": {},
+        "natural": {},
+        "transition": {},
+        "from": {},
+        "laminar": {},
+        "to": {},
+        "turbulent": {},
+        "flow": {},
+        "on": {},
+        "a": {
+            "considered": 0.5047973394393921
+        },
+        "model": {},
+        "in": {
+            "applied": 0.5405125617980957
+        },
+        "wind": {},
+        "tunnel": {}
+    },
+    "135": {
+        "what": {},
+        "effect": {
+            "experimental": 0.5004469752311707
+        },
+        "has": {},
+        "the": {
+            "thein": 0.6987781524658203
+        },
+        "boundary": {},
+        "layer": {},
+        "in": {},
+        "modifying": {},
+        "basic": {},
+        "inviscid": {},
+        "flow": {
+            "process": 0.5320323705673218
+        },
+        "behind": {},
+        "shock": {},
+        "neglecting": {},
+        "effects": {},
+        "of": {},
+        "leading": {},
+        "edge": {},
+        "and": {},
+        "corner": {
+            "wall": 0.5703473687171936
+        }
+    },
+    "137": {
+        "how": {},
+        "is": {},
+        "the": {},
+        "flow": {},
+        "at": {},
+        "transonic": {},
+        "speeds": {},
+        "about": {},
+        "a": {
+            "considered": 0.5047973990440369
+        },
+        "delta": {},
+        "wing": {},
+        "different": {},
+        "from": {},
+        "that": {},
+        "on": {},
+        "closely": {},
+        "related": {},
+        "tapered": {},
+        "sweptback": {}
+    },
+    "138": {
+        "recent": {},
+        "data": {
+            "values": 0.5401235222816467
+        },
+        "on": {},
+        "shock": {},
+        "induced": {},
+        "boundary": {
+            "walled": 0.5285544395446777
+        },
+        "layer": {},
+        "separation": {}
+    },
+    "139": {
+        "what": {},
+        "interference": {},
+        "effects": {},
+        "are": {},
+        "likely": {
+            "depends": 0.5179004669189453
+        },
+        "at": {},
+        "transonic": {},
+        "speeds": {}
+    },
+    "140": {
+        "given": {
+            "considered": 0.524422287940979
+        },
+        "complete": {},
+        "freedom": {},
+        "in": {},
+        "the": {},
+        "design": {},
+        "of": {},
+        "an": {},
+        "airplane": {
+            "aircraft": 0.8955389261245728,
+            "plane": 0.8522154092788696,
+            "cabin": 0.5562015175819397
+        },
+        "what": {},
+        "procedure": {},
+        "would": {},
+        "be": {},
+        "used": {},
+        "order": {},
+        "to": {},
+        "minimize": {},
+        "sonic": {},
+        "boom": {},
+        "intensity": {},
+        "and": {},
+        "is": {},
+        "there": {},
+        "a": {
+            "considered": 0.5047973394393921
+        },
+        "limit": {},
+        "degree": {},
+        "minimizing": {},
+        "that": {},
+        "can": {},
+        "accomplished": {}
+    },
+    "141": {
+        "can": {},
+        "methane": {},
+        "air": {
+            "pressure": 0.5690337419509888,
+            "aircraft": 0.5283322334289551,
+            "plane": 0.5082747936248779
+        },
+        "combustion": {},
+        "product": {},
+        "be": {},
+        "used": {},
+        "as": {},
+        "a": {},
+        "hypersonic": {},
+        "test": {},
+        "medium": {
+            "material": 0.5135546326637268
+        },
+        "and": {},
+        "predict": {},
+        "within": {},
+        "experimental": {},
+        "accuracies": {},
+        "the": {},
+        "results": {
+            "report": 0.5556765794754028
+        },
+        "obtained": {},
+        "in": {}
+    },
+    "142": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "theoretical": {},
+        "heat": {},
+        "transfer": {},
+        "rate": {},
+        "at": {},
+        "stagnation": {},
+        "point": {},
+        "of": {},
+        "a": {},
+        "blunt": {},
+        "body": {}
+    },
+    "143": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "theoretical": {
+            "theory": 0.7783526182174683
+        },
+        "heat": {},
+        "transfer": {},
+        "distribution": {},
+        "around": {},
+        "a": {},
+        "hemisphere": {}
+    },
+    "145": {
+        "has": {},
+        "anyone": {},
+        "investigated": {
+            "experimental": 0.5104867219924927
+        },
+        "the": {},
+        "unsteady": {},
+        "lift": {
+            "strength": 0.5377245545387268
+        },
+        "distributions": {},
+        "on": {},
+        "finite": {},
+        "wings": {},
+        "in": {
+            "applied": 0.5405126214027405
+        },
+        "subsonic": {},
+        "flow": {}
+    },
+    "146": {
+        "what": {},
+        "information": {},
+        "is": {},
+        "available": {},
+        "for": {},
+        "dynamic": {},
+        "response": {},
+        "of": {},
+        "airplanes": {},
+        "to": {},
+        "gusts": {},
+        "or": {},
+        "blasts": {},
+        "in": {
+            "applied": 0.5405126214027405
+        },
+        "the": {},
+        "subsonic": {},
+        "regime": {}
+    },
+    "147": {
+        "will": {},
+        "forward": {},
+        "or": {},
+        "apex": {},
+        "located": {},
+        "controls": {},
+        "be": {},
+        "effective": {},
+        "at": {},
+        "low": {
+            "range": 0.5173301100730896
+        },
+        "subsonic": {},
+        "speeds": {},
+        "and": {},
+        "how": {},
+        "do": {},
+        "they": {},
+        "compare": {},
+        "with": {},
+        "conventional": {},
+        "trailing": {},
+        "edge": {},
+        "flaps": {}
+    },
+    "148": {
+        "given": {
+            "applicable": 0.5327372550964355
+        },
+        "that": {},
+        "an": {},
+        "uncontrolled": {},
+        "vehicle": {},
+        "will": {},
+        "tumble": {},
+        "as": {},
+        "it": {},
+        "enters": {},
+        "atmosphere": {},
+        "is": {},
+        "possible": {
+            "probable": 0.5830390453338623
+        },
+        "to": {},
+        "predict": {},
+        "when": {},
+        "and": {},
+        "how": {
+            "simply": 0.5846046805381775
+        },
+        "stop": {},
+        "tumbling": {},
+        "its": {},
+        "subsequent": {},
+        "motion": {}
+    },
+    "152": {
+        "basic": {},
+        "dynamic": {},
+        "characteristics": {},
+        "of": {},
+        "structures": {},
+        "continuous": {},
+        "over": {},
+        "many": {},
+        "spans": {}
+    },
+    "153": {
+        "is": {},
+        "the": {},
+        "information": {},
+        "on": {},
+        "buckling": {},
+        "of": {},
+        "sandwich": {},
+        "sphere": {
+            "circular": 0.5258897542953491,
+            "mesh": 0.5091320872306824
+        },
+        "available": {}
+    },
+    "154": {
+        "can": {},
+        "the": {},
+        "load": {},
+        "deformation": {
+            "flexible": 0.5916138887405396
+        },
+        "characteristics": {},
+        "of": {},
+        "a": {
+            "considered": 0.5047973394393921
+        },
+        "beam": {},
+        "be": {},
+        "obtained": {
+            "applied": 0.5999283790588379
+        },
+        "with": {},
+        "material": {},
+        "being": {},
+        "inelastic": {},
+        "and": {},
+        "non": {},
+        "uniform": {},
+        "temperature": {},
+        "present": {}
+    },
+    "155": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "effect": {},
+        "of": {},
+        "an": {},
+        "internal": {},
+        "liquid": {
+            "material": 0.5452091097831726,
+            "materials": 0.5324373245239258
+        },
+        "column": {},
+        "on": {},
+        "breathing": {
+            "nose": 0.5318440794944763,
+            "body": 0.5240346789360046
+        },
+        "vibrations": {},
+        "a": {},
+        "cylindrical": {},
+        "shell": {}
+    },
+    "156": {
+        "experimental": {
+            "tests": 0.6137586236000061,
+            "investigation": 0.5230789184570312
+        },
+        "techniques": {},
+        "in": {},
+        "shell": {},
+        "vibration": {}
+    },
+    "157": {
+        "in": {},
+        "summarizing": {},
+        "theoretical": {
+            "theory": 0.7783526182174683
+        },
+        "and": {},
+        "experimental": {},
+        "work": {},
+        "on": {},
+        "the": {},
+        "behaviour": {},
+        "of": {},
+        "a": {},
+        "typical": {},
+        "aircraft": {},
+        "structure": {},
+        "noise": {},
+        "environment": {},
+        "is": {},
+        "it": {},
+        "possible": {},
+        "to": {},
+        "develop": {},
+        "design": {},
+        "procedure": {
+            "method": 0.5033509731292725
+        }
+    },
+    "158": {
+        "what": {},
+        "data": {},
+        "is": {},
+        "there": {},
+        "on": {},
+        "the": {},
+        "fatigue": {},
+        "of": {},
+        "structures": {},
+        "under": {},
+        "acoustic": {
+            "supersonic": 0.5673513412475586
+        },
+        "loading": {}
+    },
+    "160": {
+        "panels": {},
+        "subjected": {},
+        "to": {},
+        "aerodynamic": {},
+        "heating": {
+            "energy": 0.5538609623908997
+        }
+    },
+    "161": {
+        "can": {},
+        "increasing": {
+            "extend": 0.5267031788825989
+        },
+        "the": {},
+        "edge": {},
+        "loading": {},
+        "of": {},
+        "a": {},
+        "plate": {},
+        "beyond": {},
+        "critical": {},
+        "value": {},
+        "for": {},
+        "buckling": {},
+        "change": {
+            "improvements": 0.5597314834594727
+        },
+        "mode": {}
+    },
+    "163": {
+        "have": {},
+        "the": {},
+        "effects": {},
+        "of": {},
+        "an": {},
+        "elastic": {},
+        "edge": {},
+        "restraint": {},
+        "been": {},
+        "considered": {
+            "expressed": 0.5081630945205688
+        },
+        "in": {},
+        "previous": {},
+        "papers": {},
+        "on": {},
+        "panel": {},
+        "flutter": {}
+    },
+    "164": {
+        "has": {},
+        "the": {},
+        "solution": {},
+        "of": {},
+        "clamped": {},
+        "plate": {},
+        "problem": {},
+        "in": {
+            "applied": 0.5405126214027405
+        },
+        "classical": {},
+        "theory": {
+            "theoretical": 0.7783526182174683
+        },
+        "bending": {},
+        "been": {},
+        "reduced": {},
+        "to": {},
+        "two": {},
+        "successive": {},
+        "membrane": {},
+        "boundary": {
+            "surface": 0.5195468664169312
+        },
+        "value": {},
+        "problems": {}
+    },
+    "165": {
+        "what": {},
+        "data": {},
+        "exists": {},
+        "on": {},
+        "oscillatory": {},
+        "aerodynamic": {},
+        "forces": {
+            "friction": 0.5572380423545837
+        },
+        "control": {},
+        "surfaces": {},
+        "at": {},
+        "transonic": {},
+        "mach": {},
+        "numbers": {}
+    },
+    "167": {
+        "it": {},
+        "is": {
+            "suitable": 0.513303279876709
+        },
+        "not": {},
+        "likely": {},
+        "that": {},
+        "the": {},
+        "airforces": {
+            "aero": 0.5023070573806763
+        },
+        "on": {},
+        "a": {},
+        "wing": {
+            "aero": 0.6109856367111206
+        },
+        "of": {},
+        "general": {},
+        "planform": {},
+        "oscillating": {},
+        "in": {
+            "entry": 0.640666127204895
+        },
+        "transonic": {},
+        "flow": {},
+        "can": {},
+        "be": {},
+        "determined": {},
+        "by": {},
+        "purely": {},
+        "analytical": {},
+        "methods": {},
+        "possible": {
+            "suitable": 0.5821574926376343
+        },
+        "to": {},
+        "determine": {},
+        "single": {},
+        "particular": {},
+        "such": {},
+        "as": {},
+        "rectangular": {},
+        "one": {},
+        "method": {}
+    },
+    "168": {
+        "is": {
+            "suitable": 0.5133033394813538
+        },
+        "the": {},
+        "problem": {
+            "solution": 0.6815659999847412
+        },
+        "of": {},
+        "similarity": {
+            "comparison": 0.641259491443634
+        },
+        "for": {},
+        "representative": {},
+        "investigations": {},
+        "aeroelastic": {},
+        "effects": {},
+        "in": {},
+        "heated": {},
+        "flow": {},
+        "as": {},
+        "intractable": {},
+        "previous": {},
+        "imply": {}
+    },
+    "169": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "magnitude": {},
+        "and": {},
+        "distribution": {},
+        "of": {},
+        "lift": {},
+        "over": {},
+        "cone": {},
+        "cylindrical": {},
+        "portion": {},
+        "a": {},
+        "cylinder": {},
+        "configuration": {}
+    },
+    "170": {
+        "is": {},
+        "there": {},
+        "any": {},
+        "information": {},
+        "on": {},
+        "how": {},
+        "the": {},
+        "addition": {},
+        "of": {},
+        "a": {},
+        "boat": {},
+        "tail": {},
+        "affects": {},
+        "normal": {
+            "standard": 0.5722915530204773
+        },
+        "force": {
+            "pressure": 0.5321438312530518
+        },
+        "body": {
+            "shape": 0.5128254294395447
+        },
+        "various": {},
+        "angles": {},
+        "incidence": {}
+    },
+    "173": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "effect": {},
+        "of": {},
+        "initial": {},
+        "axisymmetric": {},
+        "deviations": {},
+        "from": {},
+        "circularity": {},
+        "on": {},
+        "non": {},
+        "linear": {},
+        "large": {},
+        "deflection": {},
+        "load": {},
+        "response": {},
+        "cylinders": {},
+        "under": {},
+        "hydrostatic": {},
+        "pressure": {}
+    },
+    "175": {
+        "are": {},
+        "previous": {},
+        "analyses": {
+            "study": 0.6032231450080872,
+            "analytical": 0.5515412092208862
+        },
+        "of": {},
+        "circumferential": {},
+        "thermal": {},
+        "buckling": {},
+        "circular": {
+            "geometric": 0.5250518321990967
+        },
+        "cylindrical": {},
+        "shells": {},
+        "unnecessarily": {},
+        "involved": {},
+        "or": {},
+        "even": {},
+        "inaccurate": {},
+        "due": {},
+        "to": {},
+        "the": {},
+        "assumed": {},
+        "forms": {},
+        "mode": {}
+    },
+    "176": {
+        "what": {},
+        "papers": {},
+        "are": {},
+        "there": {},
+        "dealing": {
+            "treated": 0.5407212972640991
+        },
+        "with": {},
+        "circumferential": {},
+        "buckling": {},
+        "either": {},
+        "thermal": {
+            "heat": 0.773852527141571,
+            "temperature": 0.6447898745536804,
+            "temperatures": 0.6443129181861877
+        },
+        "or": {},
+        "due": {},
+        "to": {},
+        "mechanical": {
+            "physical": 0.5239362120628357
+        },
+        "loading": {}
+    },
+    "177": {
+        "what": {},
+        "analytical": {},
+        "investigations": {},
+        "have": {},
+        "been": {},
+        "made": {},
+        "of": {},
+        "the": {},
+        "stability": {},
+        "conical": {
+            "axial": 0.5384435653686523
+        },
+        "shells": {},
+        "how": {},
+        "do": {},
+        "results": {},
+        "compare": {},
+        "with": {},
+        "experiment": {}
+    },
+    "181": {
+        "has": {},
+        "any": {},
+        "work": {},
+        "been": {},
+        "done": {},
+        "on": {},
+        "determining": {
+            "examined": 0.5140964984893799
+        },
+        "the": {},
+        "nature": {},
+        "of": {},
+        "compressible": {},
+        "viscous": {},
+        "flow": {},
+        "in": {},
+        "a": {},
+        "straight": {},
+        "channel": {}
+    },
+    "183": {
+        "jet": {
+            "wing": 0.5235058665275574
+        },
+        "interference": {},
+        "with": {},
+        "supersonic": {
+            "sonic": 0.5790926218032837
+        },
+        "flow": {},
+        "dash": {},
+        "experimental": {
+            "tests": 0.6137586832046509,
+            "investigation": 0.5230789184570312
+        },
+        "papers": {}
+    },
+    "184": {
+        "thrust": {
+            "missile": 0.5260524749755859,
+            "missiles": 0.5099762082099915,
+            "motion": 0.5088420510292053,
+            "speed": 0.5053091645240784
+        },
+        "vector": {},
+        "control": {},
+        "by": {},
+        "fluid": {},
+        "injection": {},
+        "dash": {},
+        "papers": {}
+    },
+    "187": {
+        "is": {},
+        "it": {},
+        "possible": {},
+        "to": {},
+        "obtain": {},
+        "a": {},
+        "reasonably": {},
+        "simple": {},
+        "analytical": {},
+        "solution": {},
+        "the": {},
+        "heat": {},
+        "equation": {
+            "calculation": 0.5518104434013367
+        },
+        "for": {},
+        "an": {},
+        "exponential": {
+            "calculation": 0.5004005432128906
+        },
+        "in": {
+            "internal": 0.5307515859603882
+        },
+        "time": {},
+        "input": {}
+    },
+    "189": {
+        "has": {},
+        "anyone": {},
+        "programmed": {},
+        "a": {
+            "considered": 0.5047973394393921
+        },
+        "pump": {},
+        "design": {
+            "engineering": 0.5160717368125916
+        },
+        "method": {},
+        "for": {},
+        "high": {},
+        "speed": {},
+        "digital": {},
+        "computer": {}
+    },
+    "190": {
+        "has": {},
+        "anyone": {},
+        "derived": {},
+        "simplified": {},
+        "pump": {},
+        "design": {
+            "analyses": 0.5222189426422119
+        },
+        "equation": {},
+        "from": {},
+        "the": {},
+        "fundamental": {},
+        "three": {},
+        "dimensional": {},
+        "equations": {},
+        "for": {},
+        "incompressible": {},
+        "nonviscous": {},
+        "flow": {}
+    },
+    "200": {
+        "what": {},
+        "agreement": {},
+        "is": {},
+        "found": {},
+        "between": {},
+        "theoretically": {},
+        "predicted": {},
+        "instability": {
+            "stability": 0.7952169179916382
+        },
+        "times": {},
+        "and": {},
+        "experimentally": {},
+        "measured": {},
+        "collapse": {},
+        "for": {},
+        "compressed": {},
+        "columns": {},
+        "in": {
+            "internal": 0.530751645565033
+        },
+        "creep": {}
+    },
+    "201": {
+        "theoretical": {
+            "theory": 0.7783526182174683
+        },
+        "studies": {
+            "analysis": 0.584825336933136
+        },
+        "of": {},
+        "creep": {},
+        "buckling": {}
+    },
+    "202": {
+        "experimental": {
+            "experiments": 0.8602644205093384,
+            "measured": 0.5583010315895081
+        },
+        "studies": {
+            "experiments": 0.5739274024963379,
+            "evidence": 0.5245271325111389
+        },
+        "of": {},
+        "creep": {},
+        "buckling": {}
+    },
+    "203": {
+        "is": {},
+        "it": {},
+        "possible": {},
+        "to": {},
+        "correlate": {},
+        "the": {},
+        "results": {
+            "tests": 0.5436285734176636
+        },
+        "on": {},
+        "creep": {},
+        "buckling": {},
+        "of": {},
+        "widely": {},
+        "different": {
+            "compared": 0.5857667922973633
+        },
+        "structures": {},
+        "within": {},
+        "framework": {},
+        "a": {},
+        "single": {},
+        "theory": {
+            "theoretical": 0.7783526182174683
+        }
+    },
+    "204": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "experimental": {
+            "experiments": 0.8602644205093384
+        },
+        "results": {},
+        "for": {},
+        "creep": {},
+        "buckling": {},
+        "of": {
+            "includes": 0.5102437734603882
+        },
+        "columns": {}
+    },
+    "205": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "results": {
+            "tested": 0.5561265349388123,
+            "report": 0.5556766390800476,
+            "examined": 0.5160439610481262
+        },
+        "for": {},
+        "creep": {},
+        "buckling": {},
+        "of": {},
+        "round": {},
+        "tubes": {},
+        "under": {},
+        "external": {},
+        "pressure": {}
+    },
+    "206": {
+        "have": {},
+        "any": {},
+        "analytical": {},
+        "studies": {},
+        "been": {},
+        "conducted": {},
+        "on": {
+            "removed": 0.5246846675872803
+        },
+        "the": {},
+        "time": {},
+        "to": {},
+        "failure": {
+            "weakened": 0.5470569729804993
+        },
+        "mechanism": {},
+        "associated": {},
+        "with": {},
+        "creep": {},
+        "collapse": {
+            "weakened": 0.5345230102539062
+        },
+        "for": {},
+        "a": {},
+        "long": {},
+        "circular": {},
+        "cylindrical": {},
+        "shell": {},
+        "which": {},
+        "exhibits": {},
+        "both": {},
+        "primary": {},
+        "and": {},
+        "secondary": {},
+        "as": {},
+        "well": {},
+        "elastic": {
+            "material": 0.5428526401519775,
+            "stiffness": 0.5059948563575745,
+            "stiffnesses": 0.5037208795547485
+        },
+        "deformations": {
+            "bending": 0.5920785665512085,
+            "stiffnesses": 0.556930422782898,
+            "stiffness": 0.5075321793556213
+        },
+        "under": {},
+        "various": {},
+        "distributed": {},
+        "force": {},
+        "systems": {}
+    },
+    "208": {
+        "has": {},
+        "the": {},
+        "effect": {
+            "effects": 0.9223095178604126
+        },
+        "of": {},
+        "initial": {},
+        "stresses": {},
+        "on": {},
+        "frequencies": {},
+        "vibration": {},
+        "circular": {},
+        "cylindrical": {},
+        "shells": {},
+        "been": {},
+        "investigated": {
+            "discussed": 0.5147812366485596
+        }
+    },
+    "209": {
+        "has": {},
+        "the": {},
+        "effect": {},
+        "of": {},
+        "change": {
+            "modification": 0.6864242553710938
+        },
+        "initial": {},
+        "pressure": {},
+        "due": {},
+        "to": {},
+        "deformation": {},
+        "on": {},
+        "frequencies": {},
+        "vibration": {},
+        "circular": {},
+        "cylindrical": {},
+        "shells": {},
+        "been": {},
+        "investigated": {}
+    },
+    "210": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "discontinuity": {},
+        "stresses": {},
+        "at": {},
+        "junctions": {},
+        "in": {},
+        "pressurized": {},
+        "structures": {}
+    },
+    "214": {
+        "can": {},
+        "studies": {
+            "examined": 0.6256155967712402,
+            "analysis": 0.5848252773284912,
+            "analyzing": 0.5176658630371094
+        },
+        "of": {},
+        "pure": {},
+        "membrane": {},
+        "cylinders": {},
+        "having": {},
+        "no": {},
+        "wall": {},
+        "bending": {
+            "warped": 0.5377062559127808,
+            "buckling": 0.504466712474823
+        },
+        "stiffness": {},
+        "but": {},
+        "maintaining": {},
+        "their": {},
+        "shape": {},
+        "by": {},
+        "virtue": {},
+        "internal": {},
+        "pressure": {
+            "stresses": 0.5310477018356323
+        },
+        "provide": {},
+        "any": {},
+        "insight": {},
+        "into": {
+            "input": 0.5530779361724854
+        },
+        "the": {},
+        "behaviour": {
+            "analyzing": 0.5172595381736755
+        },
+        "pressurized": {},
+        "with": {},
+        "finite": {}
+    },
+    "215": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "best": {},
+        "experimental": {},
+        "data": {},
+        "and": {},
+        "classical": {},
+        "small": {},
+        "deflection": {},
+        "theory": {},
+        "analyses": {
+            "investigating": 0.576755166053772,
+            "analytical": 0.5515412092208862,
+            "design": 0.5222189426422119
+        },
+        "available": {},
+        "for": {},
+        "pressurized": {
+            "pressure": 0.6652549505233765
+        },
+        "cylinders": {},
+        "in": {},
+        "bending": {}
+    },
+    "217": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "equations": {},
+        "which": {},
+        "define": {},
+        "stability": {},
+        "of": {},
+        "simply": {},
+        "supported": {},
+        "corrugated": {},
+        "core": {},
+        "sandwich": {},
+        "cylinders": {}
+    },
+    "218": {
+        "papers": {},
+        "on": {},
+        "small": {},
+        "deflection": {},
+        "theory": {
+            "theoretical": 0.7783526182174683
+        },
+        "for": {},
+        "buckling": {},
+        "of": {},
+        "sandwich": {},
+        "cylinders": {}
+    },
+    "219": {
+        "has": {},
+        "anyone": {},
+        "developed": {},
+        "an": {},
+        "analysis": {
+            "investigation": 0.5613526105880737,
+            "analytical": 0.5414180755615234
+        },
+        "which": {},
+        "accurately": {},
+        "establishes": {},
+        "the": {},
+        "large": {
+            "measurements": 0.5276621580123901
+        },
+        "deflection": {},
+        "behaviour": {},
+        "of": {},
+        "conical": {
+            "circular": 0.5282278656959534
+        },
+        "shells": {}
+    },
+    "223": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "magnitude": {},
+        "of": {},
+        "second": {},
+        "order": {},
+        "wing": {},
+        "body": {},
+        "interference": {},
+        "at": {},
+        "high": {},
+        "supersonic": {},
+        "mach": {},
+        "number": {
+            "values": 0.5154143571853638
+        }
+    },
+    "224": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "best": {},
+        "theoretical": {},
+        "method": {},
+        "for": {},
+        "calculating": {
+            "equations": 0.532085657119751
+        },
+        "pressure": {},
+        "on": {},
+        "surface": {},
+        "of": {},
+        "a": {},
+        "wing": {
+            "wind": 0.5056370496749878
+        },
+        "alone": {}
+    },
+    "225": {
+        "how": {},
+        "can": {},
+        "the": {},
+        "effect": {
+            "influence": 0.6550650000572205
+        },
+        "of": {
+            "includes": 0.5102437734603882
+        },
+        "boundary": {},
+        "layer": {},
+        "on": {},
+        "wing": {
+            "flight": 0.5496488213539124,
+            "aerodynamic": 0.5335875749588013
+        },
+        "pressure": {},
+        "be": {},
+        "calculated": {
+            "formula": 0.6895065307617188,
+            "conversion": 0.5080235004425049
+        },
+        "and": {},
+        "what": {},
+        "is": {},
+        "its": {},
+        "magnitude": {}
+    },
+    "226": {
+        "how": {},
+        "should": {},
+        "the": {},
+        "navier": {},
+        "stokes": {
+            "reynolds": 0.5887575149536133,
+            "boundary": 0.5607411861419678,
+            "surface": 0.5141395330429077
+        },
+        "difference": {
+            "compared": 0.6603567600250244
+        },
+        "equations": {},
+        "be": {},
+        "solved": {}
+    },
+    "227": {
+        "which": {},
+        "iterative": {},
+        "method": {},
+        "for": {},
+        "solving": {},
+        "linear": {},
+        "elliptic": {},
+        "difference": {},
+        "equations": {},
+        "is": {},
+        "most": {},
+        "rapidly": {
+            "speeds": 0.5827472805976868
+        },
+        "convergent": {}
+    },
+    "230": {
+        "technical": {},
+        "report": {},
+        "on": {},
+        "measurement": {},
+        "of": {},
+        "ablation": {},
+        "during": {},
+        "flight": {
+            "wings": 0.5549567937850952,
+            "wing": 0.5496487617492676,
+            "lift": 0.5184255242347717
+        }
+    },
+    "231": {
+        "what": {},
+        "qualitative": {},
+        "and": {},
+        "quantitative": {
+            "calculated": 0.5124214291572571
+        },
+        "material": {},
+        "is": {},
+        "available": {},
+        "on": {},
+        "ablation": {},
+        "materials": {},
+        "research": {
+            "investigation": 0.595153272151947,
+            "experimental": 0.5581938028335571
+        }
+    },
+    "233": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "available": {
+            "included": 0.5719351768493652
+        },
+        "properties": {},
+        "of": {},
+        "high": {},
+        "temperature": {},
+        "air": {
+            "pressure": 0.5690337419509888
+        }
+    },
+    "234": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "magnitude": {
+            "inch": 0.5766569375991821,
+            "calculations": 0.5071327686309814,
+            "angle": 0.5063533782958984
+        },
+        "of": {},
+        "aerodynamic": {
+            "aerodynamicist": 0.7841432094573975,
+            "aeronautical": 0.5093633532524109
+        },
+        "damping": {},
+        "in": {
+            "applied": 0.5405126214027405
+        },
+        "flexible": {
+            "flat": 0.5189607739448547
+        },
+        "vibration": {},
+        "modes": {},
+        "a": {},
+        "slender": {},
+        "body": {},
+        "revolution": {},
+        "characteristic": {},
+        "launch": {},
+        "vehicles": {}
+    },
+    "241": {
+        "compressive": {},
+        "circumferential": {},
+        "stresses": {},
+        "in": {
+            "applied": 0.5405126214027405
+        },
+        "a": {},
+        "torispherical": {},
+        "shell": {},
+        "reveal": {},
+        "the": {},
+        "possibility": {},
+        "of": {},
+        "buckling": {},
+        "under": {},
+        "internal": {},
+        "pressure": {},
+        "has": {},
+        "anyone": {},
+        "investigated": {
+            "discussed": 0.51478111743927,
+            "experimental": 0.5104867219924927
+        },
+        "for": {},
+        "which": {},
+        "ranges": {},
+        "parameters": {},
+        "these": {},
+        "are": {},
+        "sufficiently": {},
+        "large": {},
+        "to": {},
+        "cause": {},
+        "elastic": {}
+    },
+    "245": {
+        "is": {},
+        "there": {},
+        "an": {},
+        "integral": {},
+        "method": {},
+        "to": {},
+        "give": {},
+        "a": {},
+        "single": {},
+        "and": {},
+        "sufficiently": {},
+        "accurate": {},
+        "of": {},
+        "calculating": {},
+        "the": {},
+        "laminar": {},
+        "separate": {},
+        "point": {},
+        "for": {},
+        "various": {},
+        "incompressible": {},
+        "compressible": {},
+        "boundary": {
+            "surface": 0.5195468664169312
+        },
+        "layers": {},
+        "with": {},
+        "zero": {},
+        "heat": {
+            "heating": 0.8301689624786377
+        },
+        "transfer": {}
+    },
+    "246": {
+        "what": {},
+        "accurate": {},
+        "or": {},
+        "exact": {},
+        "solutions": {},
+        "of": {},
+        "the": {},
+        "laminar": {},
+        "separation": {},
+        "point": {},
+        "for": {},
+        "various": {},
+        "incompressible": {},
+        "and": {},
+        "compressible": {},
+        "boundary": {
+            "surface": 0.5195468664169312
+        },
+        "layers": {},
+        "with": {},
+        "zero": {
+            "estimated": 0.509121835231781
+        },
+        "heat": {
+            "heating": 0.8301689624786377
+        },
+        "transfer": {},
+        "are": {},
+        "available": {
+            "included": 0.5719349384307861
+        }
+    },
+    "247": {
+        "can": {},
+        "the": {},
+        "hypersonic": {},
+        "similarity": {},
+        "results": {},
+        "be": {},
+        "applied": {},
+        "to": {},
+        "technique": {},
+        "of": {},
+        "predicting": {},
+        "surface": {
+            "shape": 0.5290312767028809
+        },
+        "pressures": {
+            "pressure": 0.9006890654563904
+        },
+        "an": {},
+        "ogive": {},
+        "forebody": {
+            "body": 0.6737342476844788,
+            "bodies": 0.5774462223052979
+        },
+        "at": {},
+        "angle": {},
+        "attack": {}
+    },
+    "250": {
+        "what": {},
+        "determines": {},
+        "the": {},
+        "onset": {},
+        "of": {},
+        "shock": {},
+        "induced": {},
+        "boundary": {},
+        "layer": {},
+        "separation": {}
+    },
+    "251": {
+        "are": {},
+        "the": {},
+        "stable": {},
+        "profiles": {},
+        "of": {},
+        "a": {
+            "considered": 0.5047973990440369
+        },
+        "compressible": {},
+        "boundary": {},
+        "layer": {},
+        "induced": {},
+        "by": {},
+        "moving": {
+            "drag": 0.5419564247131348
+        },
+        "wave": {},
+        "known": {}
+    },
+    "252": {
+        "are": {},
+        "there": {},
+        "experimental": {
+            "tests": 0.6137587428092957,
+            "investigate": 0.5072200894355774
+        },
+        "results": {
+            "tests": 0.5436286926269531
+        },
+        "on": {},
+        "the": {},
+        "stability": {},
+        "of": {},
+        "a": {},
+        "compressible": {},
+        "boundary": {},
+        "layer": {},
+        "induced": {},
+        "by": {},
+        "moving": {
+            "drag": 0.5419564247131348
+        },
+        "wave": {}
+    },
+    "253": {
+        "exact": {},
+        "solution": {},
+        "methods": {},
+        "for": {},
+        "calculating": {
+            "calculated": 0.8368477821350098,
+            "measured": 0.501792311668396
+        },
+        "the": {},
+        "ablative": {},
+        "mass": {},
+        "loss": {},
+        "of": {},
+        "a": {},
+        "material": {},
+        "ablating": {},
+        "at": {},
+        "high": {},
+        "temperatures": {},
+        "in": {},
+        "hypersonic": {
+            "supersonic": 0.7605159282684326
+        },
+        "flight": {
+            "aero": 0.6034625768661499,
+            "wings": 0.5549567341804504,
+            "wing": 0.5496487617492676
+        },
+        "environment": {}
+    },
+    "254": {
+        "what": {},
+        "approximate": {
+            "calculated": 0.5281037092208862
+        },
+        "solutions": {},
+        "are": {},
+        "known": {},
+        "to": {},
+        "the": {},
+        "direct": {},
+        "problem": {},
+        "of": {},
+        "transonic": {},
+        "flow": {},
+        "in": {},
+        "throat": {},
+        "a": {
+            "considered": 0.5047973990440369
+        },
+        "nozzle": {},
+        "i": {},
+        "e": {},
+        "finding": {
+            "determined": 0.5462968349456787,
+            "investigation": 0.5048214197158813
+        },
+        "given": {
+            "considered": 0.5244225263595581
+        }
+    },
+    "255": {
+        "what": {},
+        "approximate": {
+            "calculated": 0.5281037092208862
+        },
+        "solutions": {},
+        "are": {},
+        "known": {},
+        "to": {},
+        "the": {},
+        "indirect": {},
+        "problem": {},
+        "of": {},
+        "transonic": {},
+        "flow": {},
+        "in": {},
+        "throat": {},
+        "a": {
+            "considered": 0.5047973990440369
+        },
+        "nozzle": {},
+        "i": {},
+        "e": {},
+        "finding": {
+            "investigation": 0.5048214197158813
+        },
+        "which": {},
+        "has": {},
+        "given": {
+            "considered": 0.5244225263595581
+        },
+        "axial": {},
+        "velocity": {
+            "speeds": 0.7157310247421265
+        },
+        "distribution": {
+            "distributions": 0.9164501428604126
+        }
+    },
+    "257": {
+        "why": {},
+        "do": {},
+        "users": {},
+        "of": {},
+        "orthodox": {},
+        "pitot": {},
+        "static": {},
+        "tubes": {},
+        "often": {},
+        "find": {},
+        "that": {},
+        "the": {},
+        "calibrations": {},
+        "appear": {},
+        "to": {},
+        "be": {},
+        "a": {},
+        "significantly": {},
+        "different": {},
+        "from": {},
+        "those": {},
+        "formerly": {},
+        "specified": {
+            "description": 0.5745899677276611,
+            "applied": 0.5371476411819458
+        },
+        "b": {},
+        "wildly": {},
+        "variable": {},
+        "at": {},
+        "low": {},
+        "reynolds": {
+            "flows": 0.519145131111145
+        },
+        "numbers": {}
+    },
+    "259": {
+        "has": {},
+        "a": {},
+        "comparison": {},
+        "been": {},
+        "made": {
+            "developed": 0.5456032156944275
+        },
+        "between": {},
+        "interference": {},
+        "free": {},
+        "drag": {},
+        "measurements": {
+            "dimensional": 0.5239866971969604
+        },
+        "using": {
+            "application": 0.5086898803710938
+        },
+        "flight": {},
+        "models": {},
+        "and": {},
+        "similar": {},
+        "in": {
+            "applied": 0.5405126214027405
+        },
+        "low": {},
+        "blockage": {},
+        "wind": {},
+        "tunnel": {}
+    },
+    "261": {
+        "solution": {},
+        "of": {},
+        "the": {},
+        "blasius": {},
+        "problem": {},
+        "with": {},
+        "three": {
+            "combination": 0.5623226165771484
+        },
+        "point": {},
+        "boundary": {},
+        "conditions": {}
+    },
+    "264": {
+        "references": {},
+        "on": {},
+        "lyapunov": {},
+        "s": {},
+        "method": {},
+        "the": {},
+        "stability": {},
+        "of": {},
+        "linear": {},
+        "differential": {},
+        "equations": {},
+        "with": {},
+        "periodic": {},
+        "coefficients": {}
+    },
+    "265": {
+        "obtain": {},
+        "all": {},
+        "papers": {},
+        "and": {},
+        "reports": {
+            "investigation": 0.5012460947036743
+        },
+        "that": {},
+        "contain": {},
+        "shock": {},
+        "detachment": {},
+        "distance": {},
+        "data": {}
+    },
+    "266": {
+        "work": {},
+        "on": {},
+        "flow": {
+            "process": 0.5320322513580322
+        },
+        "in": {},
+        "channels": {},
+        "at": {},
+        "low": {},
+        "reynolds": {},
+        "numbers": {}
+    },
+    "267": {
+        "some": {},
+        "approximate": {
+            "calculation": 0.5365461111068726
+        },
+        "analytical": {},
+        "heat": {},
+        "conduction": {},
+        "solutions": {},
+        "using": {
+            "method": 0.5136586427688599,
+            "application": 0.5086899399757385
+        },
+        "methods": {
+            "method": 0.8995591402053833
+        },
+        "other": {},
+        "than": {
+            "compared": 0.604192316532135
+        },
+        "biot": {},
+        "s": {},
+        "principle": {
+            "theory": 0.5821587443351746
+        }
+    },
+    "268": {
+        "what": {},
+        "mode": {},
+        "of": {},
+        "stalling": {},
+        "can": {},
+        "be": {},
+        "expected": {},
+        "for": {},
+        "each": {},
+        "stage": {},
+        "an": {},
+        "axial": {},
+        "compressor": {
+            "pressure": 0.5071004629135132
+        }
+    },
+    "269": {
+        "has": {},
+        "a": {
+            "considered": 0.5047974586486816
+        },
+        "criterion": {},
+        "been": {},
+        "established": {},
+        "for": {},
+        "determining": {
+            "calculated": 0.5266916751861572
+        },
+        "the": {},
+        "axial": {},
+        "compressor": {
+            "pressure": 0.5071004629135132
+        },
+        "choking": {},
+        "line": {}
+    },
+    "272": {
+        "has": {},
+        "a": {},
+        "theory": {},
+        "of": {},
+        "quasi": {},
+        "conical": {},
+        "flows": {},
+        "been": {},
+        "developed": {
+            "introduced": 0.5404391288757324
+        },
+        "in": {},
+        "supersonic": {},
+        "linearised": {
+            "linearized": 0.9716742038726807
+        },
+        "for": {},
+        "which": {},
+        "the": {},
+        "upwash": {},
+        "distribution": {},
+        "on": {},
+        "lifting": {},
+        "surface": {
+            "boundary": 0.5195468664169312
+        },
+        "apart": {},
+        "from": {
+            "initially": 0.5029244422912598
+        },
+        "being": {},
+        "homogeneous": {},
+        "function": {},
+        "co": {},
+        "ordinate": {},
+        "is": {},
+        "permitted": {
+            "valid": 0.5828639268875122
+        },
+        "to": {},
+        "have": {},
+        "quite": {
+            "considerably": 0.6120777130126953
+        },
+        "general": {},
+        "functional": {},
+        "form": {}
+    },
+    "273": {
+        "how": {},
+        "does": {},
+        "scale": {},
+        "height": {},
+        "vary": {},
+        "with": {},
+        "altitude": {},
+        "in": {
+            "applied": 0.5405126810073853
+        },
+        "an": {},
+        "atmosphere": {
+            "wind": 0.5365866422653198,
+            "pressure": 0.5093148350715637
+        }
+    },
+    "274": {
+        "jet": {
+            "flight": 0.5732496380805969
+        },
+        "interference": {},
+        "with": {},
+        "supersonic": {
+            "hypersonic": 0.7605160474777222
+        },
+        "flows": {
+            "reynolds": 0.5191450715065002
+        },
+        "theoretical": {},
+        "papers": {}
+    },
+    "275": {
+        "effects": {
+            "influence": 0.5784912109375
+        },
+        "of": {},
+        "leading": {},
+        "edge": {},
+        "bluntness": {},
+        "on": {},
+        "the": {},
+        "flutter": {},
+        "characteristics": {},
+        "some": {},
+        "square": {
+            "shape": 0.5388263463973999,
+            "shapes": 0.5373504161834717,
+            "geometrically": 0.5074694752693176
+        },
+        "planform": {},
+        "double": {},
+        "wedge": {},
+        "airfoils": {
+            "aerodynamic": 0.6485751867294312,
+            "aero": 0.5557457208633423
+        },
+        "at": {},
+        "mach": {},
+        "numbers": {},
+        "less": {},
+        "than": {},
+        "15": {},
+        "4": {}
+    },
+    "277": {
+        "what": {},
+        "factors": {},
+        "have": {},
+        "been": {},
+        "shown": {},
+        "to": {},
+        "a": {},
+        "primary": {},
+        "influence": {
+            "effects": 0.5784912109375
+        },
+        "on": {},
+        "sonic": {
+            "supersonic": 0.5790926218032837,
+            "hypersonic": 0.5081992149353027
+        },
+        "boom": {},
+        "strength": {
+            "lifting": 0.6004613637924194,
+            "lift": 0.537724494934082
+        }
+    },
+    "283": {
+        "work": {},
+        "on": {},
+        "small": {
+            "minimum": 0.5092449188232422
+        },
+        "oscillation": {},
+        "re": {},
+        "entry": {
+            "applied": 0.5102658867835999
+        },
+        "motions": {}
+    },
+    "284": {
+        "experimental": {
+            "tests": 0.6137586832046509
+        },
+        "studies": {
+            "tests": 0.5305202007293701
+        },
+        "on": {},
+        "panel": {},
+        "flutter": {}
+    },
+    "285": {
+        "how": {},
+        "can": {},
+        "wing": {
+            "flight": 0.5496488213539124,
+            "aerodynamic": 0.5335875749588013
+        },
+        "body": {},
+        "flow": {},
+        "field": {},
+        "interference": {},
+        "effects": {},
+        "be": {},
+        "approximated": {},
+        "rationally": {}
+    },
+    "288": {
+        "has": {},
+        "anyone": {},
+        "analytically": {},
+        "or": {},
+        "experimentally": {
+            "easily": 0.5018208622932434
+        },
+        "investigated": {},
+        "the": {},
+        "effects": {},
+        "of": {},
+        "internal": {},
+        "pressure": {},
+        "on": {},
+        "buckling": {},
+        "circular": {},
+        "cylindrical": {},
+        "shells": {},
+        "under": {},
+        "bending": {}
+    },
+    "291": {
+        "what": {},
+        "theoretical": {},
+        "and": {},
+        "experimental": {
+            "experiments": 0.8602644801139832,
+            "tests": 0.6137588024139404,
+            "laboratory": 0.5395962595939636,
+            "investigated": 0.5104867219924927
+        },
+        "work": {},
+        "has": {},
+        "been": {},
+        "done": {},
+        "on": {},
+        "the": {},
+        "excitation": {},
+        "response": {},
+        "of": {},
+        "typical": {},
+        "structures": {},
+        "in": {
+            "location": 0.5162031650543213
+        },
+        "a": {},
+        "noise": {},
+        "environment": {}
+    },
+    "292": {
+        "is": {},
+        "there": {},
+        "a": {},
+        "design": {},
+        "method": {},
+        "for": {},
+        "calculating": {},
+        "thermal": {},
+        "fatigue": {},
+        "endurances": {},
+        "of": {},
+        "components": {},
+        "various": {},
+        "types": {},
+        "and": {},
+        "sizes": {},
+        "in": {},
+        "variety": {},
+        "circumstances": {}
+    },
+    "293": {
+        "will": {},
+        "an": {},
+        "analysis": {},
+        "of": {},
+        "panel": {},
+        "flutter": {},
+        "based": {},
+        "on": {},
+        "arbitrarily": {},
+        "assumed": {},
+        "modes": {},
+        "deformation": {
+            "shape": 0.5498063564300537
+        },
+        "prove": {},
+        "satisfactory": {},
+        "and": {},
+        "if": {},
+        "so": {},
+        "what": {},
+        "is": {},
+        "the": {},
+        "minimum": {},
+        "number": {},
+        "that": {},
+        "need": {},
+        "be": {},
+        "considered": {
+            "discussed": 0.5872291326522827,
+            "applied": 0.5273247361183167
+        }
+    },
+    "294": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "criterion": {},
+        "for": {},
+        "true": {},
+        "panel": {},
+        "flutter": {},
+        "as": {},
+        "opposed": {},
+        "to": {},
+        "small": {
+            "minimum": 0.5092449188232422
+        },
+        "amplitude": {},
+        "vibration": {},
+        "arising": {},
+        "from": {},
+        "acoustic": {
+            "supersonic": 0.5673513412475586
+        },
+        "disturbances": {}
+    },
+    "295": {
+        "papers": {},
+        "dealing": {},
+        "with": {},
+        "uniformly": {},
+        "loaded": {},
+        "sectors": {}
+    },
+    "296": {
+        "general": {},
+        "methods": {},
+        "of": {},
+        "solving": {},
+        "clamped": {},
+        "plate": {},
+        "problems": {}
+    },
+    "297": {
+        "how": {},
+        "can": {},
+        "the": {},
+        "analytical": {},
+        "solution": {},
+        "of": {},
+        "buckling": {},
+        "strength": {
+            "lift": 0.5377243757247925
+        },
+        "a": {},
+        "uniform": {},
+        "circular": {
+            "triangular": 0.5330767035484314,
+            "angle": 0.5099544525146484
+        },
+        "cylinder": {},
+        "loaded": {},
+        "in": {
+            "applied": 0.5405125617980957,
+            "location": 0.5162031054496765
+        },
+        "axial": {},
+        "compression": {},
+        "be": {},
+        "refined": {},
+        "so": {},
+        "as": {},
+        "to": {},
+        "lower": {},
+        "load": {}
+    },
+    "298": {
+        "in": {},
+        "the": {},
+        "problem": {},
+        "of": {},
+        "buckling": {},
+        "strength": {
+            "lifting": 0.6004613637924194,
+            "lift": 0.5377243757247925
+        },
+        "uniform": {
+            "enforced": 0.5383581519126892
+        },
+        "circular": {
+            "geometric": 0.5250518918037415,
+            "geometrically": 0.5225100517272949,
+            "shapes": 0.5099653005599976
+        },
+        "cylinders": {},
+        "loaded": {},
+        "axial": {
+            "geometric": 0.5090701580047607
+        },
+        "compression": {},
+        "does": {},
+        "linear": {},
+        "solution": {},
+        "help": {
+            "simple": 0.5049928426742554
+        },
+        "with": {},
+        "improving": {
+            "develop": 0.526351809501648
+        },
+        "non": {},
+        "one": {}
+    },
+    "299": {
+        "the": {},
+        "problem": {},
+        "of": {},
+        "similarity": {},
+        "for": {},
+        "representative": {},
+        "investigation": {},
+        "aeroelastic": {},
+        "effects": {
+            "influence": 0.5784912109375
+        },
+        "in": {
+            "applied": 0.5405126214027405,
+            "location": 0.5162031650543213
+        },
+        "a": {},
+        "flow": {},
+        "with": {},
+        "absence": {
+            "neglecting": 0.601945161819458
+        },
+        "heating": {}
+    },
+    "300": {
+        "how": {},
+        "is": {},
+        "fatigue": {},
+        "damage": {
+            "effects": 0.5260753631591797
+        },
+        "estimated": {},
+        "using": {},
+        "the": {},
+        "normal": {},
+        "long": {},
+        "hand": {},
+        "method": {}
+    },
+    "301": {
+        "is": {},
+        "there": {},
+        "any": {},
+        "information": {},
+        "available": {},
+        "on": {},
+        "the": {},
+        "difference": {},
+        "in": {
+            "applied": 0.5405125617980957
+        },
+        "effects": {},
+        "of": {},
+        "various": {},
+        "edge": {},
+        "conditions": {},
+        "buckling": {},
+        "cylindrical": {},
+        "shells": {
+            "bodies": 0.5049110054969788
+        }
+    },
+    "304": {
+        "are": {},
+        "asymptotic": {},
+        "methods": {},
+        "sufficiently": {},
+        "accurate": {},
+        "in": {},
+        "the": {},
+        "determination": {},
+        "of": {},
+        "pre": {},
+        "buckling": {},
+        "stresses": {
+            "pressure": 0.5310477018356323
+        },
+        "torispherical": {},
+        "shells": {
+            "bodies": 0.5049110651016235
+        },
+        "or": {},
+        "must": {},
+        "we": {},
+        "resort": {},
+        "to": {},
+        "numerical": {}
+    },
+    "306": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "nonequilibrium": {},
+        "chemical": {},
+        "constituents": {},
+        "in": {},
+        "viscous": {},
+        "shock": {},
+        "layer": {},
+        "ahead": {},
+        "of": {},
+        "a": {
+            "considered": 0.5047973990440369
+        },
+        "blunt": {},
+        "re": {},
+        "entry": {},
+        "vehicle": {}
+    },
+    "314": {
+        "how": {},
+        "accurate": {},
+        "are": {},
+        "existing": {
+            "introduced": 0.5728176832199097,
+            "previous": 0.5031211376190186,
+            "initially": 0.5028584003448486
+        },
+        "analytical": {},
+        "theories": {},
+        "in": {},
+        "estimating": {},
+        "pressure": {},
+        "distributions": {},
+        "on": {},
+        "cones": {},
+        "at": {},
+        "incidence": {},
+        "hypersonic": {},
+        "speeds": {}
+    },
+    "315": {
+        "are": {},
+        "simple": {
+            "difficult": 0.612066388130188
+        },
+        "empirical": {},
+        "methods": {},
+        "of": {},
+        "any": {},
+        "use": {
+            "valid": 0.5027163028717041
+        },
+        "for": {},
+        "estimating": {},
+        "pressure": {},
+        "distribution": {},
+        "in": {},
+        "cones": {}
+    },
+    "316": {
+        "do": {},
+        "viscous": {},
+        "effects": {},
+        "seriously": {},
+        "modify": {},
+        "pressure": {},
+        "distributions": {}
+    },
+    "317": {
+        "has": {},
+        "anyone": {},
+        "investigated": {},
+        "theoretically": {},
+        "whether": {},
+        "surface": {
+            "shape": 0.5290312767028809
+        },
+        "flexibility": {},
+        "can": {},
+        "stabilize": {},
+        "a": {
+            "considered": 0.5047973394393921
+        },
+        "laminar": {},
+        "boundary": {},
+        "layer": {}
+    },
+    "321": {
+        "how": {},
+        "do": {},
+        "subsonic": {},
+        "and": {},
+        "transonic": {},
+        "flutter": {},
+        "data": {},
+        "measured": {},
+        "in": {
+            "location": 0.5162031650543213
+        },
+        "the": {},
+        "new": {},
+        "langley": {},
+        "dynamics": {},
+        "tunnel": {},
+        "compare": {},
+        "with": {},
+        "similar": {},
+        "obtained": {},
+        "other": {},
+        "facilities": {
+            "location": 0.5102434158325195
+        }
+    },
+    "323": {
+        "how": {},
+        "do": {},
+        "large": {
+            "inch": 0.5645041465759277
+        },
+        "changes": {},
+        "in": {
+            "applied": 0.54051274061203
+        },
+        "new": {},
+        "mass": {},
+        "ratio": {},
+        "quantitatively": {
+            "experimentally": 0.5482237935066223
+        },
+        "affect": {},
+        "wing": {
+            "aerodynamicist": 0.5130296945571899
+        },
+        "flutter": {},
+        "boundaries": {}
+    },
+    "327": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "effect": {},
+        "of": {},
+        "shape": {
+            "flat": 0.5772337913513184,
+            "surface": 0.5290312767028809
+        },
+        "drag": {},
+        "polar": {},
+        "a": {},
+        "lifting": {},
+        "spacecraft": {},
+        "on": {},
+        "amount": {},
+        "reduction": {},
+        "in": {
+            "applied": 0.5405126214027405
+        },
+        "maximum": {
+            "range": 0.5490331649780273
+        },
+        "deceleration": {},
+        "obtainable": {},
+        "by": {},
+        "continuously": {},
+        "varying": {},
+        "aerodynamic": {
+            "aerodynamicist": 0.7841432094573975,
+            "aeronautical": 0.5093634128570557
+        },
+        "coefficients": {},
+        "during": {
+            "times": 0.5085474848747253
+        },
+        "re": {},
+        "entry": {
+            "applied": 0.5102659463882446
+        }
+    },
+    "331": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "physical": {
+            "body": 0.534883975982666
+        },
+        "significance": {},
+        "and": {},
+        "characteristics": {},
+        "of": {},
+        "separated": {},
+        "laminar": {},
+        "turbulent": {
+            "wind": 0.5431830883026123
+        },
+        "boundary": {},
+        "layer": {},
+        "flows": {}
+    },
+    "332": {
+        "has": {},
+        "anyone": {},
+        "analytically": {},
+        "investigated": {
+            "evidence": 0.5932590961456299
+        },
+        "the": {},
+        "stabilizing": {},
+        "influence": {},
+        "of": {},
+        "soft": {},
+        "elastic": {},
+        "cores": {},
+        "on": {},
+        "buckling": {},
+        "strength": {},
+        "cylindrical": {
+            "axial": 0.5103756189346313
+        },
+        "shells": {
+            "bodies": 0.5049110651016235
+        },
+        "subjected": {},
+        "to": {
+            "brought": 0.5125635862350464
+        },
+        "non": {},
+        "uniform": {},
+        "external": {},
+        "pressure": {
+            "forces": 0.5287798643112183
+        }
+    },
+    "333": {
+        "what": {},
+        "papers": {},
+        "are": {},
+        "available": {
+            "included": 0.5719349980354309
+        },
+        "on": {},
+        "the": {},
+        "buckling": {},
+        "of": {},
+        "empty": {},
+        "cylindrical": {},
+        "shells": {
+            "bodies": 0.5049110651016235
+        },
+        "under": {},
+        "non": {},
+        "uniform": {},
+        "pressure": {}
+    },
+    "335": {
+        "what": {},
+        "effect": {},
+        "do": {},
+        "thermal": {
+            "heating": 0.7158664464950562
+        },
+        "stresses": {},
+        "have": {},
+        "on": {},
+        "the": {},
+        "compressive": {},
+        "buckling": {},
+        "strength": {
+            "lift": 0.537724494934082
+        },
+        "of": {},
+        "ring": {},
+        "stiffened": {},
+        "cylinders": {}
+    },
+    "336": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "effect": {},
+        "on": {},
+        "cylinder": {},
+        "buckling": {},
+        "of": {},
+        "a": {},
+        "circumferential": {},
+        "stress": {
+            "pressure": 0.5593410730361938
+        },
+        "system": {},
+        "that": {},
+        "varies": {},
+        "in": {},
+        "axial": {},
+        "direction": {
+            "angle": 0.5542632341384888
+        }
+    },
+    "338": {
+        "can": {},
+        "non": {},
+        "linear": {},
+        "shallow": {
+            "slender": 0.528101921081543
+        },
+        "shell": {},
+        "analysis": {
+            "study": 0.5544301271438599,
+            "investigating": 0.5515991449356079,
+            "investigate": 0.5297822952270508
+        },
+        "be": {},
+        "reduced": {},
+        "to": {},
+        "an": {},
+        "engineering": {},
+        "technique": {},
+        "by": {},
+        "use": {},
+        "of": {},
+        "the": {},
+        "matrix": {}
+    },
+    "339": {
+        "is": {},
+        "it": {},
+        "possible": {},
+        "to": {},
+        "predict": {},
+        "the": {},
+        "shape": {
+            "surface": 0.5290312170982361,
+            "body": 0.5128254890441895
+        },
+        "of": {},
+        "a": {},
+        "shroud": {},
+        "which": {},
+        "will": {},
+        "allow": {},
+        "simulation": {},
+        "nose": {},
+        "region": {
+            "location": 0.60688316822052,
+            "california": 0.5425347089767456
+        },
+        "flow": {},
+        "field": {},
+        "for": {},
+        "sphere": {
+            "surface": 0.562178909778595
+        },
+        "in": {
+            "location": 0.5162031650543213
+        },
+        "hypersonic": {
+            "supersonic": 0.7605159282684326
+        }
+    },
+    "340": {
+        "what": {},
+        "investigations": {},
+        "have": {},
+        "been": {},
+        "made": {},
+        "of": {
+            "includes": 0.5102437734603882
+        },
+        "the": {},
+        "wave": {},
+        "system": {},
+        "created": {},
+        "by": {},
+        "a": {},
+        "static": {},
+        "pressure": {},
+        "distribution": {},
+        "over": {},
+        "liquid": {},
+        "surface": {}
+    },
+    "347": {
+        "has": {},
+        "anyone": {},
+        "investigated": {},
+        "the": {},
+        "effect": {},
+        "of": {},
+        "shock": {},
+        "generated": {},
+        "vorticity": {},
+        "on": {},
+        "heat": {},
+        "transfer": {},
+        "to": {},
+        "a": {},
+        "blunt": {},
+        "body": {}
+    },
+    "348": {
+        "what": {},
+        "is": {},
+        "the": {},
+        "heat": {},
+        "transfer": {},
+        "to": {},
+        "a": {},
+        "blunt": {},
+        "body": {},
+        "in": {},
+        "absence": {},
+        "of": {},
+        "vorticity": {}
+    },
+    "349": {
+        "what": {},
+        "are": {},
+        "the": {},
+        "general": {},
+        "effects": {
+            "influence": 0.5784913301467896
+        },
+        "on": {},
+        "flow": {},
+        "fields": {},
+        "when": {},
+        "reynolds": {},
+        "number": {},
+        "is": {},
+        "small": {
+            "minimum": 0.5092449188232422
+        }
+    },
+    "352": {
+        "find": {
+            "investigate": 0.5179976224899292
+        },
+        "a": {},
+        "calculation": {},
+        "procedure": {
+            "process": 0.579436719417572
+        },
+        "applicable": {},
+        "to": {},
+        "all": {
+            "completely": 0.5587618350982666
+        },
+        "incompressible": {},
+        "laminar": {},
+        "boundary": {},
+        "layer": {},
+        "flow": {
+            "process": 0.5320323705673218
+        },
+        "problems": {},
+        "having": {},
+        "good": {},
+        "accuracy": {},
+        "and": {},
+        "reasonable": {},
+        "computation": {},
+        "time": {}
+    },
+    "353": {
+        "papers": {},
+        "applicable": {
+            "applied": 0.666879415512085
+        },
+        "to": {},
+        "this": {},
+        "problem": {},
+        "calculation": {},
+        "procedures": {},
+        "for": {},
+        "laminar": {},
+        "incompressible": {},
+        "flow": {},
+        "with": {},
+        "arbitrary": {},
+        "pressure": {},
+        "gradient": {}
+    },
+    "355": {
+        "has": {},
+        "anyone": {},
+        "investigated": {},
+        "the": {},
+        "shear": {},
+        "buckling": {},
+        "of": {},
+        "stiffened": {},
+        "plates": {}
+    },
+    "356": {
+        "papers": {},
+        "on": {},
+        "shear": {},
+        "buckling": {},
+        "of": {},
+        "unstiffened": {},
+        "rectangular": {
+            "shape": 0.5509923696517944
+        },
+        "plates": {},
+        "under": {}
+    },
+    "360": {
+        "in": {
+            "location": 0.5162031650543213
+        },
+        "practice": {},
+        "how": {},
+        "close": {},
+        "to": {},
+        "reality": {},
+        "are": {},
+        "the": {},
+        "assumptions": {},
+        "that": {},
+        "flow": {},
+        "a": {},
+        "hypersonic": {
+            "supersonic": 0.7605159282684326,
+            "subsonic": 0.7603396773338318
+        },
+        "shock": {},
+        "tube": {},
+        "using": {},
+        "nitrogen": {},
+        "is": {},
+        "non": {},
+        "viscous": {},
+        "and": {},
+        "thermodynamic": {},
+        "equilibrium": {}
+    },
+    "365": {
+        "what": {},
+        "design": {
+            "development": 0.5585153102874756
+        },
+        "factors": {},
+        "can": {},
+        "be": {},
+        "used": {
+            "applied": 0.581141471862793
+        },
+        "to": {
+            "brought": 0.5125635862350464
+        },
+        "control": {},
+        "lift": {},
+        "drag": {},
+        "ratios": {
+            "calculation": 0.5001440644264221
+        },
+        "at": {},
+        "mach": {},
+        "numbers": {},
+        "above": {},
+        "5": {}
+    }
+}

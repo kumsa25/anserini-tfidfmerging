@@ -1,7 +1,7 @@
 import os
 
-#stem = "with_stemming"
-stem = "without_stemming"
+stem = "with_stemming"
+#stem = "without_stemming"
 
 idf = "-originalidf"
 #idf = "-pickLargerIDF"
@@ -14,6 +14,7 @@ bm25 (optimal, non-optimal) (with, without stemming), always originalidf
 
 [DONE] optimal, with stemming, originalidf
 [DONE] non-optimal, with stemming, original idf
+
 [DONE] optimal, without stemming, originalidf
 [DONE] non-optimal, without stemming, originalidf
 
@@ -22,28 +23,37 @@ bm25s (optimal, non-optimal) (with, without stemming), (original, larger, smalle
 
 [DONE] optimal, with stemming, originalidf
 [DONE] non-optimal, with stemming, originalidf
-[ERROR] optimal, without stemming, originalidf
-[ERROR] non-optimal, without stemming, originalidf
+
+[DONE] optimal, with stemming, idfunion
+[DONE] non-optimal, with stemming, idfunion
+
+[DONE] optimal with stemming pickLargerIDF
+[DONE] non-optimal with stemming pickLargerIDF
+
+[DONE] optimal with stemming pickSmallerIDF
+[DONE] non-optimal with stemming pickSmallerIDF
+
+[DONE] optimal with stemming pickAvgIDF
+[DONE] non-optimal with stemming pickAvgIDF
+
+===
 
 
+[DONE] optimal, without stemming, originalidf
+[DONE] non-optimal, without stemming, originalidf
 
-=== old ===
-
-
-[DONE] optimal without stemming idfunion
-[DONE] non-optimal without stemming idfunion
+[DONE] optimal, without stemming, idfunion
+[DONE] non-optimal, without stemming, idfunion
 
 [DONE] optimal without stemming pickLargerIDF
 [DONE] non-optimal without stemming pickLargerIDF
 
-[DONE] optimal without stemming originalidf
-[DONE] non-optimal without stemming originalidf
+[DONE] optimal with stemming pickAvgIDF
+[DONE] non-optimal with stemming pickAvgIDF
 
-[DONE] optimal without stemming pickSmallerIDF
-[DONE] non-optimal without stemming pickSmallerIDF
 
-[DONE] optimal without stemming pickAvgIDF
-[DONE] non-optimal without stemming pickAvgIDF
+
+=== old ===
 
 
 """
@@ -56,14 +66,13 @@ for filename in os.listdir(query_dir):
         disk = split_name[0] # one of disk12, covid
         method = split_name[-2] # one of bm25, bm25s
 
-
         # bm25, optimal
         #if not("optimal." in filename and "bm25." in filename):
         #    continue
 
         # bm25, not optimal
-        if not("wordnet." in filename and "bm25." in filename):
-            continue
+        #if not("wordnet." in filename and "bm25." in filename):
+        #    continue
 
         # bm25s, optimal
         #if not("optimal." in filename and "bm25s." in filename):
@@ -72,8 +81,15 @@ for filename in os.listdir(query_dir):
         # bm25s, not optimal
         #if not("wordnet." in filename and "bm25s." in filename):
         #    continue
+
+        # shouldn't be running bm25 with non origidf (add condition to check this)
+
+
+        if "bm25." in filename and idf != "-originalidf": continue
+
         
         stem_flag = ""
+
 
         if stem == "without_stemming":
             stem_flag = " -stemmer none"
@@ -86,39 +102,41 @@ for filename in os.listdir(query_dir):
         
         print(filename)   
         print(stem_flag, disk)
-        #if disk != "covid": continue
-        #if method == "bm25": continue
 
 
         if disk in ["disk12", "disk12_nostem", "disk1"] and method == "bm25s":
-            os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25s -expwords " + query_dir + filename + " -rerankCutoff 1000 -ignoreBoost -useWeightedForExpansionOnly -keepstopwords " + idf + stem_flag)
+            #os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25s -expwords " + query_dir + filename + " -rerankCutoff 1000 -ignoreBoost -useWeightedForExpansionOnly -keepstopwords " + idf + stem_flag)
 
-            os.system("tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m map -m P.10 src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
+            os.system("tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m map -m P.10 -q src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
 
         elif disk in ["covid", "covid_nostem"] and method == "bm25s":
-            os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index-" + disk + "/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml  -topicreader Covid -topicfield query -removedups -output " + out_dir + "/run." + filename + " -bm25 -bm25s -expwords " + query_dir + filename + " -rerankCutoff 1000 -ignoreBoost -querygenerator Covid19QueryGenerator -useWeightedForExpansionOnly -keepstopwords " + idf + stem_flag)
+            #os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index-" + disk + "/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml  -topicreader Covid -topicfield query -removedups -output " + out_dir + "/run." + filename + " -bm25 -bm25s -expwords " + query_dir + filename + " -rerankCutoff 1000 -ignoreBoost -querygenerator Covid19QueryGenerator -useWeightedForExpansionOnly -keepstopwords " + idf + stem_flag)
 
-            os.system("tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round1.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
+
+            os.system("tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.10 -m map -q src/main/resources/topics-and-qrels/qrels.covid-round1.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
         
         elif disk in ["cran", "cran_nostem"] and method == "bm25s":
-            os.system(
-            "target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics cran/cran_queries_trec.txt -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25s -expwords " + query_dir + filename + " -rerankCutoff 1000 -ignoreBoost -useWeightedForExpansionOnly -keepstopwords " + idf + stem_flag)
+            #os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics cran/cran_queries_trec.txt -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25s -expwords " + query_dir + filename + " -rerankCutoff 1000 -ignoreBoost -useWeightedForExpansionOnly -keepstopwords " + idf + stem_flag)
 
-            os.system("tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m map -m P.10 cran/cran_qrel_trec.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
+            os.system("tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m map -q -m P.10 cran/cran_qrel_trec.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
 
 
 
         elif disk in ["disk12", "disk12_nostem", "disk1"] and method == "bm25":
-            os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -threads 1  -parallelism 1 -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25Weighted -ignoreBoost -keepstopwords -expwords " + query_dir + filename + stem_flag + " -rerankCutoff 1000")
+            #os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics src/main/resources/topics-and-qrels/topics.adhoc.51-100.txt -threads 1  -parallelism 1 -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25Weighted -ignoreBoost -keepstopwords -expwords " + query_dir + filename + stem_flag + " -rerankCutoff 1000")
 
             os.system("tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m P.10 -m map -q src/main/resources/topics-and-qrels/qrels.adhoc.51-100.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
 
         elif disk in ["covid", "covid_nostem"] and method == "bm25":
-            os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index-" + disk + "/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -threads 1  -parallelism 1 -topicreader Covid -topicfield query -removedups -output " + out_dir + "/run." + filename + " -bm25 -bm25Weighted -ignoreBoost -querygenerator Covid19QueryGenerator -keepstopwords -expwords " + query_dir + filename + stem_flag)
+            #os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index-" + disk + "/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml -threads 1  -parallelism 1 -topicreader Covid -topicfield query -removedups -output " + out_dir + "/run." + filename + " -bm25 -bm25Weighted -ignoreBoost -querygenerator Covid19QueryGenerator -keepstopwords -expwords " + query_dir + filename + stem_flag)
 
             os.system("tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.10 -m map -q src/main/resources/topics-and-qrels/qrels.covid-round1.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
 
         elif disk in ["cran", "cran_nostem"] and method == "bm25":
-            os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics cran/cran_queries_trec.txt -threads 1  -parallelism 1 -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25Weighted -ignoreBoost -keepstopwords -expwords " + query_dir + filename + stem_flag + " -rerankCutoff 1000")
+            #os.system("target/appassembler/bin/SearchCollection -index indexes/lucene-index." + disk + "/ -topics cran/cran_queries_trec.txt -threads 1  -parallelism 1 -topicreader Trec -output " + out_dir + "/run." + filename + " -bm25 -bm25Weighted -ignoreBoost -keepstopwords -expwords " + query_dir + filename + stem_flag + " -rerankCutoff 1000")
 
             os.system("tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m P.10 -m map -q cran/cran_qrel_trec.txt " + out_dir + "/run." + filename + " > " + out_dir + "/run." + filename + ".scores")
+
+
+
+    
