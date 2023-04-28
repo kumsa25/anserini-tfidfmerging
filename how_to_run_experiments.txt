@@ -1,0 +1,27 @@
+(only once)
+create directory structure
+runs_final
+    with_stemming
+        -idfunion
+        -originalidf
+        -pickAvgIDF
+        -pickLargerIDF
+        -pickSmallerIDF
+    without_stemming
+        -idfunion
+        -originalidf
+        -pickAvgIDF
+        -pickLargerIDF
+        -pickSmallerIDF
+
+## To run the experiments
+In run_experiments_script.py,
+    comment/uncomment lines 3/4 for desired stemming
+    comment/uncomment lines 6/10 for desired idf
+    comment/uncomment lines 67-81 for desired bm25(s), (non) optimal
+        ONLY DO ONE AT A TIME
+        ONLY DO bm25 WITH "-originalidf"
+    run "python3 run_experiments_script.py"
+    run should be saved to runs_final/$stem/$idf/<run_params>.txt
+    query scores should be saved to runs_final/$stem/$idf/<run_params>.txt.scores
+

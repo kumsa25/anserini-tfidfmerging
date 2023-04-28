@@ -65,3 +65,19 @@ tools/eval/trec_eval.9.0.4/trec_eval -m recall.1000 -m map -m P.30 src/main/reso
 
 target/appassembler/bin/SearchCollection -index indexes/lucene-index-cord19-abstract-2020-07-16/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml  -topicreader Covid -topicfield query -removedups -output runs/run.lucene-index-cord19-abstract-2020-07-16.bm25.topics.covid-round1.expand.1.origidf.txt -bm25 -bm25syn -expwords dictionary.txt -rerankCutoff 1000 -originalidf
 tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.30 -m map  src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs/run.lucene-index-cord19-abstract-2020-07-16.bm25.topics.covid-round1.expand.1.origidf.txt
+
+
+
+
+
+
+
+
+
+### Basic tests for sanity
+
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml  -topicreader Covid -topicfield query -removedups -output  tmp_run_test.txt  -bm25 -bm25s -expwords expanded_queries_final/covid.round1.optimal.0.bm25s.txt  -rerankCutoff 1000  -ignoreBoost -bm25.k1 0.9  -querygenerator Covid19QueryGenerator -keepstopwords -idfUnion
+
+target/appassembler/bin/SearchCollection -index indexes/lucene-index-covid/ -topics src/main/resources/topics-and-qrels/topics.covid-round1.xml  -topicreader Covid -topicfield query -removedups -output runs_final/with_stemming/-idfUnion//run.covid.round1.optimal.0.bm25s.txt -bm25 -bm25s -expwords expanded_queries_final/covid.round1.optimal.0.bm25s.txt -rerankCutoff 1000 -ignoreBoost -querygenerator Covid19QueryGenerator -useWeightedForExpansionOnly -keepstopwords -idfUnion
+
+tools/eval/trec_eval.9.0.4/trec_eval -c -m recall.1000 -m P.10 -m map src/main/resources/topics-and-qrels/qrels.covid-round1.txt runs_final/with_stemming/-idfUnion//run.covid.round1.optimal.0.bm25s.txt
