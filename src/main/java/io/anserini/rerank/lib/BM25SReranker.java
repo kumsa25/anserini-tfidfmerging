@@ -242,6 +242,7 @@ public class BM25SReranker implements Reranker {
       float totalScore = 0;
       while (iterator.hasNext()) {
         TermScoreDetails scoreDetails = iterator.next();
+        System.out.println("Actual query term >>>"+scoreDetails.getTerm()+":::"+scoreDetails.getScore());
         TFStats tfSStats = scoreDetails.getTfSStats();
         if(context_.shouldDebug()){
           // System.out.println("tfStats are >>>"+System.identityHashCode(tfSStats));
@@ -269,6 +270,7 @@ public class BM25SReranker implements Reranker {
         }
         float termWeight = covid19 ? scoreDetails.getScore().floatValue() : createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
 
+        System.out.println("TERM final weight >>>"+totalScore);
         totalScore += termWeight;
       }
       if(context_.getQueryId().equals("71")){
@@ -293,6 +295,7 @@ public class BM25SReranker implements Reranker {
 
       //    System.out.println("Remaining expansion term :::"+remaining.getTerm()+":::"+context_.getQueryId());
           onlySynonymsMatched.add(remaining.getTerm());
+          System.out.println("onlySynonymsMatched>>>>>"+onlySynonymsMatched);
           weight = createTermWeight(remaining.getIdfStats().getBoost(), remaining.getTfSStats(), remaining.getIdfStats(),context_,termScoreDetails);
         }else{
           System.out.println("YES BM25W $$$$$$$$$$");
