@@ -396,7 +396,17 @@ public class BM25SReranker implements Reranker {
    // System.out.println("Final TF value >>>"+finalTFValue+":::"+tfSStats.getTfValue());
 
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF1(idfStats,synonymsTerms,context_);
-    float v1 = finalIDFValue - idfStats.getIdfValue();
+    if(context_.getSearchArgs().useWeightedForExpansionOnly)
+    {
+      float multiplier = context_.getSearchArgs().weightMultiplier;
+      BM25SReranker.getWeight( context_, tfSStats, idfStats );
+      finalIDFValue = idfStats.getAssignedweight() * multiplier*finalIDFValue;
+
+
+    }
+
+
+      float v1 = finalIDFValue - idfStats.getIdfValue();
     if( v1 > 0.01){
       System.out.println("idf difference is more :::"+v1);
     }
@@ -469,7 +479,7 @@ public class BM25SReranker implements Reranker {
     return v;
   }
 
-  private float getWeight(BM25QueryContext context_, TFStats tfStats_,IDFStats idfStats_){
+  private static float getWeight(BM25QueryContext context_, TFStats tfStats_,IDFStats idfStats_){
     Map<String, List<WeightedExpansionTerm>> queryExpansionTerms = BM25QueryContext.getQueryExpansionTerms( context_.getQueryId().toString() );
     Collection<List<WeightedExpansionTerm>> values = queryExpansionTerms.values();
     Iterator<List<WeightedExpansionTerm>> iterator = values.iterator();
@@ -488,7 +498,7 @@ public class BM25SReranker implements Reranker {
     return 1;
   }
 
-  private WeightedExpansionTerm findTerm( List<WeightedExpansionTerm> next_, TFStats tfStats_ )
+  private static WeightedExpansionTerm findTerm( List<WeightedExpansionTerm> next_, TFStats tfStats_ )
   {
     Iterator<WeightedExpansionTerm> iterator = next_.iterator();
     while(iterator.hasNext()){
