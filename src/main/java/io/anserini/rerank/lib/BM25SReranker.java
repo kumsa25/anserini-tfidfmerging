@@ -444,6 +444,7 @@ public class BM25SReranker implements Reranker {
       float v = idfStats.getAssignedweight() * multiplier;
       //System.out.println("After multiplying >>"+v+"::::"+idfStats.getAssignedweight()+":::"+multiplier+":::"+tfSStats.getAssignedweight());
       expansionIDF= expansionIDF * v;
+      System.out.println("IDF expansion is >>>"+expansionIDF);
     }
     if(context_.getSearchArgs().useAvgForExpansionIDFOnly){
       return (originalIDF+expansionIDF)/2;
@@ -451,7 +452,9 @@ public class BM25SReranker implements Reranker {
 
     //System.out.println("originalIDF >>>"+originalIDF+"::"+expansionIDF);
 
-    return boost * tfSStats .getTfValue()* expansionIDF;
+    float v = boost * tfSStats.getTfValue() * expansionIDF;
+    System.out.println("Weight of expansion term is >>"+v);
+    return v;
   }
 
   private float getWeight(BM25QueryContext context_, TFStats tfStats_,IDFStats idfStats_){
