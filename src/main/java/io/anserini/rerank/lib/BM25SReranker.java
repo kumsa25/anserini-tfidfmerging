@@ -390,9 +390,11 @@ public class BM25SReranker implements Reranker {
       //System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.size()+":::"+docId+":::"+Thread.currentThread());
     }
     float finalTFValue = tfidfCombinerStrategy.aggregateTermsFre(tfSStats, synonymsTerms,context_);
-
+   // System.out.println("Final TF value >>>"+finalTFValue+":::"+tfSStats.getTfValue());
 
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF1(idfStats,synonymsTerms,context_);
+    System.out.println("finalIDFValue::::"+finalIDFValue+":::"+idfStats.getIdfValue()+"::final TF:::"+finalTFValue+":::"+tfSStats.getTfValue());
+
     if(context_.shouldDebug() && context_.getSearchArgs().debugDocID.trim().equalsIgnoreCase(docId)){
       System.out.println("for doc ID "+docId+"::"+tfSStats.getTerm()+"::orig tf::"+tfSStats.getTfValue()+":orig idf::"+idfStats.getIdfValue()+":::"+Thread.currentThread());
       System.out.println("for doc ID "+docId+"::"+tfSStats.getTerm()+"::final merged tf::"+finalTFValue+":final idf::"+finalIDFValue+":::"+Thread.currentThread());
@@ -430,7 +432,7 @@ public class BM25SReranker implements Reranker {
   }
 
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, BM25QueryContext context_, List<TermScoreDetails> termScoreDetails) {
-    //System.out.println("EXPANSION WITHOUT ACTUAL "+idfStats.getTerm()+"::::"+context_.getQueryId());
+    System.out.println("EXPANSION WITHOUT ACTUAL "+idfStats.getTerm()+"::::"+context_.getQueryId());
     float expansionIDF=idfStats.getIdfValue();
     float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_,termScoreDetails);
     if(context_.getSearchArgs().alwaysUseOriginalIdf){
