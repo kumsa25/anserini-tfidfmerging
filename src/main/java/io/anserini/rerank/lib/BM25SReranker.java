@@ -199,6 +199,7 @@ public class BM25SReranker implements Reranker {
 
 
       List<TermScoreDetails> queryTerms = context_.preprocess(termScoreDetails,context_);
+      System.out.println("Inside  rerankDocs>>>"+queryTerms);
       validateForQueryTerms(queryTerms,context_);
      // System.out.println("FOUND QUERY EXPANSION :  "+queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+context_.getQueryText()+":::"+docId);
 
@@ -262,7 +263,7 @@ public class BM25SReranker implements Reranker {
 
         boolean covid19 = scoreDetails.getScore() !=null && scoreDetails.getScore().floatValue() != -1;
         if(covid19){
-         // System.out.println("for covid 19 score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
+         System.out.println("for covid 19 score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
         }else{
           //System.out.println("NON covid score is "+scoreDetails.getTerm()+":::"+scoreDetails.getScore().floatValue());
         }
@@ -317,6 +318,7 @@ public class BM25SReranker implements Reranker {
         }
       }*/
       String key=context_.getQueryText()+":"+ docId+":"+context_.getQueryId();
+      System.out.println(":::"+docId+"::"+totalScore+":::"+);
       finalComputedScores.put( key, totalScore );
 
     }
@@ -384,6 +386,7 @@ public class BM25SReranker implements Reranker {
 
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> synonymsTerms,BM25QueryContext context_,String docId) {
 
+    System.out.println("Inside createTermWeight>>>>>");
     TFIDFMergerCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
     //System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+":::"+docId+":::"+context_.getQueryId());
     if(context_.shouldDebug() && context_.getSearchArgs().debugDocID.trim().equalsIgnoreCase(docId)){
@@ -432,7 +435,7 @@ public class BM25SReranker implements Reranker {
   }
 
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, BM25QueryContext context_, List<TermScoreDetails> termScoreDetails) {
-    System.out.println("EXPANSION WITHOUT ACTUAL "+idfStats.getTerm()+"::::"+context_.getQueryId());
+    System.out.println("@@@@@@@@@EXPANSION WITHOUT ACTUAL "+idfStats.getTerm()+"::::"+context_.getQueryId());
     float expansionIDF=idfStats.getIdfValue();
     float originalIDF = IDFStats.getOriginalIDF(idfStats.getTerm().toLowerCase(),context_,termScoreDetails);
     if(context_.getSearchArgs().alwaysUseOriginalIdf){
