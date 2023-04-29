@@ -199,7 +199,6 @@ public class BM25SReranker implements Reranker {
 
 
       List<TermScoreDetails> queryTerms = context_.preprocess(termScoreDetails,context_);
-      System.out.println("Inside  rerankDocs>>>"+queryTerms);
       validateForQueryTerms(queryTerms,context_);
      // System.out.println("FOUND QUERY EXPANSION :  "+queryTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+"::"+context_.getQueryId()+":::"+context_.getQueryText()+":::"+docId);
 
@@ -242,7 +241,6 @@ public class BM25SReranker implements Reranker {
       float totalScore = 0;
       while (iterator.hasNext()) {
         TermScoreDetails scoreDetails = iterator.next();
-        System.out.println("Actual query term >>>"+scoreDetails.getTerm()+":::"+scoreDetails.getScore());
         TFStats tfSStats = scoreDetails.getTfSStats();
         if(context_.shouldDebug()){
           // System.out.println("tfStats are >>>"+System.identityHashCode(tfSStats));
@@ -270,7 +268,7 @@ public class BM25SReranker implements Reranker {
         }
         float termWeight = covid19 ? scoreDetails.getScore().floatValue() : createTermWeight(idfStats.getBoost(),tfSStats, idfStats, scoreDetails.getSynonymsTerms(), context_, docId);
 
-        System.out.println("TERM final weight >>>"+totalScore);
+        //System.out.println("TERM final weight >>>"+totalScore);
         totalScore += termWeight;
       }
       if(context_.getQueryId().equals("71")){
@@ -389,7 +387,6 @@ public class BM25SReranker implements Reranker {
 
   private float createTermWeight(float boost, TFStats tfSStats, IDFStats idfStats, List<TermScoreDetails> synonymsTerms,BM25QueryContext context_,String docId) {
 
-    System.out.println("Inside createTermWeight>>>>>");
     TFIDFMergerCombinerStrategy tfidfCombinerStrategy= new TFIDFMergerCombinerStrategy();
     //System.out.println("Going to invoke tfMerging "+tfSStats.getTerm()+":::"+synonymsTerms.stream().map(TermScoreDetails::getTerm).collect(Collectors.toSet())+":::"+docId+":::"+context_.getQueryId());
     if(context_.shouldDebug() && context_.getSearchArgs().debugDocID.trim().equalsIgnoreCase(docId)){
@@ -399,7 +396,14 @@ public class BM25SReranker implements Reranker {
    // System.out.println("Final TF value >>>"+finalTFValue+":::"+tfSStats.getTfValue());
 
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF1(idfStats,synonymsTerms,context_);
-    System.out.println("finalIDFValue::::"+finalIDFValue+":::"+idfStats.getIdfValue()+"::final TF:::"+finalTFValue+":::"+tfSStats.getTfValue());
+    float v1 = finalIDFValue - idfStats.getIdfValue();
+    if( v1 > 0.01){
+      System.out.println("idf difference is more :::"+v1);
+    }
+    if(finalTFValue-tfSStats.getTfValue() >0.01){
+      System.out.println("TF difference is more :::"+(finalTFValue-tfSStats.getTfValue()));
+    }
+    //System.out.println("finalIDFValue::::"+finalIDFValue+":::"+idfStats.getIdfValue()+"::final TF:::"+finalTFValue+":::"+tfSStats.getTfValue());
 
     if(context_.shouldDebug() && context_.getSearchArgs().debugDocID.trim().equalsIgnoreCase(docId)){
       System.out.println("for doc ID "+docId+"::"+tfSStats.getTerm()+"::orig tf::"+tfSStats.getTfValue()+":orig idf::"+idfStats.getIdfValue()+":::"+Thread.currentThread());
