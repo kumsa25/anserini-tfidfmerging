@@ -319,7 +319,7 @@ public class BM25SReranker implements Reranker {
         }
       }*/
       String key=context_.getQueryText()+":"+ docId+":"+context_.getQueryId();
-      System.out.println(":::"+docId+"::"+totalScore+":::"+);
+      System.out.println(":::"+docId+"::"+totalScore+":::");
       finalComputedScores.put( key, totalScore );
 
     }
