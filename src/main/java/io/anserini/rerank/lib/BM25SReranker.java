@@ -396,7 +396,7 @@ public class BM25SReranker implements Reranker {
    // System.out.println("Final TF value >>>"+finalTFValue+":::"+tfSStats.getTfValue());
 
     float finalIDFValue=tfidfCombinerStrategy.aggregateIDF1(idfStats,synonymsTerms,context_);
-    if(context_.getSearchArgs().useAvgForExpansionIDFOnly)
+    if(context_.getSearchArgs().useWeightingForIDFMerge)
     {
       float multiplier = context_.getSearchArgs().weightMultiplier;
       BM25SReranker.getWeight( context_, tfSStats, idfStats );
